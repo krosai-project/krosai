@@ -1,0 +1,1 @@
+package io.kamo.ktor.client.ai.core
