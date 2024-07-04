@@ -53,7 +53,7 @@ class OpenAiOptionsBuilder {
         return OpenAiOptions(
             baseUrl = baseUrl ?: defaultBaseUrl,
             apiKey = apiKey ?: defaultApiKey!!,
-            model = model!!
+            model = model.orEmpty()
         )
     }
 }

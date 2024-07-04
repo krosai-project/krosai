@@ -33,6 +33,5 @@ include(":ktor-client-ai-core")
 include(":ktor-client-ai-test")
 
 rootProject.projectDir.resolve("models").list()?.forEach {
-    println(it)
     include("models:$it")
 }

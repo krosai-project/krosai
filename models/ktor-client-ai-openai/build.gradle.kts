@@ -67,15 +67,3 @@ android {
     }
 
 }
-
-//compose.desktop {
-//    application {
-//        mainClass = "MainKt"
-//
-//        nativeDistributions {
-//            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-//            packageName = "io.kamo"
-//            packageVersion = "1.0.0"
-//        }
-//    }
-//}
