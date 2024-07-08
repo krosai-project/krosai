@@ -178,7 +178,7 @@ data class ChatCompletionRequest(
 
     companion object {
         fun build(options: OpenAiOptions, prompt: Prompt, stream: Boolean): ChatCompletionRequest {
-            val chatCompletionMessages = prompt.messages.map {
+            val chatCompletionMessages = prompt.instructions.map {
                 val role = ChatCompletionMessage.Role.fromMessageType(it.type)
                 ChatCompletionMessage(it.content, role)
             }
