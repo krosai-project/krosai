@@ -23,9 +23,9 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
-            compileOnly(libs.ktor.client.core)
-            compileOnly(libs.ktor.client.content.negotiation)
-            compileOnly(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
 
     }
@@ -59,9 +59,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
     }
 
 }

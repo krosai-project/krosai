@@ -11,8 +11,8 @@ interface Model<TReq : ModelRequest<*>, TRes : ModelResponse<*>> {
     suspend fun call(request: TReq): TRes
 }
 
-
 interface StreamingModel<TReq : ModelRequest<*>, TResChunk : ModelResponse<*>> {
+
     /**
      * Executes a method call to the AI model.
      * @param request the request object to be sent to the AI model

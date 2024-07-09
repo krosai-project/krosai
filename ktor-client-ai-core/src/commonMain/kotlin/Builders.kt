@@ -17,4 +17,10 @@ suspend fun HttpClient.steaming(content: String): Flow<ChatResponse> {
     return aiPluginInstance.chatModel.stream(Prompt(content))
 }
 
+suspend fun HttpClient.steaming(prompt: Prompt): Flow<ChatResponse> {
+    val aiPlugin = this.attributes[AiPluginKey]
+    val aiPluginInstance = plugin(aiPlugin)
+    return aiPluginInstance.chatModel.stream(prompt)
+}
+
 

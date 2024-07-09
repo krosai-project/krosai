@@ -21,8 +21,8 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class ChatCompletionMessage(
-    @SerialName("content") val content: String,
-    @SerialName("role") val role: Role,
+    @SerialName("content") val content: String? = null,
+    @SerialName("role") val role: Role = Role.ASSISTANT ,
     @SerialName("name") val name: String? = null,
     @SerialName("tool_call_id") val toolCallId: String? = null,
     @SerialName("tool_calls") val toolCalls: List<ToolCall>? = null,

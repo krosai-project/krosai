@@ -22,9 +22,9 @@ data class ChatCompletionChunk(
     @SerialName("choices") val choices: List<ChunkChoice>,
     @SerialName("created") val created: Long,
     @SerialName("model") val model: String,
-    @SerialName("system_fingerprint") val systemFingerprint: String,
+    @SerialName("system_fingerprint") val systemFingerprint: String?,
     @SerialName("object") val obj: String,
-    @SerialName("usage") val usage: Usage
+    @SerialName("usage") val usage: Usage? = null
 ) {
 
     /**
@@ -37,10 +37,10 @@ data class ChatCompletionChunk(
      */
     @Serializable
     data class ChunkChoice(
-        @SerialName("finish_reason") val finishReason: ChatCompletionFinishReason,
+        @SerialName("finish_reason") val finishReason: ChatCompletionFinishReason?,
         @SerialName("index") val index: Int,
         @SerialName("delta") val delta: ChatCompletionMessage,
-        @SerialName("logprobs") val logprobs: LogProbs
+        @SerialName("logprobs") val logprobs: LogProbs?
     )
 
 }

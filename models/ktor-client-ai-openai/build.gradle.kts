@@ -25,9 +25,9 @@ kotlin {
         commonMain.dependencies {
             api(projects.ktorClientAiCore)
 
-            compileOnly(libs.ktor.client.core)
-            compileOnly(libs.ktor.client.content.negotiation)
-            compileOnly(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
 
     }
