@@ -43,7 +43,7 @@ fun main(): Unit = run {
 
             system {
                 text = "你是一名{role}请回答{target}的问题"
-                params("role" to "医生", "target" to "客户")
+                params("role" to "专业的医生", "target" to "客户")
             }
 
         }.stream().collect{

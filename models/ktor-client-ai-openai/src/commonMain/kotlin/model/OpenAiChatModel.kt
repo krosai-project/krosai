@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class OpenAiChatModel(
@@ -42,7 +41,7 @@ class OpenAiChatModel(
             url("${options.baseUrl}/v1/chat/completions")
             method = HttpMethod.Post
             contentType(ContentType.Application.Json)
-            setBody(Json.encodeToString(ChatCompletionRequest.build(options, request, true)))
+            setBody(ChatCompletionRequest.build(options, request, true))
             bearerAuth(options.apiKey)
         }.incoming
             .mapNotNull { it.data }
