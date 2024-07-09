@@ -3,6 +3,7 @@ package io.kamo.ktor.client.ai.openai.config
 import io.kamo.ktor.client.ai.core.createAiPlugin
 import io.kamo.ktor.client.ai.openai.model.OpenAiChatModel
 
+
 data class OpenAiConfig(
     var baseUrl: String,
     var apiKey: String?,

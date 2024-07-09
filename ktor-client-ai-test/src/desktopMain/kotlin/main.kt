@@ -1,9 +1,7 @@
 package io.kamo.ktor.client.ai.test
 
 //import io.kamo.ktor.client.ai.core.steaming
-import io.kamo.ktor.client.ai.core.Prompt
-import io.kamo.ktor.client.ai.core.message.Message
-import io.kamo.ktor.client.ai.core.steaming
+import io.kamo.ktor.client.ai.core.chat
 import io.kamo.ktor.client.ai.openai.config.OpenAi
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -18,9 +16,7 @@ fun main(): Unit = run {
         install(ContentNegotiation){
             json()
         }
-        install(SSE){
-//            reconnectionTime = (-1).milliseconds
-        }
+        install(SSE)
         install(Logging) {
             logger = Logger.SIMPLE
             this.level = LogLevel.ALL
@@ -40,16 +36,20 @@ fun main(): Unit = run {
     }
 
     runBlocking {
-        val prompt = Prompt(
-            Message.System("你是一名医生请回答患者的问题"),
-            Message.User("你是谁")
-        )
-        client.steaming(prompt).collect{
+
+        client.chat.request{
+
+            userText = "你是谁"
+
+            system {
+                text = "你是一名{role}请回答{target}的问题"
+                params("role" to "医生", "target" to "客户")
+            }
+
+        }.stream().collect{
             println(it.result.output.content)
         }
 
     }
-
-
 
 }
