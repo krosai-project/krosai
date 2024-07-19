@@ -1,9 +1,10 @@
-package io.kamo.ktor.client.ai.core.model
+package io.kamo.ktor.client.ai.core.chat.model
 
-import io.kamo.ktor.client.ai.core.Prompt
+import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
+import io.kamo.ktor.client.ai.core.model.Model
+import io.kamo.ktor.client.ai.core.model.StreamingModel
 import kotlinx.coroutines.flow.Flow
-import model.Model
-import model.StreamingModel
+
 
 interface ChatModel: Model<Prompt, ChatResponse>, StreamingModel<Prompt, ChatResponse> {
 

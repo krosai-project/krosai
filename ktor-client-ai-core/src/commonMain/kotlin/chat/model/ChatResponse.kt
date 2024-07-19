@@ -1,10 +1,10 @@
-package io.kamo.ktor.client.ai.core.model
+package io.kamo.ktor.client.ai.core.chat.model
 
-import io.kamo.ktor.client.ai.core.message.Message
-import model.ModelResponse
-import model.ModelResult
-import model.ResponseMetadata
-import model.ResultMetadata
+import io.kamo.ktor.client.ai.core.chat.message.Message
+import io.kamo.ktor.client.ai.core.model.ModelResponse
+import io.kamo.ktor.client.ai.core.model.ModelResult
+import io.kamo.ktor.client.ai.core.model.ResponseMetadata
+import io.kamo.ktor.client.ai.core.model.ResultMetadata
 
 data class ChatResponse(
     override val results: List<Generation>,

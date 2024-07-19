@@ -1,6 +1,7 @@
+@file:Suppress("unused")
 package io.kamo.ktor.client.ai.openai.api
 
-import io.kamo.ktor.client.ai.core.Prompt
+import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionRequest.ToolChoiceBuilder
 import io.kamo.ktor.client.ai.openai.config.OpenAiOptions
 import kotlinx.serialization.SerialName

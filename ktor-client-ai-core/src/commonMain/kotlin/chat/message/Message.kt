@@ -1,4 +1,5 @@
-package io.kamo.ktor.client.ai.core.message
+@file:Suppress("unused")
+package io.kamo.ktor.client.ai.core.chat.message
 
 sealed class Message(
     val type: MessageType,

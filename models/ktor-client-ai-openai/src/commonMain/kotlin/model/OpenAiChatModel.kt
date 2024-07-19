@@ -1,10 +1,9 @@
 package io.kamo.ktor.client.ai.openai.model
 
-import io.kamo.ktor.client.ai.core.Prompt
-import io.kamo.ktor.client.ai.core.SSE_PREDICATE
-import io.kamo.ktor.client.ai.core.model.ChatModel
-import io.kamo.ktor.client.ai.core.model.ChatResponse
-import io.kamo.ktor.client.ai.core.model.Generation
+import io.kamo.ktor.client.ai.core.chat.model.ChatModel
+import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
+import io.kamo.ktor.client.ai.core.chat.model.Generation
+import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
 import io.kamo.ktor.client.ai.openai.api.ChatCompletion
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionChunk
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionRequest
@@ -13,13 +12,20 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.serialization.json.Json
+/** OpenAI Chat API implementation. */
+
+/**
+ * Whether to stream back partial progress.
+ * If set, tokens will be sent as data-only server-sent events as they become available,
+ * with the stream terminated by a data: [[DONE]] message.
+ */
+private val SSE_PREDICATE :(String)-> Boolean = { it.isNotEmpty() && it != "[DONE]" }
 
 class OpenAiChatModel(
     private val options: OpenAiOptions,
@@ -32,7 +38,7 @@ class OpenAiChatModel(
             contentType(ContentType.Application.Json)
             setBody(ChatCompletionRequest.build(options, request, false))
             bearerAuth(options.apiKey)
-        }.apply { println(bodyAsText()) }.body<ChatCompletion>().toChatResponse()
+        }.body<ChatCompletion>().toChatResponse()
 
     }
 

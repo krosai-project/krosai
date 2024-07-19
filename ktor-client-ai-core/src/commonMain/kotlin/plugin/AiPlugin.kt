@@ -1,12 +1,19 @@
-package io.kamo.ktor.client.ai.core
+package io.kamo.ktor.client.ai.core.plugin
 
-import io.kamo.ktor.client.ai.core.model.ChatModel
-import io.kamo.ktor.client.ai.core.model.EmbeddingModel
+import io.kamo.ktor.client.ai.core.chat.model.ChatModel
+import io.kamo.ktor.client.ai.core.embedding.model.EmbeddingModel
 import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.util.*
 
 val AiPluginKey = AttributeKey<AiPlugin<*>>("AiPlugin")
+
+@Suppress("UNCHECKED_CAST")
+internal inline fun <reified PluginConfig : Any> HttpClient.aiPlugin(): AiPluginInstance<PluginConfig> =
+    plugin(attributes[AiPluginKey]).let {
+        require(it.config is PluginConfig) { "AiPlugin config is not ${PluginConfig::class.simpleName}" }
+        it as AiPluginInstance<PluginConfig>
+    }
 
 fun <PluginConfigT : Any> createAiPlugin(
     name: String,
@@ -23,7 +30,7 @@ fun <PluginConfigT : Any> createAiPlugin(
         }
 
         override fun install(plugin: AiPluginInstance<PluginConfigT>, scope: HttpClient) {
-            check(scope.attributes.contains(AiPluginKey).not()){"AiPlugin already installed"}
+            check(scope.attributes.contains(AiPluginKey).not()) { "AiPlugin already installed" }
             scope.attributes.put(AiPluginKey, this)
             plugin.install(scope)
         }
@@ -33,7 +40,7 @@ interface AiPlugin<PluginConfig : Any> : HttpClientPlugin<PluginConfig, AiPlugin
 
 class AiPluginInstance<PluginConfig : Any> internal constructor(
     val name: String,
-    private val config: PluginConfig,
+    internal val config: PluginConfig,
     private val body: AiPluginBuilder<PluginConfig>.() -> Unit
 ) {
     lateinit var chatModel: ChatModel
@@ -53,3 +60,4 @@ class AiPluginBuilder<PluginConfig>(
     var chatModel: ChatModel? = null
     var embeddingModel: EmbeddingModel? = null
 }
+

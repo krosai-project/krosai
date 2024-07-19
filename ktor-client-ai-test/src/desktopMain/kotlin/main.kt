@@ -1,7 +1,6 @@
 package io.kamo.ktor.client.ai.test
 
-//import io.kamo.ktor.client.ai.core.steaming
-import io.kamo.ktor.client.ai.core.chat
+import io.kamo.ktor.client.ai.core.chat.client.createChatClient
 import io.kamo.ktor.client.ai.openai.config.OpenAi
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -34,22 +33,32 @@ fun main(): Unit = run {
             }
         }
     }
-
+    // 构建
+    val chatClient = client.createChatClient {
+        systemText = { "你是一名${get("role")}请回答${get("target")}的问题" }
+    }
     runBlocking {
-
-        client.chat.request{
-
-            userText = "你是谁"
-
+        chatClient.call {
+            userText = { "你是谁" }
             system {
-                text = "你是一名{role}请回答{target}的问题"
-                params("role" to "专业的医生", "target" to "客户")
+                "role" to "专业的医生"
+                "target" to "客户"
             }
-
-        }.stream().collect{
+        }.let {
             println(it.result.output.content)
         }
+        chatClient.stream {
+            userText = { "你是谁" }
+            system {
+                "role" to "智能客服"
+                "target" to "客户"
+            }
 
+        }.collect{
+            println(it.result.output.content)
+        }
     }
-
 }
+
+
+

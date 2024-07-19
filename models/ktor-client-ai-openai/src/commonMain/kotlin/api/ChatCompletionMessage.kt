@@ -1,6 +1,6 @@
 package io.kamo.ktor.client.ai.openai.api
 
-import io.kamo.ktor.client.ai.core.message.MessageType
+import io.kamo.ktor.client.ai.core.chat.message.MessageType
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionMessage.Role
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

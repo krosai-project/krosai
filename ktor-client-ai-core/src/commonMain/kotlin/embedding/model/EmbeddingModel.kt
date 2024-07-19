@@ -1,4 +1,5 @@
-package io.kamo.ktor.client.ai.core.model
+@file:Suppress("unused")
+package io.kamo.ktor.client.ai.core.embedding.model
 
 interface EmbeddingModel {
 
