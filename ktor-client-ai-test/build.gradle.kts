@@ -64,7 +64,6 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)

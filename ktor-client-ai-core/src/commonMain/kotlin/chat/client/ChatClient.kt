@@ -2,6 +2,7 @@ package io.kamo.ktor.client.ai.core.chat.client
 
 import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
+import kotlin.reflect.KFunction
 
 interface ChatClient {
 
@@ -25,6 +26,7 @@ interface ChatClientRequestScope {
 
     fun system(systemScope: PromptSystemScope.()->Unit)
 
+    fun functions(functionCallScope: FunctionCallScope.()->Unit)
 }
 
 interface PromptUserScope {
@@ -43,3 +45,12 @@ interface PromptSystemScope{
 
 }
 
+interface FunctionCallScope {
+
+    fun function(name: String, description: String, call: (String) -> String)
+
+    fun function(vararg functions: KFunction<*>) =
+        functions.map { it.name }.toTypedArray().let { function(*it) }
+
+    fun function(vararg functionNames: String)
+}
