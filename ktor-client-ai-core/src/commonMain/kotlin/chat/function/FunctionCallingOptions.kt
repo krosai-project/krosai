@@ -1,4 +1,4 @@
-package io.kamo.ktor.client.ai.core.function
+package io.kamo.ktor.client.ai.core.chat.function
 
 interface FunctionCallingOptions {
 

@@ -1,5 +1,6 @@
 package io.kamo.ktor.client.ai.core.chat.client
 
+import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.chat.message.Message
 import io.kamo.ktor.client.ai.core.chat.model.ChatModel
 import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
@@ -44,6 +45,7 @@ class DefaultChatClientRequestScope(
     override var systemText: Map<String, Any>.() -> String? = { null },
     val userParams: MutableMap<String, Any> = mutableMapOf(),
     val systemParams: MutableMap<String, Any> = mutableMapOf(),
+    val functionCalls: MutableList<FunctionCall> = mutableListOf()
 ) : ChatClientRequestScope {
 
     constructor(other: DefaultChatClientRequestScope) : this(
@@ -59,14 +61,18 @@ class DefaultChatClientRequestScope(
     }
 
     override fun system(systemScope: PromptSystemScope.() -> Unit) {
-       DefaultPromptSystemScope(this).apply(systemScope)
+        DefaultPromptSystemScope(this).apply(systemScope)
+    }
+
+    override fun functions(functionCallScope: FunctionCallScope.() -> Unit) {
+
     }
 
 
 }
 
 class DefaultPromptUserScope(
-    private val chatClientRequestScope : DefaultChatClientRequestScope
+    private val chatClientRequestScope: DefaultChatClientRequestScope
 ) : PromptUserScope {
 
     override var text: Map<String, Any>.() -> String? by chatClientRequestScope::userText
@@ -80,7 +86,7 @@ class DefaultPromptUserScope(
 }
 
 class DefaultPromptSystemScope(
-    private val chatClientRequestScope : DefaultChatClientRequestScope
+    private val chatClientRequestScope: DefaultChatClientRequestScope
 ) : PromptSystemScope {
 
     override var text: Map<String, Any>.() -> String? by chatClientRequestScope::systemText
@@ -89,6 +95,18 @@ class DefaultPromptSystemScope(
 
     override fun String.to(value: Any) {
         params[this] = value
+    }
+
+}
+
+class DefaultFunctionCallScope(
+) : FunctionCallScope {
+
+    override  val functionCalls: MutableList<FunctionCall> = mutableListOf()
+
+
+    override fun function(vararg functionNames: String) {
+        TODO("Not yet implemented")
     }
 
 }

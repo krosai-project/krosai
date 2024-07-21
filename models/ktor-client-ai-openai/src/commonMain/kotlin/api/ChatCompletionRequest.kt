@@ -130,7 +130,7 @@ data class ChatCompletionRequest(
     @Serializable
     data class FunctionTool(
         @SerialName("type") val type: Type,
-        @SerialName("function") val function: Function
+        @SerialName("chat/function") val function: Function
     ) {
 
         /**
@@ -141,7 +141,7 @@ data class ChatCompletionRequest(
             /**
              * Function tool type.
              */
-            @SerialName("function")
+            @SerialName("chat/function")
             FUNCTION
         }
 

@@ -10,7 +10,7 @@ enum class MessageType(val value: String) {
 
     ASSISTANT("assistant"),
 
-    FUNCTION("function");
+    FUNCTION("chat/function");
 
     fun fromValue(value: String): MessageType {
         for (messageType in MessageType.entries) {
