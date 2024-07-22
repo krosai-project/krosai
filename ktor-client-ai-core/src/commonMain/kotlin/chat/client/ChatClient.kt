@@ -65,7 +65,7 @@ inline fun <reified I : Any, O : Any> FunctionCallScope.function(
     noinline call: Func1<I, O>
 ){
     with(FunctionCallBuilder(name, description)) {
-        withCall(I::class,call)
+        withCall<I>(call)
         build()
     }.also(functionCalls::add)
 }

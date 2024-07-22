@@ -1,25 +1,9 @@
 package io.kamo.ktor.client.ai.test
 
-import io.kamo.ktor.client.ai.core.chat.function.FunctionCallBuilder
-import io.kamo.ktor.client.ai.core.chat.function.withCall
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
 
 fun main(): Unit = run {
-
-        val json = """
-        {
-          "name": "zs",
-          "age": 11,
-          "student": {
-             "name": "zs",
-             "age": "11"
-          }
-          
-        }
-    """.trimIndent()
-    FunctionCallBuilder("","")
-        .withCall(::tag).build().call(json)
 
 
 //    val client = HttpClient {
@@ -75,19 +59,25 @@ fun main(): Unit = run {
 annotation class AiFunction {
 
 }
+
 @Serializable
 data class Student(val name: String, val age: Int)
 
 @AiFunction
 fun tag(name: String, age: Int, student: Student) {
-    return println("$name is $age years old; $student")
+    println("$name is $age years old; $student")
+}
+
+@AiFunction
+fun tag2(vararg student: Student) {
+    student.forEach { println(it) }
 }
 
 fun test() {
-    registerFun(::tag.name,"xxx"){ it:Map<String,JsonElement>->
+    registerFun(::tag.name, "xxx") { it: Map<String, JsonElement> ->
         tag(
             name = it["name"]!!.jsonPrimitive.content,
-           age =  it["age"]!!.jsonPrimitive.int,
+            age = it["age"]!!.jsonPrimitive.int,
             student = Json.decodeFromJsonElement(it["student"]!!)
         )
     }
