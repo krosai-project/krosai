@@ -8,9 +8,9 @@ abstract class AbstractFunctionCall<in I : Any, out O : Any>(
     private val outputConverter: Func1<O, String>,
 ) : FunctionCall, Func1<I, O> {
 
-    override fun call(req: String): String {
-        return outputConverter(this(inputConverter(req)))
-    }
+    override fun call(req: String): String =
+        inputConverter(req).let(::invoke).let(outputConverter)
+
 }
 
 typealias Func1<I, O> = (I) -> O
