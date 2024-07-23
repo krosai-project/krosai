@@ -141,8 +141,6 @@ class FunctionCallBuilderTest {
                 """{"name":{"type":"kotlin.String","kind":"STRING","isNullable":false},"age":{"type":"kotlin.Int","kind":"INT","isNullable":false}}"""
             )
         }
-
-        println(createJsonElement(listOf(Student("kamo", 1), Student("kamo", 1))))
     }
 
     @Test

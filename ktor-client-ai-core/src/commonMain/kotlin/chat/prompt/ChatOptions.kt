@@ -3,6 +3,12 @@ package io.kamo.ktor.client.ai.core.chat.prompt
 
 import io.kamo.ktor.client.ai.core.model.ModelOptions
 
-class ChatModelOptions: ModelOptions {
+interface ChatOptions : ModelOptions {
+
+    val temperature: Float
+
+    val topP: Float
+
+    val topK: Int
 
 }

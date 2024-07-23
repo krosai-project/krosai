@@ -32,9 +32,11 @@ class OpenAiChatModel(
     private val httpClient: HttpClient
 ) : ChatModel {
 
+    private val requestUrl = "${options.baseUrl}/v1/chat/completions"
+
     override suspend fun call(request: Prompt): ChatResponse {
         return httpClient.post {
-            url("${options.baseUrl}/v1/chat/completions")
+            url(requestUrl)
             contentType(ContentType.Application.Json)
             setBody(ChatCompletionRequest.build(options, request, false))
             bearerAuth(options.apiKey)
@@ -44,7 +46,7 @@ class OpenAiChatModel(
 
     override suspend fun stream(request: Prompt): Flow<ChatResponse> {
         return httpClient.serverSentEventsSession {
-            url("${options.baseUrl}/v1/chat/completions")
+            url(requestUrl)
             method = HttpMethod.Post
             contentType(ContentType.Application.Json)
             setBody(ChatCompletionRequest.build(options, request, true))

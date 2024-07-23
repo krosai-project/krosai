@@ -1,6 +1,6 @@
 package io.kamo.ktor.client.ai.core.chat.function
 
-class SimpleFunctionCall<in I : Any, out O : Any>(
+class GenerationFunctionCall<in I : Any, out O : Any>(
     name: String,
     description: String,
     inputConverter: Func1<String, I>,

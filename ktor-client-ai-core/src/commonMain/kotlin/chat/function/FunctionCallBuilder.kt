@@ -43,7 +43,7 @@ class FunctionCallBuilder @PublishedApi internal constructor(
             }
         }
 
-        return SimpleFunctionCall(
+        return GenerationFunctionCall(
             name = name!!,
             description = description,
             inputConverter = inputConverter,

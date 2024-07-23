@@ -1,6 +1,6 @@
 package io.kamo.ktor.client.ai.core.chat.function
 
-interface FunctionCallingOptions {
+interface FunctionCallOptions {
 
     val functionCalls: List<FunctionCall>
 
