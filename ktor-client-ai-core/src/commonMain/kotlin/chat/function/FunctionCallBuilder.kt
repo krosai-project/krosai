@@ -1,11 +1,9 @@
 package io.kamo.ktor.client.ai.core.chat.function
 
-import kotlinx.serialization.ExperimentalSerializationApi
+import io.kamo.ktor.client.ai.core.util.DefaultJsonConverter
+import io.kamo.ktor.client.ai.core.util.createJsonElement
+import io.kamo.ktor.client.ai.core.util.resolveTypeSchema
 import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.StructureKind
-import kotlinx.serialization.descriptors.elementDescriptors
 import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
@@ -60,6 +58,7 @@ class FunctionCallBuilder @PublishedApi internal constructor(
         this.inputType = I::class
 
         this.inputConverter = {
+            @Suppress
             val element = jsonConverter.parseToJsonElement(it)
             // compatible with only one parameter
             val realElement = when (element) {
@@ -81,12 +80,6 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
 
     companion object {
-
-        @OptIn(ExperimentalSerializationApi::class)
-        val DefaultJsonConverter = Json {
-            ignoreUnknownKeys = true
-            explicitNulls = false
-        }
 
         private val excludeTypes = listOf(
             Array::class,
@@ -119,60 +112,3 @@ inline fun buildFunctionCall(
 ): FunctionCall = buildFunctionCall(name.name, description, builder)
 
 
-/**
- * Resolve type schema from SerialDescriptor
- */
-@OptIn(ExperimentalSerializationApi::class)
-internal fun resolveTypeSchema(
-    descriptor: SerialDescriptor,
-): Map<String, Any> {
-    val result: MutableMap<String, Any> = mutableMapOf()
-    descriptor.elementDescriptors.forEachIndexed { i, element ->
-        val name = descriptor.getElementName(i)
-        result[name] = mutableMapOf<String, Any>(
-            "type" to element.serialName,
-            "kind" to element.kind.toString(),
-            "isNullable" to element.isNullable,
-            "kind" to when (element.kind) {
-                is PrimitiveKind -> element.kind.toString()
-                else -> element.kind.toString()
-            }
-        ).apply {
-            if (element.kind is StructureKind.CLASS) put("parameters", resolveTypeSchema(element))
-        }
-
-    }
-    return result
-}
-
-/**
- * Create JsonElement from any
- */
-@OptIn(InternalSerializationApi::class)
-internal fun createJsonElement(any: Any): JsonElement {
-    return when (any) {
-        is Map<*, *> -> buildJsonObject {
-            any.forEach { (key, value) ->
-                put(key.toString(), createJsonElement(value!!))
-            }
-        }
-
-        is Collection<*> -> buildJsonArray {
-            any.forEach {
-                add(createJsonElement(it!!))
-            }
-        }
-
-        is Array<*> -> buildJsonArray {
-            any.forEach {
-                add(createJsonElement(it!!))
-            }
-        }
-
-        is JsonElement -> any
-        is Number -> JsonPrimitive(any)
-        is Boolean -> JsonPrimitive(any)
-        is String -> JsonPrimitive(any)
-        else -> createJsonElement(resolveTypeSchema(any::class.serializer().descriptor))
-    }
-}
