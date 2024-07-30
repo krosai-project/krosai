@@ -1,23 +1,27 @@
 package io.kamo.ktor.client.ai.openai.model
 
+import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
+import io.kamo.ktor.client.ai.core.chat.function.ToolCall
+import io.kamo.ktor.client.ai.core.chat.function.ToolCallHandler
+import io.kamo.ktor.client.ai.core.chat.message.Message
 import io.kamo.ktor.client.ai.core.chat.model.ChatModel
 import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
 import io.kamo.ktor.client.ai.core.chat.model.Generation
+import io.kamo.ktor.client.ai.core.chat.prompt.ChatOptions
 import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
 import io.kamo.ktor.client.ai.openai.api.ChatCompletion
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionChunk
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionRequest
-import io.kamo.ktor.client.ai.openai.config.OpenAiOptions
+import io.kamo.ktor.client.ai.openai.api.OpenAiApi
+import io.kamo.ktor.client.ai.openai.options.OpenAiChatOptions
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.*
 import kotlinx.serialization.json.Json
+
 /** OpenAI Chat API implementation. */
 
 /**
@@ -25,44 +29,71 @@ import kotlinx.serialization.json.Json
  * If set, tokens will be sent as data-only server-sent events as they become available,
  * with the stream terminated by a data: [[DONE]] message.
  */
-private val SSE_PREDICATE :(String)-> Boolean = { it.isNotEmpty() && it != "[DONE]" }
+private val SSE_PREDICATE: (String) -> Boolean = { it.isNotEmpty() && it != "[DONE]" }
 
 class OpenAiChatModel(
-    private val options: OpenAiOptions,
-    private val httpClient: HttpClient
-) : ChatModel {
+    private val chatOptions: OpenAiChatOptions,
+    private val api: OpenAiApi,
+    private val getFunctionCallNames: (Set<String>) -> List<FunctionCall>
+) : ToolCallHandler, ChatModel {
 
-    private val requestUrl = "${options.baseUrl}/v1/chat/completions"
+    override val defaultChatOptions: ChatOptions get() = chatOptions.copy()
 
     override suspend fun call(request: Prompt): ChatResponse {
-        return httpClient.post {
-            url(requestUrl)
-            contentType(ContentType.Application.Json)
-            setBody(ChatCompletionRequest.build(options, request, false))
-            bearerAuth(options.apiKey)
-        }.body<ChatCompletion>().toChatResponse()
-
+        api.call(request).body<ChatCompletion>().toChatResponse().let { chatResponse ->
+            if (isToolCall(chatResponse)) {
+                return call(
+                    request.copy(
+                        instructions = processToolCall(request, chatResponse),
+                    )
+                )
+            } else {
+                return chatResponse
+            }
+        }
     }
 
     override suspend fun stream(request: Prompt): Flow<ChatResponse> {
-        return httpClient.serverSentEventsSession {
-            url(requestUrl)
-            method = HttpMethod.Post
-            contentType(ContentType.Application.Json)
-            setBody(ChatCompletionRequest.build(options, request, true))
-            bearerAuth(options.apiKey)
-        }.incoming
+        api.stream(request).incoming
             .mapNotNull { it.data }
             .filter(SSE_PREDICATE)
             .map {
                 Json.decodeFromString<ChatCompletionChunk>(it)
                     .toChatCompletion()
                     .toChatResponse()
+            }.let {
+                if (isToolCall(it.first())) {
+                    return stream(
+                        request.copy(
+                            instructions = processToolCall(request, it.first()),
+                        )
+                    )
+                } else {
+                    return it
+                }
             }
 
     }
 
+    private fun isToolCall(chatResponse: ChatResponse): Boolean {
+        return chatResponse.result.output.toolCall.isEmpty()
+    }
 
+    private fun processToolCall(prompt: Prompt, chatResponse: ChatResponse): List<Message> {
+        return buildToolCallMessage(
+            prompt.instructions,
+            chatResponse.result.output,
+            executeFunctionCall(getFunctionCallNames, chatResponse.result.output)
+        )
+    }
+
+    private fun buildToolCallMessage(
+        messageContext: List<Message>,
+        assistantMessage: Message.Assistant,
+        toolMessage: Message.Tool
+    ): List<Message> {
+        return messageContext + assistantMessage + toolMessage
+    }
 }
 
 fun ChatCompletionChunk.toChatCompletion(): ChatCompletion {
@@ -82,8 +113,20 @@ fun ChatCompletionChunk.toChatCompletion(): ChatCompletion {
 
 fun ChatCompletion.toChatResponse(): ChatResponse {
     return ChatResponse(
-        choices.map {
-            Generation(it.message.content.orEmpty())
+        choices.map { choice ->
+            Generation(
+                Message.Assistant(
+                    content = choice.message.content.orEmpty(),
+                    toolCall = choice.message.toolCalls.orEmpty().map { toolCall ->
+                        ToolCall(
+                            toolCall.id,
+                            toolCall.function.name,
+                            "function",
+                            toolCall.function.arguments
+                        )
+                    }
+                )
+            )
         }
     )
 }

@@ -5,10 +5,11 @@ import io.kamo.ktor.client.ai.core.model.ModelOptions
 
 interface ChatOptions : ModelOptions {
 
-    val temperature: Float
+    val temperature: Float?
 
-    val topP: Float
+    val topP: Float?
 
-    val topK: Int
+    val topK: Int?
 
+    fun copy(): ChatOptions
 }

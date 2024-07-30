@@ -59,7 +59,6 @@ data class ChatCompletionMessage(
 
         companion object {
             fun fromMessageType(messageType: MessageType): Role {
-                if (MessageType.FUNCTION == messageType) return TOOL
                 return entries.first { it.value == messageType.value }
             }
         }

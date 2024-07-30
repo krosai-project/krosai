@@ -5,13 +5,6 @@ import io.kamo.ktor.client.ai.core.model.ModelResult
 import io.kamo.ktor.client.ai.core.model.ResultMetadata
 
 data class Generation(
-    private val text: String,
-    private val properties: Map<String, Any> = emptyMap()
-) : ModelResult<Message.Assistant> {
-
-
-    override val output: Message.Assistant = Message.Assistant(text, properties)
-
+    override val output: Message.Assistant,
     override val resultMetadata: ResultMetadata = ResultMetadata.NULL
-
-}
+) : ModelResult<Message.Assistant>

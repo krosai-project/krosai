@@ -15,8 +15,9 @@ interface ModelFactory {
     fun createEmbeddingModel(): EmbeddingModel = TODO()
 
     fun createChatClient(scope: ChatClientRequestScopeSpec = null): ChatClient {
-        val defaultRequest = DefaultChatClientRequestScope().also { scope?.invoke(it) }
-        return DefaultChatClient(createChatModel(), defaultRequest)
+        val chatModel = createChatModel()
+        val defaultRequest = DefaultChatClientRequestScope(chatModel, null).also { scope?.invoke(it) }
+        return DefaultChatClient(chatModel, defaultRequest)
     }
 
 }

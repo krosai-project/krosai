@@ -3,6 +3,7 @@ package io.kamo.ktor.client.ai.core.chat.client
 import io.kamo.ktor.client.ai.core.chat.function.Func1
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCallBuilder
+import io.kamo.ktor.client.ai.core.chat.model.ChatModel
 import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KFunction
@@ -18,8 +19,6 @@ interface ChatClient {
 typealias ChatClientRequestScopeSpec = (ChatClientRequestScope.() -> Unit)?
 
 interface ChatClientRequestScope {
-
-    var model: String
 
     var userText: Map<String, Any>.() -> String?
 
@@ -52,6 +51,7 @@ interface FunctionCallScope {
 
     val functionCalls: MutableList<FunctionCall>
 
+    val functions: MutableSet<String>
 
     fun function(vararg functions: KFunction<*>) =
         functions.map { it.name }.toTypedArray().let { function(*it) }
@@ -68,4 +68,5 @@ inline fun <reified I : Any, O : Any> FunctionCallScope.function(
         withCall<I>(call)
         build()
     }.also(functionCalls::add)
+        .name.also(functions::add)
 }

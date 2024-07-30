@@ -1,5 +1,7 @@
 package io.kamo.ktor.client.ai.test
 
+import io.kamo.ktor.client.ai.core.chat.client.function
+import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.factory.buildModelFactoryContext
 import io.kamo.ktor.client.ai.openai.factory.OpenAI
 import kotlinx.coroutines.runBlocking
@@ -7,17 +9,20 @@ import kotlinx.serialization.json.*
 
 fun main(): Unit = run {
     val context = buildModelFactoryContext {
+
+        functions(DateFunctionInClass())
+
         factory(OpenAI) {
             baseUrl = "https://www.jcapikey.com"
-            model = "gpt-4o"
             apiKey = System.getenv("apiKey")
-            chatOptions {
-                baseUrl = "https://www.jcapikey.com"
-            }
         }
     }
     val chatClient = context[OpenAI].createChatClient {
         systemText = { "你是一名${get("role")}请回答${get("target")}的问题" }
+        functions {
+//            function<String, String>("date", "获取当前日期") { "2022-12-12" }
+            function(::dateFunction)
+        }
     }
 //    val client = HttpClient {
 //        install(ContentNegotiation){
@@ -68,3 +73,15 @@ fun main(): Unit = run {
     }
 }
 
+class DateFunctionInClass : FunctionCall {
+    override val name: String = "date"
+    override val description: String = "获取当前日期"
+    override val inputSchema: String = "无"
+    override fun call(req: String): String {
+        return "2022-12-12"
+    }
+}
+
+fun dateFunction(): String {
+    return "2022-12-12"
+}

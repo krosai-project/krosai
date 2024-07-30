@@ -1,8 +1,29 @@
 package io.kamo.ktor.client.ai.core.factory
 
+import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
+
 class ModelFactoryContext {
 
     private val factories = mutableMapOf<ModelFactoryBuilder<*, *>, ModelFactory>()
+
+    private val functionCallRegister: MutableMap<String, FunctionCall> = mutableMapOf()
+
+    private fun registerFunctionCall(vararg functionCall: FunctionCall) {
+        functionCall.forEach {
+            functionCallRegister[it.name] = it
+        }
+    }
+
+    fun getFunctionCallsByName(functionNames: Set<String>): List<FunctionCall> {
+        return functionNames.map {
+            functionCallRegister[it]
+                ?: throw IllegalArgumentException("No function call with name [$it] found in the register")
+        }
+    }
+
+    fun functions(vararg functionCall: FunctionCall) {
+        registerFunctionCall(*functionCall)
+    }
 
     operator fun <F : ModelFactory> get(factoryKey: ModelFactoryBuilder<*, F>): F {
         val modelFactory =
