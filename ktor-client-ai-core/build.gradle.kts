@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.androidApplication)
 //    alias(libs.plugins.jetbrainsCompose)
 //    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlinxSerialization)
+//    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
@@ -23,9 +23,8 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
         }
 
         commonTest.dependencies {

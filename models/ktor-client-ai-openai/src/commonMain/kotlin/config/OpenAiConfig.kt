@@ -1,7 +1,5 @@
 package io.kamo.ktor.client.ai.openai.config
 
-import io.kamo.ktor.client.ai.core.plugin.createAiPlugin
-import io.kamo.ktor.client.ai.openai.model.OpenAiChatModel
 
 
 data class OpenAiConfig(
@@ -11,11 +9,6 @@ data class OpenAiConfig(
     var embeddingOptions: OpenAiOptions
 )
 
-val OpenAi = createAiPlugin("OpenAi", ::OpenAiConfigBuilder) {
-    val openAiConfig = this.config.build()
-    chatModel = OpenAiChatModel(openAiConfig.chatOptions, client)
-
-}
 
 
 class OpenAiConfigBuilder {

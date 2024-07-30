@@ -4,7 +4,7 @@ class ModelFactoryContext {
 
     private val factories = mutableMapOf<ModelFactoryBuilder<*, *>, ModelFactory>()
 
-    operator fun <F : ModelFactory> get(factoryKey: ModelFactoryBuilder<Any, F>): F {
+    operator fun <F : ModelFactory> get(factoryKey: ModelFactoryBuilder<*, F>): F {
         val modelFactory =
             factories[factoryKey] ?: throw IllegalArgumentException("Model factory not found: $factoryKey")
         @Suppress("UNCHECKED_CAST")

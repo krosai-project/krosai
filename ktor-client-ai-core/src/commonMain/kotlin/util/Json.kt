@@ -9,6 +9,12 @@ import kotlinx.serialization.serializer
 val DefaultJsonConverter = Json {
     ignoreUnknownKeys = true
     explicitNulls = false
+    encodeDefaults = true
+    isLenient = true
+    allowSpecialFloatingPointValues = true
+    allowStructuredMapKeys = true
+    prettyPrint = false
+    useArrayPolymorphism = false
 }
 
 
