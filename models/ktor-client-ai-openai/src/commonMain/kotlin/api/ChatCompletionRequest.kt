@@ -2,16 +2,10 @@
 
 package io.kamo.ktor.client.ai.openai.api
 
-import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
-import io.kamo.ktor.client.ai.core.chat.message.Message
-import io.kamo.ktor.client.ai.core.chat.message.MessageType
-import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionRequest.ToolChoiceBuilder
-import io.kamo.ktor.client.ai.openai.model.OpenAiChatModel
-import io.kamo.ktor.client.ai.openai.options.OpenAiChatOptions
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 
 /**
  * Creates a model response for the given chat conversation.
@@ -165,7 +159,7 @@ data class ChatCompletionRequest(
         data class Function(
             @SerialName("description") val description: String,
             @SerialName("name") val name: String,
-            @SerialName("parameters") val parameters: Map<String, String>
+            @SerialName("parameters") val parameters: JsonElement
         ) {
             /**
              * Create tool function definition.
@@ -174,88 +168,15 @@ data class ChatCompletionRequest(
              * @param name tool function name.
              * @param jsonSchema tool function schema as json.
              */
-            constructor(description: String, name: String, jsonSchema: String) : this(
-                description,
-                name,
-                // TODO: parse jsonSchema
-                Json.decodeFromString<Map<String, String>>(jsonSchema)
-            )
+//            constructor(description: String, name: String, jsonSchema: String) : this(
+//                description,
+//                name,
+//                // TODO: parse jsonSchema
+//                DefaultJsonConverter.D(jsonSchema)
+//                Json.decodeFromString<Map<String, JsonElement>>(jsonSchema)
+//            )
         }
     }
 
-    companion object {
-        fun build(
-            prompt: Prompt,
-            stream: Boolean,
-            getFunctionCallNames: (Set<String>) -> List<FunctionCall>
-        ): ChatCompletionRequest {
-            val chatCompletionMessages = prompt.instructions.flatMap { message ->
-                when (message.type) {
-                    MessageType.USER, MessageType.SYSTEM -> {
-                        listOf(
-                            ChatCompletionMessage(
-                                message.content,
-                                ChatCompletionMessage.Role.fromMessageType(message.type)
-                            )
-                        )
-                    }
-
-                    MessageType.ASSISTANT -> {
-                        val assistantMessage = message as Message.Assistant
-                        val toolCalls = assistantMessage.toolCall.map {
-                            ChatCompletionMessage.ToolCall(
-                                it.id,
-                                it.type,
-                                ChatCompletionMessage.ChatCompletionFunction(
-                                    it.name,
-                                    it.arguments
-                                )
-                            )
-                        }
-                        listOf(
-                            ChatCompletionMessage(
-                                content = message.content,
-                                role = ChatCompletionMessage.Role.ASSISTANT,
-                                toolCalls = toolCalls
-                            )
-                        )
-                    }
-
-                    MessageType.TOOL -> {
-                        val toolMessage = message as Message.Tool
-                        toolMessage.toolResponses.map {
-                            ChatCompletionMessage(
-                                it.responseData,
-                                ChatCompletionMessage.Role.TOOL,
-                                it.name,
-                                it.id
-                            )
-                        }
-                    }
-                }
-            }
-
-            val chatOptions = prompt.options as OpenAiChatOptions
-
-            val toolCalls = (getFunctionCallNames(chatOptions.functionNames) + chatOptions.functionCalls).map {
-                FunctionTool(
-                    FunctionTool.Function(
-                        it.description,
-                        it.name,
-                        it.inputSchema
-                    )
-                )
-            }
-
-            println("CCR: $toolCalls")
-
-            return ChatCompletionRequest(
-                chatCompletionMessages,
-                chatOptions.model,
-                stream = stream,
-                tools = toolCalls,
-            )
-        }
-    }
 }
 

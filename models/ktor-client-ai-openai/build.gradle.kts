@@ -30,6 +30,16 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
         }
 
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.ktor.client.logging)
+        }
+
+        jvmTest.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+
     }
 }
 

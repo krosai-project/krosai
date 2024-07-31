@@ -6,6 +6,7 @@ class ModelFactoryContext {
 
     private val factories = mutableMapOf<ModelFactoryBuilder<*, *>, ModelFactory>()
 
+    // TODO: use interface for functionCallRegister
     private val functionCallRegister: MutableMap<String, FunctionCall> = mutableMapOf()
 
     private fun registerFunctionCall(vararg functionCall: FunctionCall) {
@@ -15,9 +16,8 @@ class ModelFactoryContext {
     }
 
     fun getFunctionCallsByName(functionNames: Set<String>): List<FunctionCall> {
-        return functionNames.map {
+        return functionNames.mapNotNull {
             functionCallRegister[it]
-                ?: throw IllegalArgumentException("No function call with name [$it] found in the register")
         }
     }
 

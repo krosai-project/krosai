@@ -3,7 +3,6 @@ package io.kamo.ktor.client.ai.openai.factory
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.chat.model.ChatModel
 import io.kamo.ktor.client.ai.core.factory.ModelFactory
-import io.kamo.ktor.client.ai.core.factory.ModelFactoryContext
 import io.kamo.ktor.client.ai.core.factory.createModelFactory
 import io.kamo.ktor.client.ai.openai.api.OpenAiApi
 import io.kamo.ktor.client.ai.openai.model.OpenAiChatModel
@@ -21,7 +20,7 @@ class OpenAIModelFactory(
     private val getFunctionCall: (Set<String>) -> List<FunctionCall>
 ) : ModelFactory {
 
-    val client: HttpClient by lazy {
+    private val client: HttpClient by lazy {
         HttpClient(block = config.clientBlock)
     }
 
@@ -31,8 +30,7 @@ class OpenAIModelFactory(
         val api = OpenAiApi(
             config.baseUrl,
             config.apiKey ?: error("OpenAI API key is required"),
-            client,
-            getFunctionCall
+            client
         )
 
         return OpenAiChatModel(chatOptions, api, getFunctionCall)

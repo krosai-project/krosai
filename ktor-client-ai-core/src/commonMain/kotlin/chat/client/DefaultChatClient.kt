@@ -59,7 +59,7 @@ class DefaultChatClient(
 
 class DefaultChatClientRequestScope(
     val model: ChatModel,
-    val chatOptions: ChatOptions?,
+    val chatOptions: ChatOptions,
     override var systemText: Map<String, Any>.() -> String? = { null },
     override var userText: Map<String, Any>.() -> String? = { null },
     val functionNames: MutableSet<String> = mutableSetOf(),

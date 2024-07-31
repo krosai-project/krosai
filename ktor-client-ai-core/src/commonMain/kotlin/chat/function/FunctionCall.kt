@@ -1,12 +1,14 @@
 package io.kamo.ktor.client.ai.core.chat.function
 
+import kotlinx.serialization.json.JsonElement
+
 interface FunctionCall {
 
     val name: String
 
     val description: String
 
-    val inputSchema: String
+    val inputSchema: JsonElement
 
     fun call(req: String): String
 

@@ -5,23 +5,19 @@ import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.factory.buildModelFactoryContext
 import io.kamo.ktor.client.ai.openai.factory.OpenAI
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 
 fun main(): Unit = run {
     val context = buildModelFactoryContext {
-
-        functions(DateFunctionInClass())
-
         factory(OpenAI) {
             baseUrl = "https://www.jcapikey.com"
             apiKey = System.getenv("apiKey")
         }
     }
     val chatClient = context[OpenAI].createChatClient {
-        systemText = { "你是一名${get("role")}请回答${get("target")}的问题" }
         functions {
-//            function<String, String>("date", "获取当前日期") { "2022-12-12" }
-            function(::dateFunction)
+            function<String, String>("date", "获取当前日期") { "2022-12-12" }
         }
     }
 //    val client = HttpClient {
@@ -53,6 +49,8 @@ fun main(): Unit = run {
     runBlocking {
         chatClient.call {
             userText = { "你是谁" }
+            systemText = { "你是一名${get("role")}请回答${get("target")}的问题" }
+
             system {
                 "role" to "专业的医生"
                 "target" to "客户"
@@ -60,23 +58,29 @@ fun main(): Unit = run {
         }.let {
             println(it.result.output.content)
         }
-        chatClient.stream {
-            userText = { "你是谁" }
-            system {
-                "role" to "智能客服"
-                "target" to "客户"
-            }
+        chatClient.call {
+            userText = { "现在时间是多少" }
 
-        }.collect {
+        }.let {
             println(it.result.output.content)
         }
+//        chatClient.stream {
+//            userText = { "你是谁" }
+//            system {
+//                "role" to "智能客服"
+//                "target" to "客户"
+//            }
+//
+//        }.collect {
+//            println(it.result.output.content)
+//        }
     }
 }
 
 class DateFunctionInClass : FunctionCall {
     override val name: String = "date"
     override val description: String = "获取当前日期"
-    override val inputSchema: String = "无"
+    override val inputSchema: JsonElement = JsonNull
     override fun call(req: String): String {
         return "2022-12-12"
     }

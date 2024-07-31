@@ -4,8 +4,10 @@ import io.kamo.ktor.client.ai.core.util.DefaultJsonConverter
 import io.kamo.ktor.client.ai.core.util.createJsonElement
 import io.kamo.ktor.client.ai.core.util.resolveTypeSchema
 import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
+import kotlinx.serialization.serializerOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 
@@ -27,7 +29,7 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
     private var outputConverter: Func1<Any, String> = Any::toString
 
-    var inputSchema: String = ""
+    var inputSchema: JsonElement = JsonNull
 
     @OptIn(InternalSerializationApi::class)
     fun build(): FunctionCall {
@@ -35,9 +37,9 @@ class FunctionCallBuilder @PublishedApi internal constructor(
         requireNotNull(name) { "name must be not null" }
 
         // resolve input schema
-        if (inputSchema.isEmpty() && needResolveTypeSchema(inputType)) {
+        if (inputSchema is JsonNull && needResolveTypeSchema(inputType)) {
             inputType.serializer().let {
-                inputSchema = resolveTypeSchema(it.descriptor).let(::createJsonElement).toString()
+                inputSchema = resolveTypeSchema(it.descriptor).let(::createJsonElement)
             }
         }
 
@@ -52,6 +54,7 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
     }
 
+    @OptIn(InternalSerializationApi::class)
     inline fun <reified I : Any> withCall(
         noinline call: (I) -> Any
     ): FunctionCallBuilder {
@@ -61,12 +64,13 @@ class FunctionCallBuilder @PublishedApi internal constructor(
             @Suppress
             val element = jsonConverter.parseToJsonElement(it)
             // compatible with only one parameter
+            // TODO: support multiple parameters
             val realElement = when (element) {
 
                 is JsonArray -> if (element.size == 1 && I::class.simpleName != Array::class.simpleName)
                     element.first() else element
 
-                is JsonObject -> if (element.size == 1)
+                is JsonObject -> if (element.size == 1 && I::class.serializerOrNull()?.descriptor?.kind is PrimitiveKind)
                     element.values.first() else element
 
                 else -> element

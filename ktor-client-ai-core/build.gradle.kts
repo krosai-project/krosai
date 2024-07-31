@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.androidApplication)
 //    alias(libs.plugins.jetbrainsCompose)
 //    alias(libs.plugins.compose.compiler)
-//    alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
