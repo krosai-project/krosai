@@ -30,7 +30,7 @@ dependencyResolutionManagement {
 }
 
 include(":ktor-client-ai-core")
-include(":ktor-client-ai-test")
+include(":ktor-client-ai-samples")
 
 rootProject.projectDir.resolve("models").list()?.forEach {
     include("models:$it")

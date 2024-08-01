@@ -16,6 +16,7 @@ kotlin = "2.0.0"
 ktor = "3.0.0-beta-2-eap-949"
 kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.7.1"
+koin = "3.6.0-wasm-alpha2"
 
 [libraries]
 
@@ -46,6 +47,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+
+# Koin
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
