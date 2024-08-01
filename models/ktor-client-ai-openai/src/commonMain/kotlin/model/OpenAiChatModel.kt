@@ -11,25 +11,16 @@ import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
 import io.kamo.ktor.client.ai.core.chat.model.Generation
 import io.kamo.ktor.client.ai.core.chat.prompt.ChatOptions
 import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
-import io.kamo.ktor.client.ai.core.util.DefaultJsonConverter
 import io.kamo.ktor.client.ai.openai.api.*
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionRequest.FunctionTool
 import io.kamo.ktor.client.ai.openai.options.OpenAiChatOptions
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.plugins.sse.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 /** OpenAI Chat API implementation. */
 
-/**
- * Whether to stream back partial progress.
- * If set, tokens will be sent as data-only server-sent events as they become available,
- * with the stream terminated by a data: [[DONE]] message.
- */
-private val SSE_PREDICATE: (String) -> Boolean = { it.isNotEmpty() && it != "[DONE]" }
+
 
 class OpenAiChatModel(
     private val chatOptions: OpenAiChatOptions,
@@ -41,23 +32,23 @@ class OpenAiChatModel(
 
     override suspend fun call(prompt: Prompt): ChatResponse {
         val request = createRequest(prompt, false, getFunctionCallNames)
-        api.call(request).body<ChatCompletion>().toChatResponse().let { chatResponse ->
-            return if (isToolCall(chatResponse)) {
-                val currentPrompt = prompt.copy(instructions = processToolCall(prompt, chatResponse))
-                call(currentPrompt)
-            } else {
-                chatResponse
+        return api.call(request)
+            .toChatResponse()
+            .let { chatResponse ->
+                if (isToolCall(chatResponse)) {
+                    val currentPrompt = prompt.copy(instructions = processToolCall(prompt, chatResponse))
+                    call(currentPrompt)
+                } else {
+                    chatResponse
+                }
             }
-        }
     }
 
     override suspend fun stream(prompt: Prompt): Flow<ChatResponse> {
         val request = createRequest(prompt, true, getFunctionCallNames)
-        api.stream(request).incoming
-            .mapNotNull { it.data }
-            .filter(SSE_PREDICATE)
+        api.stream(request)
             .map {
-                DefaultJsonConverter.decodeFromString<ChatCompletionChunk>(it)
+                it
                     .toChatCompletion()
                     .toChatResponse()
             }.let { chatResponse ->
