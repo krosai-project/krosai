@@ -9,7 +9,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
@@ -18,7 +18,7 @@ import kotlin.test.Test
 
 class FunctionToolTest {
 
-    val context = buildModelFactoryContext {
+    private val context = buildModelFactoryContext {
         factory(OpenAI) {
             clientBlock = {
                 install(ContentNegotiation) {
@@ -35,23 +35,21 @@ class FunctionToolTest {
         }
     }[OpenAI]
 
-    val chatClient = context.createChatClient()
+    private val chatClient = context.createChatClient()
 
     @Test
-    fun one_parameter() {
-        runBlocking {
-            chatClient.call {
-                userText = { "现在湖南是什么时间?" }
-                functions {
-                    functionCalls.add(dateTimeFun)
-                }
-            }.let {
-                println(it.result.output.content)
+    fun functionCall() = runTest {
+        chatClient.call {
+            userText = { "现在湖南是什么时间?" }
+            functions {
+                functionCalls.add(dateTimeFun)
             }
+        }.let {
+            println(it.result.output.content)
         }
     }
-
 }
+
 
 @SerialDescription("get date time API Request")
 @Serializable
