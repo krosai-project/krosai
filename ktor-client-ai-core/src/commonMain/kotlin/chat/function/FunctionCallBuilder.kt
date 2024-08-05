@@ -31,7 +31,6 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
     var inputSchema: JsonElement = JsonNull
 
-    @OptIn(InternalSerializationApi::class)
     fun build(): FunctionCall {
         requireNotNull(call) { "call must be not null" }
         requireNotNull(name) { "name must be not null" }
@@ -54,7 +53,6 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
     }
 
-    @OptIn(InternalSerializationApi::class)
     inline fun <reified I : Any> withCall(
         noinline call: (I) -> Any
     ): FunctionCallBuilder {

@@ -1,7 +1,7 @@
 package io.kamo.ktor.client.ai.core.util
 
-import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.*
+import kotlinx.serialization.serializer
 
 val DefaultJsonConverter = Json {
     ignoreUnknownKeys = true
@@ -18,7 +18,6 @@ val DefaultJsonConverter = Json {
 /**
  * Create JsonElement from any
  */
-@OptIn(InternalSerializationApi::class)
 internal fun createJsonElement(any: Any): JsonElement {
     return when (any) {
         is Map<*, *> -> buildJsonObject {
@@ -43,6 +42,6 @@ internal fun createJsonElement(any: Any): JsonElement {
         is Number -> JsonPrimitive(any)
         is Boolean -> JsonPrimitive(any)
         is String -> JsonPrimitive(any)
-        else -> error("Unsupported type: ${any::class.simpleName}")
+        else -> createJsonElement(resolveTypeSchema(any::class.serializer().descriptor))
     }
 }

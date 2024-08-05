@@ -279,7 +279,7 @@ private suspend fun handleMessage(
         userText = { userMessage.textState.value }
     }.collect {
         var aiText by aiMessage.textState
-        aiText += it.result.output.content
+        aiText += it.content
     }
 }
 

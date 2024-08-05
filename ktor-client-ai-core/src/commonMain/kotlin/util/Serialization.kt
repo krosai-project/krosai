@@ -26,12 +26,10 @@ internal fun resolveTypeSchema(
             val parameter = mutableMapOf<String, Any>()
             val name = descriptor.getElementName(i)
             properties[name] = parameter
-            descriptor.getElementAnnotations(i).filterIsInstance<SerialDescription>().firstOrNull()?.let {
-                parameter["description"] = it.value
+            descriptor.getElementAnnotations(i).firstOrNull { it is SerialDescription }?.let {
+                parameter["description"] = (it as SerialDescription).value
             }
-            if (!descriptor.isElementOptional(i)) {
-                required.add(name)
-            }
+
             val kind = element.kind
             parameter["type"] = when (kind) {
 
@@ -52,4 +50,28 @@ internal fun resolveTypeSchema(
         }
     }
     return result
+}
+
+fun doResolveElement(
+    descriptor: SerialDescriptor,
+): Any {
+    when (descriptor.kind) {
+        PolymorphicKind.OPEN -> TODO()
+        PolymorphicKind.SEALED -> TODO()
+        PrimitiveKind.BOOLEAN -> TODO()
+        PrimitiveKind.BYTE -> TODO()
+        PrimitiveKind.CHAR -> TODO()
+        PrimitiveKind.DOUBLE -> TODO()
+        PrimitiveKind.FLOAT -> TODO()
+        PrimitiveKind.INT -> TODO()
+        PrimitiveKind.LONG -> TODO()
+        PrimitiveKind.SHORT -> TODO()
+        PrimitiveKind.STRING -> TODO()
+        SerialKind.CONTEXTUAL -> TODO()
+        SerialKind.ENUM -> TODO()
+        StructureKind.CLASS -> TODO()
+        StructureKind.LIST -> TODO()
+        StructureKind.MAP -> TODO()
+        StructureKind.OBJECT -> TODO()
+    }
 }

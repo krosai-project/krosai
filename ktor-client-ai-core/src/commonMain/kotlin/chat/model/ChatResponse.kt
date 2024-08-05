@@ -10,4 +10,7 @@ data class ChatResponse(
 
     override val result: Generation
         get() = results.first()
+
+    val content = result.output.content
+
 }

@@ -1,14 +1,8 @@
 package io.kamo.ktor.client.ai.openai.test.chat.function
 
 import io.kamo.ktor.client.ai.core.chat.function.buildFunctionCall
-import io.kamo.ktor.client.ai.core.factory.buildModelFactoryContext
-import io.kamo.ktor.client.ai.core.util.DefaultJsonConverter
 import io.kamo.ktor.client.ai.core.util.SerialDescription
-import io.kamo.ktor.client.ai.openai.factory.OpenAI
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.plugins.sse.*
-import io.ktor.serialization.kotlinx.json.*
+import io.kamo.ktor.client.ai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,27 +10,7 @@ import java.time.LocalDateTime
 import kotlin.test.Test
 
 
-class FunctionToolTest {
-
-    private val context = buildModelFactoryContext {
-        factory(OpenAI) {
-            clientBlock = {
-                install(ContentNegotiation) {
-                    json(DefaultJsonConverter)
-                }
-                install(SSE)
-                install(Logging) {
-                    level = LogLevel.ALL
-                    logger = Logger.SIMPLE
-                }
-            }
-            baseUrl = "https://www.jcapikey.com"
-            apiKey = System.getenv("apiKey").orEmpty()
-        }
-    }[OpenAI]
-
-    private val chatClient = context.createChatClient()
-
+class FunctionToolTest : ModelFactorySupport {
     @Test
     fun functionCallCallTest() = runTest {
         chatClient.call {
@@ -45,7 +19,7 @@ class FunctionToolTest {
                 functionCalls.add(dateTimeFun)
             }
         }.let {
-            println(it.result.output.content)
+            println(it.content)
         }
     }
 
@@ -57,7 +31,7 @@ class FunctionToolTest {
                 functionCalls.add(dateTimeFun)
             }
         }.collect {
-            println(it.result.output.content)
+            println(it.content)
         }
     }
 }
@@ -77,3 +51,4 @@ val dateTimeFun = buildFunctionCall {
         "${req.location}的日期是${LocalDateTime.now()}"
     }
 }
+

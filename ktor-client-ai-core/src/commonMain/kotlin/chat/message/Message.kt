@@ -7,16 +7,20 @@ import io.kamo.ktor.client.ai.core.chat.function.ToolCall
 
 sealed class Message(
     val type: MessageType,
-    val content: String,
+    open val content: String,
 ) {
-    class System(content: String) : Message(MessageType.SYSTEM, content)
+    data class System(
+        override val content: String
+    ) : Message(MessageType.SYSTEM, content)
 
-    class User(content: String) : Message(MessageType.USER, content)
+    data class User(
+        override val content: String
+    ) : Message(MessageType.USER, content)
 
-    class Assistant(
-        content: String,
+    data class Assistant(
+        override val content: String,
         val properties: Map<String, Any> = mapOf(),
-        val toolCall: List<ToolCall> = listOf()
+        val toolCall: List<ToolCall>? = null
     ) : Message(MessageType.ASSISTANT, content)
 
     class Tool(

@@ -136,10 +136,10 @@ class FunctionCallBuilderTest {
             }
         }.also {
             println(it.inputSchema)
-//            assertEquals(
-//                it.inputSchema,
-//                """{"name":{"type":"kotlin.String","kind":"STRING","isNullable":false},"age":{"type":"kotlin.Int","kind":"INT","isNullable":false}}"""
-//            )
+            assertEquals(
+                it.inputSchema.toString(),
+                """{"${'$'}schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["name","age"],"properties":{"name":{"type":"string"},"age":{"type":"int"}}}"""
+            )
         }
     }
 
@@ -154,7 +154,7 @@ class FunctionCallBuilderTest {
             println(it)
             assertEquals(
                 it.toString(),
-                """[{"name":{"type":"kotlin.String","kind":"STRING","isNullable":false},"age":{"type":"kotlin.Int","kind":"INT","isNullable":false}},1,"akino",{"par1":2,"par2":"hi"}]"""
+                """[{"${'$'}schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["name","age"],"properties":{"name":{"type":"string"},"age":{"type":"int"}}},1,"akino",{"par1":2,"par2":"hi"}]"""
             )
         }
     }

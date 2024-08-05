@@ -8,6 +8,7 @@ import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
 import io.kamo.ktor.client.ai.core.chat.prompt.ChatOptions
 import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
 import kotlinx.coroutines.flow.Flow
+import kotlin.reflect.KFunction
 
 
 class DefaultChatClient(
@@ -15,41 +16,66 @@ class DefaultChatClient(
     private val defaultRequest: DefaultChatClientRequestScope,
 ) : ChatClient {
 
-    override suspend fun call(request: ChatClientRequestScopeSpec): ChatResponse {
+    override suspend fun call(requestScopeSpec: ChatClientRequestScopeSpec): ChatResponse {
         val requestScope = DefaultChatClientRequestScope(defaultRequest)
-            .also { request?.invoke(it) }
+            .also { requestScopeSpec?.invoke(it) }
 
-        if (requestScope.chatOptions is FunctionCallOptions) {
-            requestScope.chatOptions.functionCalls.addAll(requestScope.functionCalls)
-            requestScope.chatOptions.functionNames.addAll(requestScope.functionNames)
-        }
-
-        val prompt = creatPrompt(requestScope)
-        return chatModel.call(prompt)
-    }
-
-    override suspend fun stream(request: ChatClientRequestScopeSpec): Flow<ChatResponse> {
-        val requestScope = DefaultChatClientRequestScope(defaultRequest)
-            .also { request?.invoke(it) }
-
-        if (requestScope.chatOptions is FunctionCallOptions) {
-            requestScope.chatOptions.functionCalls.addAll(requestScope.functionCalls)
-            requestScope.chatOptions.functionNames.addAll(requestScope.functionNames)
-        }
-
-        val prompt = creatPrompt(requestScope)
-        return chatModel.stream(prompt)
-    }
-
-    private fun creatPrompt(requestScope: DefaultChatClientRequestScope): Prompt {
-
-        val messages: List<Message> = listOfNotNull(
-            requestScope.userText.invoke(requestScope.userParams)?.let { Message.User(it) },
-            requestScope.systemText.invoke(requestScope.systemParams)?.let { Message.System(it) },
+        var request = requestScope.chatClientRequest
+        val enhancers = request.enhancers
+        request = enhanceProcessor(
+            enhancers,
+            request,
+            Enhancer::enhanceRequest
         )
+
+        val prompt = creatPrompt(request)
+
+        var response = chatModel.call(prompt)
+
+        response = enhanceProcessor(
+            enhancers,
+            response,
+            Enhancer::enhanceResponse
+        )
+        return response
+    }
+
+    override suspend fun stream(requestScopeSpec: ChatClientRequestScopeSpec): Flow<ChatResponse> {
+        val requestScope = DefaultChatClientRequestScope(defaultRequest)
+            .also { requestScopeSpec?.invoke(it) }
+
+        var request = requestScope.chatClientRequest
+        val enhancers = request.enhancers
+        request = enhanceProcessor(
+            enhancers,
+            request,
+            Enhancer::enhanceRequest
+        )
+
+        val prompt = creatPrompt(request)
+
+        val responseFlow = chatModel.stream(prompt)
+        return enhanceProcessor(
+            enhancers,
+            responseFlow,
+            Enhancer::enhanceResponse
+        )
+    }
+
+
+    private fun creatPrompt(request: ChatClientRequest): Prompt {
+
+        val messages: List<Message> = request.messages + listOfNotNull(
+            request.userText.invoke(request.userParams)?.let { Message.User(it) },
+            request.systemText.invoke(request.systemParams)?.let { Message.System(it) },
+        )
+        if (request.chatOptions is FunctionCallOptions) {
+            request.chatOptions.functionCalls.addAll(request.functionCalls)
+            request.chatOptions.functionNames.addAll(request.functionNames)
+        }
         val prompt = Prompt(
             instructions = messages,
-            options = requestScope.chatOptions
+            options = request.chatOptions
         )
         return prompt
     }
@@ -59,30 +85,26 @@ class DefaultChatClient(
 
 class DefaultChatClientRequestScope(
     val model: ChatModel,
-    val chatOptions: ChatOptions,
-    override var systemText: Map<String, Any>.() -> String? = { null },
-    override var userText: Map<String, Any>.() -> String? = { null },
-    val functionNames: MutableSet<String> = mutableSetOf(),
-    val functionCalls: MutableList<FunctionCall> = mutableListOf(),
-    val userParams: MutableMap<String, Any> = mutableMapOf(),
-    val systemParams: MutableMap<String, Any> = mutableMapOf()
+    val chatClientRequest: ChatClientRequest
 ) : ChatClientRequestScope {
 
-    constructor(model: ChatModel, chatOption: ChatOptions?) : this(
+    constructor(model: ChatModel, chatOptions: ChatOptions?) : this(
         model = model,
-        chatOptions = chatOption?.copy() ?: model.defaultChatOptions.copy(),
+        chatClientRequest = ChatClientRequest(
+            chatOptions = chatOptions?.copy() ?: model.defaultChatOptions.copy()
+        ),
     )
 
     constructor(other: DefaultChatClientRequestScope) : this(
-        userText = other.userText,
-        systemText = other.systemText,
         model = other.model,
-        chatOptions = other.chatOptions,
-        functionNames = other.functionNames,
-        functionCalls = other.functionCalls,
-        userParams = LinkedHashMap(other.systemParams),
-        systemParams = LinkedHashMap(other.systemParams)
+        chatClientRequest = other.chatClientRequest.copy()
     )
+
+    override var userText: Map<String, Any>.() -> String?
+            by chatClientRequest::userText
+
+    override var systemText: Map<String, Any>.() -> String?
+            by chatClientRequest::systemText
 
     override fun user(userScope: PromptUserScope.() -> Unit) {
         DefaultPromptUserScope(this).apply(userScope)
@@ -92,19 +114,49 @@ class DefaultChatClientRequestScope(
         DefaultPromptSystemScope(this).apply(systemScope)
     }
 
+    override fun enhancers(enhancersScope: EnhancersScope.() -> Unit) {
+        DefaultEnhancersScope(this).apply(enhancersScope)
+    }
+
     override fun functions(functionCallScope: FunctionCallScope.() -> Unit) {
         DefaultFunctionCallScope(this).apply(functionCallScope)
     }
 
 }
 
+class DefaultEnhancersScope(
+    chatClientRequestScope: DefaultChatClientRequestScope
+) : EnhancersScope {
+
+    private val params: MutableMap<String, Any>
+            by chatClientRequestScope.chatClientRequest::enhanceParams
+
+    private val enhancers: MutableList<Enhancer>
+            by chatClientRequestScope.chatClientRequest::enhancers
+
+    override fun String.to(value: Any) {
+        params[this] = value
+    }
+
+    override fun Enhancer.unaryPlus() {
+        enhancers.add(this)
+    }
+
+    override fun List<Enhancer>.unaryPlus() {
+        enhancers.addAll(this)
+    }
+
+}
+
 class DefaultPromptUserScope(
-    private val chatClientRequestScope: DefaultChatClientRequestScope
+    chatClientRequestScope: DefaultChatClientRequestScope
 ) : PromptUserScope {
 
-    override var text: Map<String, Any>.() -> String? by chatClientRequestScope::userText
+    override var text: Map<String, Any>.() -> String?
+            by chatClientRequestScope::userText
 
-    private val params: MutableMap<String, Any> by chatClientRequestScope::userParams
+    private val params: MutableMap<String, Any>
+            by chatClientRequestScope.chatClientRequest::userParams
 
     override fun String.to(value: Any) {
         params[this] = value
@@ -113,12 +165,14 @@ class DefaultPromptUserScope(
 }
 
 class DefaultPromptSystemScope(
-    private val chatClientRequestScope: DefaultChatClientRequestScope
+    chatClientRequestScope: DefaultChatClientRequestScope
 ) : PromptSystemScope {
 
-    override var text: Map<String, Any>.() -> String? by chatClientRequestScope::systemText
+    override var text: Map<String, Any>.() -> String?
+            by chatClientRequestScope::systemText
 
-    private val params: MutableMap<String, Any> by chatClientRequestScope::systemParams
+    private val params: MutableMap<String, Any>
+            by chatClientRequestScope.chatClientRequest::systemParams
 
     override fun String.to(value: Any) {
         params[this] = value
@@ -130,12 +184,30 @@ class DefaultFunctionCallScope(
     chatClientRequestScope: DefaultChatClientRequestScope
 ) : FunctionCallScope {
 
-    override val functionCalls: MutableList<FunctionCall> = chatClientRequestScope.functionCalls
+    private val functionCalls: MutableList<FunctionCall>
+            by chatClientRequestScope.chatClientRequest::functionCalls
 
-    override val functions: MutableSet<String> = mutableSetOf()
+    private val functionNames: MutableSet<String>
+            by chatClientRequestScope.chatClientRequest::functionNames
+
+    override fun FunctionCall.unaryPlus() {
+        functionCalls.add(this)
+    }
+
+    override fun List<FunctionCall>.unaryPlus() {
+        functionCalls.addAll(this)
+    }
+
+    override fun String.unaryPlus() {
+        functionNames.add(this)
+    }
+
+    override fun KFunction<*>.unaryPlus() {
+        functionNames.add(name)
+    }
 
     override fun function(vararg functionNames: String) {
-        functions.addAll(functionNames)
+        this.functionNames.addAll(functionNames)
     }
 
 }

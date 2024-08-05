@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.map
 /** OpenAI Chat API implementation. */
 
 
-
 class OpenAiChatModel(
     private val chatOptions: OpenAiChatOptions,
     private val api: OpenAiApi,
@@ -49,7 +48,7 @@ class OpenAiChatModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun stream(prompt: Prompt): Flow<ChatResponse> {
         val request = createRequest(prompt, true, getFunctionCallNames)
-         return api.stream(request)
+        return api.stream(request)
             .map {
                 it
                     .toChatCompletion()
@@ -66,7 +65,7 @@ class OpenAiChatModel(
     }
 
     private fun isToolCall(chatResponse: ChatResponse): Boolean {
-        return chatResponse.result.output.toolCall.isNotEmpty()
+        return chatResponse.result.output.toolCall?.isNotEmpty() ?: false
     }
 
     private fun processToolCall(prompt: Prompt, chatResponse: ChatResponse): List<Message> {
@@ -115,7 +114,7 @@ fun ChatCompletion.toChatResponse(): ChatResponse {
             Generation(
                 Message.Assistant(
                     content = choice.message.content.orEmpty(),
-                    toolCall = choice.message.toolCalls.orEmpty().map { toolCall ->
+                    toolCall = choice.message.toolCalls?.map { toolCall ->
                         ToolCall(
                             toolCall.id.orEmpty(),
                             toolCall.function.name.orEmpty(),
@@ -147,7 +146,7 @@ private fun createRequest(
 
             MessageType.ASSISTANT -> {
                 val assistantMessage = message as Message.Assistant
-                val toolCalls = assistantMessage.toolCall.map {
+                val toolCalls = assistantMessage.toolCall?.map {
                     ChatCompletionMessage.ToolCall(
                         it.id,
                         it.type,

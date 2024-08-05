@@ -15,8 +15,9 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        binaries.executable()
         nodejs()
+        browser()
+        binaries.executable()
     }
 
 
@@ -29,6 +30,13 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
+
+        all {
+            languageSettings.apply {
+                optIn("kotlinx.serialization.InternalSerializationApi")
+                optIn("kotlinx.serialization.ExperimentalSerializationApi")
+            }
+        }
 
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)

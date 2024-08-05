@@ -8,17 +8,18 @@ import kotlinx.serialization.Serializable
 val OpenBrowser = buildFunctionCall {
     name = "date_time"
     description = "Open the browser to jump to the URL corresponding to the name of the site"
-    withCall { req: Request ->
-        openBrowser("https://www.baidu.com/")
-        "Successful opening of the ${req.siteName} web site"
+    withCall { req: OpenBrowserRequest ->
+        openBrowser(req.siteURL)
+        "Successful opening of the ${req.siteURL} web site"
     }
 }
 
 @SerialDescription("Open Browser API Request")
 @Serializable
-data class Request(
-    @SerialName("siteName") @SerialDescription("The name of the website")
-    val siteName: String
+data class OpenBrowserRequest(
+    @SerialName("siteURL")
+    @SerialDescription("URL address of the web site")
+    val siteURL: String
 )
 
 expect fun openBrowser(url: String)

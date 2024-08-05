@@ -1,17 +1,22 @@
 package io.kamo.ktor.client.ai.samples.di
 
 import io.kamo.ktor.client.ai.core.chat.client.ChatClient
+import io.kamo.ktor.client.ai.core.chat.client.Enhancer
+import io.kamo.ktor.client.ai.core.chat.client.MessageMemoryEnhance
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.factory.ModelFactory
 import io.kamo.ktor.client.ai.core.factory.buildModelFactoryContext
 import io.kamo.ktor.client.ai.core.util.DefaultJsonConverter
 import io.kamo.ktor.client.ai.openai.factory.OpenAI
 import io.kamo.ktor.client.ai.samples.LocalData
+import io.kamo.ktor.client.ai.samples.function.GetURL
 import io.kamo.ktor.client.ai.samples.function.OpenBrowser
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.serialization.kotlinx.json.*
+import org.koin.core.qualifier._q
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val AIModule = module {
@@ -38,14 +43,26 @@ val AIModule = module {
     single<ChatClient> {
         get<ModelFactory>().createChatClient {
             functions {
-                functionCalls += getAll()
+                +getAll<FunctionCall>()
+            }
+            enhancers {
+                +getAll<Enhancer>()
             }
         }
     }
 
-    single<FunctionCall> {
+    single(_q("openBrowserURL")) {
         OpenBrowser
-    }
+    } bind FunctionCall::class
+
+    single(_q("getURL")) {
+        GetURL
+    } bind FunctionCall::class
+
+    single {
+        MessageMemoryEnhance()
+    } bind Enhancer::class
+
 
 }
 

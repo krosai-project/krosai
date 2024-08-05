@@ -9,17 +9,19 @@ interface ToolCallHandler {
         assistantMessage: Message.Assistant,
         getFunctionCall: (Set<String>) -> List<FunctionCall>
     ): Message.Tool {
-        val functionCalls = getFunctionCall(assistantMessage.toolCall.map { it.name }.toSet())
+        val toolCallNames = assistantMessage.toolCall?.map { it.name }?.toSet() ?: emptySet()
+        val functionCalls = getFunctionCall(toolCallNames)
             .associateBy { it.name }
 
+        val toolResponses = assistantMessage.toolCall?.map { toolCall ->
+            ToolResponse(
+                id = toolCall.id,
+                name = toolCall.name,
+                responseData = functionCalls[toolCall.name]!!.call(toolCall.arguments)
+            )
+        }
         return Message.Tool(
-            assistantMessage.toolCall.map { toolCall ->
-                ToolResponse(
-                    id = toolCall.id,
-                    name = toolCall.name,
-                    responseData = functionCalls[toolCall.name]!!.call(toolCall.arguments)
-                )
-            }
+            toolResponses ?: emptyList()
         )
     }
 }
