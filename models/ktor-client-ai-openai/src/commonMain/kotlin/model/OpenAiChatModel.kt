@@ -14,8 +14,10 @@ import io.kamo.ktor.client.ai.core.chat.prompt.Prompt
 import io.kamo.ktor.client.ai.openai.api.*
 import io.kamo.ktor.client.ai.openai.api.ChatCompletionRequest.FunctionTool
 import io.kamo.ktor.client.ai.openai.options.OpenAiChatOptions
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 /** OpenAI Chat API implementation. */
@@ -44,23 +46,23 @@ class OpenAiChatModel(
             }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun stream(prompt: Prompt): Flow<ChatResponse> {
         val request = createRequest(prompt, true, getFunctionCallNames)
-        api.stream(request)
+         return api.stream(request)
             .map {
                 it
                     .toChatCompletion()
                     .toChatResponse()
-            }.let { chatResponse ->
-                val response = chatResponse.first()
-                return if (isToolCall(response)) {
-                    val currentPrompt = prompt.copy(instructions = processToolCall(prompt, response))
+            }
+            .flatMapConcat { chatResponse ->
+                return@flatMapConcat if (isToolCall(chatResponse)) {
+                    val currentPrompt = prompt.copy(instructions = processToolCall(prompt, chatResponse))
                     stream(currentPrompt)
                 } else {
-                    chatResponse
+                    flowOf(chatResponse)
                 }
             }
-
     }
 
     private fun isToolCall(chatResponse: ChatResponse): Boolean {
@@ -115,8 +117,8 @@ fun ChatCompletion.toChatResponse(): ChatResponse {
                     content = choice.message.content.orEmpty(),
                     toolCall = choice.message.toolCalls.orEmpty().map { toolCall ->
                         ToolCall(
-                            toolCall.id,
-                            toolCall.function.name,
+                            toolCall.id.orEmpty(),
+                            toolCall.function.name.orEmpty(),
                             "function",
                             toolCall.function.arguments
                         )

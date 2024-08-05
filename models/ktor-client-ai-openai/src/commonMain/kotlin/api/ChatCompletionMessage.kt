@@ -75,8 +75,8 @@ data class ChatCompletionMessage(
      */
     @Serializable
     data class ToolCall(
-        @SerialName("id") val id: String,
-        @SerialName("type") val type: String,
+        @SerialName("id") val id: String?,
+        @SerialName("type") val type: String?,
         @SerialName("function") val function: ChatCompletionFunction
     )
 
@@ -88,7 +88,7 @@ data class ChatCompletionMessage(
      */
     @Serializable
     data class ChatCompletionFunction(
-        @SerialName("name") val name: String,
+        @SerialName("name") val name: String?,
         @SerialName("arguments") val arguments: String
     )
 

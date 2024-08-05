@@ -31,20 +31,32 @@ class FunctionToolTest {
                 }
             }
             baseUrl = "https://www.jcapikey.com"
-            apiKey = System.getenv("apiKey")
+            apiKey = System.getenv("apiKey").orEmpty()
         }
     }[OpenAI]
 
     private val chatClient = context.createChatClient()
 
     @Test
-    fun functionCall() = runTest {
+    fun functionCallCallTest() = runTest {
         chatClient.call {
             userText = { "现在湖南是什么时间?" }
             functions {
                 functionCalls.add(dateTimeFun)
             }
         }.let {
+            println(it.result.output.content)
+        }
+    }
+
+    @Test
+    fun functionCallStreamTest() = runTest {
+        chatClient.stream {
+            userText = { "现在湖南是什么时间?" }
+            functions {
+                functionCalls.add(dateTimeFun)
+            }
+        }.collect {
             println(it.result.output.content)
         }
     }

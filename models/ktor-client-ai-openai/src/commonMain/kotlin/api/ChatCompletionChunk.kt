@@ -42,5 +42,4 @@ data class ChatCompletionChunk(
         @SerialName("delta") val delta: ChatCompletionMessage,
         @SerialName("logprobs") val logprobs: LogProbs?
     )
-
 }

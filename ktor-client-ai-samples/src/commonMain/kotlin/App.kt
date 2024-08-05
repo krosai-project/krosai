@@ -149,9 +149,9 @@ fun ColumnScope.ChatMessageArea(messages: List<ChatMessage>, lazyState: LazyList
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // 每次文字变化时，滚动到最底部
+//                 每次文字变化时，滚动到最底部
 //                LaunchedEffect(message.textState.value){
-//                    lazyState.animateScrollToItem(messages.size)
+//                    lazyState.animateScrollToItem(messages.size,222222)
 //                }
                 val contentColor =
                     if (message.isUser) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSecondary
@@ -275,10 +275,11 @@ private suspend fun handleMessage(
     sendMessage(userMessage)
     val aiMessage = ChatMessage(mutableStateOf(""), false)
     sendMessage(aiMessage)
-    chatClient.call {
+    chatClient.stream {
         userText = { userMessage.textState.value }
-    }.let {
-        aiMessage.textState.value = it.result.output.content
+    }.collect {
+        var aiText by aiMessage.textState
+        aiText += it.result.output.content
     }
 }
 
