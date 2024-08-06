@@ -1,5 +1,7 @@
 package io.kamo.ktor.client.ai.core.chat.client
 
+import io.kamo.ktor.client.ai.core.chat.enhancer.Enhancer
+import io.kamo.ktor.client.ai.core.chat.enhancer.enhancing
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCallOptions
 import io.kamo.ktor.client.ai.core.chat.message.Message
@@ -16,50 +18,42 @@ class DefaultChatClient(
     private val defaultRequest: DefaultChatClientRequestScope,
 ) : ChatClient {
 
-    override suspend fun call(requestScopeSpec: ChatClientRequestScopeSpec): ChatResponse {
+    override suspend fun call(requestScopeSpec: ChatClientRequestDefinition): ChatResponse {
         val requestScope = DefaultChatClientRequestScope(defaultRequest)
             .also { requestScopeSpec?.invoke(it) }
 
         var request = requestScope.chatClientRequest
         val enhancers = request.enhancers
-        request = enhanceProcessor(
-            enhancers,
+        request = enhancers.enhancing(
             request,
             Enhancer::enhanceRequest
         )
 
         val prompt = creatPrompt(request)
 
-        var response = chatModel.call(prompt)
 
-        response = enhanceProcessor(
-            enhancers,
-            response,
-            Enhancer::enhanceResponse
-        )
-        return response
+        return enhancers.enhancing(chatModel.call(prompt)) { response ->
+            enhanceResponse(response, request.enhancerParams)
+        }
     }
 
-    override suspend fun stream(requestScopeSpec: ChatClientRequestScopeSpec): Flow<ChatResponse> {
+    override suspend fun stream(requestScopeSpec: ChatClientRequestDefinition): Flow<ChatResponse> {
         val requestScope = DefaultChatClientRequestScope(defaultRequest)
             .also { requestScopeSpec?.invoke(it) }
 
         var request = requestScope.chatClientRequest
         val enhancers = request.enhancers
-        request = enhanceProcessor(
-            enhancers,
+        request = enhancers.enhancing(
             request,
             Enhancer::enhanceRequest
         )
 
         val prompt = creatPrompt(request)
 
-        val responseFlow = chatModel.stream(prompt)
-        return enhanceProcessor(
-            enhancers,
-            responseFlow,
-            Enhancer::enhanceResponse
-        )
+        return enhancers.enhancing(chatModel.stream(prompt)) { responseFlow ->
+            enhanceResponse(responseFlow, request.enhancerParams)
+        }
+
     }
 
 
@@ -129,7 +123,7 @@ class DefaultEnhancersScope(
 ) : EnhancersScope {
 
     private val params: MutableMap<String, Any>
-            by chatClientRequestScope.chatClientRequest::enhanceParams
+            by chatClientRequestScope.chatClientRequest::enhancerParams
 
     private val enhancers: MutableList<Enhancer>
             by chatClientRequestScope.chatClientRequest::enhancers

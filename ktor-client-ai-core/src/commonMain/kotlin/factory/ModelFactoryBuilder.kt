@@ -1,7 +1,7 @@
 package io.kamo.ktor.client.ai.core.factory
 
 import io.kamo.ktor.client.ai.core.chat.client.ChatClient
-import io.kamo.ktor.client.ai.core.chat.client.ChatClientRequestScopeSpec
+import io.kamo.ktor.client.ai.core.chat.client.ChatClientRequestDefinition
 import io.kamo.ktor.client.ai.core.chat.client.DefaultChatClient
 import io.kamo.ktor.client.ai.core.chat.client.DefaultChatClientRequestScope
 import io.kamo.ktor.client.ai.core.chat.model.ChatModel
@@ -14,7 +14,7 @@ interface ModelFactory {
 
     fun createEmbeddingModel(): EmbeddingModel = TODO()
 
-    fun createChatClient(scope: ChatClientRequestScopeSpec = null): ChatClient {
+    fun createChatClient(scope: ChatClientRequestDefinition = null): ChatClient {
         val chatModel = createChatModel()
         val defaultRequest = DefaultChatClientRequestScope(chatModel, null).also { scope?.invoke(it) }
         return DefaultChatClient(chatModel, defaultRequest)

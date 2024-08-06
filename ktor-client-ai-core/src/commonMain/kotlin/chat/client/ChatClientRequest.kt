@@ -1,5 +1,6 @@
 package io.kamo.ktor.client.ai.core.chat.client
 
+import io.kamo.ktor.client.ai.core.chat.enhancer.Enhancer
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.chat.message.Message
 import io.kamo.ktor.client.ai.core.chat.prompt.ChatOptions
@@ -13,7 +14,7 @@ data class ChatClientRequest(
     val functionCalls: MutableList<FunctionCall> = mutableListOf(),
     val functionNames: MutableSet<String> = mutableSetOf(),
     val enhancers: MutableList<Enhancer> = mutableListOf(),
-    val enhanceParams: MutableMap<String, Any> = mutableMapOf(),
+    val enhancerParams: MutableMap<String, Any> = mutableMapOf(),
     val messages: MutableList<Message> = mutableListOf(),
 ) {
     constructor(clientRequest: ChatClientRequest) : this(
@@ -25,7 +26,7 @@ data class ChatClientRequest(
         userParams = clientRequest.userParams.toMutableMap(),
         systemParams = clientRequest.systemParams.toMutableMap(),
         enhancers = clientRequest.enhancers.toMutableList(),
-        enhanceParams = clientRequest.enhanceParams.toMutableMap(),
+        enhancerParams = clientRequest.enhancerParams.toMutableMap(),
         messages = clientRequest.messages.toMutableList(),
     )
 }

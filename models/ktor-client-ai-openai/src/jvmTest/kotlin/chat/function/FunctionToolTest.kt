@@ -16,7 +16,7 @@ class FunctionToolTest : ModelFactorySupport {
         chatClient.call {
             userText = { "现在湖南是什么时间?" }
             functions {
-                functionCalls.add(dateTimeFun)
+                +dateTimeFun
             }
         }.let {
             println(it.content)
@@ -28,7 +28,7 @@ class FunctionToolTest : ModelFactorySupport {
         chatClient.stream {
             userText = { "现在湖南是什么时间?" }
             functions {
-                functionCalls.add(dateTimeFun)
+                +dateTimeFun
             }
         }.collect {
             println(it.content)

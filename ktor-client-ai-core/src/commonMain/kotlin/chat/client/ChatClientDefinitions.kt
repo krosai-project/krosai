@@ -1,5 +1,6 @@
 package io.kamo.ktor.client.ai.core.chat.client
 
+import io.kamo.ktor.client.ai.core.chat.enhancer.Enhancer
 import io.kamo.ktor.client.ai.core.chat.function.Func1
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCallBuilder
@@ -7,15 +8,18 @@ import io.kamo.ktor.client.ai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KFunction
 
+/**
+ * Represents a chat client that interacts with an AI model to send and receive chat messages.
+ */
 interface ChatClient {
 
-    suspend fun call(request: ChatClientRequestScopeSpec): ChatResponse
+    suspend fun call(requestScopeSpec: ChatClientRequestDefinition): ChatResponse
 
-    suspend fun stream(request: ChatClientRequestScopeSpec): Flow<ChatResponse>
+    suspend fun stream(requestScopeSpec: ChatClientRequestDefinition): Flow<ChatResponse>
 
 }
 
-typealias ChatClientRequestScopeSpec = (ChatClientRequestScope.() -> Unit)?
+typealias ChatClientRequestDefinition = (ChatClientRequestScope.() -> Unit)?
 
 interface ChatClientRequestScope {
 

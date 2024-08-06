@@ -1,9 +1,10 @@
 package io.kamo.ktor.client.ai.samples.di
 
 import io.kamo.ktor.client.ai.core.chat.client.ChatClient
-import io.kamo.ktor.client.ai.core.chat.client.Enhancer
-import io.kamo.ktor.client.ai.core.chat.client.MessageMemoryEnhance
+import io.kamo.ktor.client.ai.core.chat.enhancer.Enhancer
+import io.kamo.ktor.client.ai.core.chat.enhancer.MessageChatMemoryEnhancer
 import io.kamo.ktor.client.ai.core.chat.function.FunctionCall
+import io.kamo.ktor.client.ai.core.chat.memory.InMemoryMessageStore
 import io.kamo.ktor.client.ai.core.factory.ModelFactory
 import io.kamo.ktor.client.ai.core.factory.buildModelFactoryContext
 import io.kamo.ktor.client.ai.core.util.DefaultJsonConverter
@@ -60,7 +61,7 @@ val AIModule = module {
     } bind FunctionCall::class
 
     single {
-        MessageMemoryEnhance()
+        MessageChatMemoryEnhancer(InMemoryMessageStore())
     } bind Enhancer::class
 
 
