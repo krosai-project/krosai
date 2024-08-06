@@ -1,4 +1,4 @@
-package io.github.krosai.samples
+package io.github.krosai.sample
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.window.Window

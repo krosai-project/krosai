@@ -1,4 +1,4 @@
-package io.github.krosai.samples.function
+package io.github.krosai.sample.function
 
 import io.github.krosai.core.chat.function.buildFunctionCall
 import io.github.krosai.core.util.SerialDescription

@@ -1,4 +1,4 @@
-package io.github.krosai.samples
+package io.github.krosai.sample
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -24,10 +24,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.krosai.core.chat.client.ChatClient
-import io.github.krosai.samples.data.ChatMessage
-import io.github.krosai.samples.data.ChatPath
-import io.github.krosai.samples.data.LocaleChatPath
-import io.github.krosai.samples.di.AIModule
+import io.github.krosai.sample.data.ChatMessage
+import io.github.krosai.sample.data.ChatPath
+import io.github.krosai.sample.data.LocaleChatPath
+import io.github.krosai.sample.di.AIModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview

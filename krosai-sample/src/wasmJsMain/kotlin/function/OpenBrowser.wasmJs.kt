@@ -1,4 +1,4 @@
-package io.github.krosai.samples.function
+package io.github.krosai.sample.function
 
 import kotlinx.browser.window
 

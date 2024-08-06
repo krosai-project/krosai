@@ -1,4 +1,4 @@
-package io.github.krosai.samples.di
+package io.github.krosai.sample.di
 
 import io.github.krosai.core.chat.client.ChatClient
 import io.github.krosai.core.chat.enhancer.Enhancer
@@ -9,9 +9,9 @@ import io.github.krosai.core.factory.ModelFactory
 import io.github.krosai.core.factory.buildModelFactoryContext
 import io.github.krosai.core.util.DefaultJsonConverter
 import io.github.krosai.openai.factory.OpenAI
-import io.github.krosai.samples.LocalData
-import io.github.krosai.samples.function.GetURL
-import io.github.krosai.samples.function.OpenBrowser
+import io.github.krosai.sample.LocalData
+import io.github.krosai.sample.function.GetURL
+import io.github.krosai.sample.function.OpenBrowser
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*

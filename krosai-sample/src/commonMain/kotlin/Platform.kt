@@ -1,4 +1,4 @@
-package io.github.krosai.samples
+package io.github.krosai.sample
 
 interface Platform {
     val name: String
