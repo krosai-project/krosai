@@ -1,4 +1,4 @@
-rootProject.name = "ktor-client-ai"
+rootProject.name = "krosai"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -29,8 +29,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":ktor-client-ai-core")
-include(":ktor-client-ai-samples")
+include(":krosai-core")
+include(":krosai-sample")
 
 rootProject.projectDir.resolve("models").list()?.forEach {
     include("models:$it")
