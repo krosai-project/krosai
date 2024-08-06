@@ -14,7 +14,7 @@ class FunctionToolTest : ModelFactorySupport {
     @Test
     fun functionCallCallTest() = runTest {
         chatClient.call {
-            userText = { "现在湖南是什么时间?" }
+            userText = { "Get the current date by location?" }
             functions {
                 +dateTimeFun
             }
@@ -26,7 +26,7 @@ class FunctionToolTest : ModelFactorySupport {
     @Test
     fun functionCallStreamTest() = runTest {
         chatClient.stream {
-            userText = { "现在湖南是什么时间?" }
+            userText = { "Get the current date by location?" }
             functions {
                 +dateTimeFun
             }
@@ -40,15 +40,13 @@ class FunctionToolTest : ModelFactorySupport {
 @SerialDescription("get date time API Request")
 @Serializable
 data class Request(
-    @SerialName("location") @SerialDescription("地区")
+    @SerialName("location") @SerialDescription("location")
     val location: String
 )
-
 val dateTimeFun = buildFunctionCall {
     name = "date_time"
-    description = "根据地区,获取当前日期"
+    description = "Get the current date by location"
     withCall { req: Request ->
-        "${req.location}的日期是${LocalDateTime.now()}"
+        "the current time in ${req.location} is ${LocalDateTime.now()}"
     }
 }
-
