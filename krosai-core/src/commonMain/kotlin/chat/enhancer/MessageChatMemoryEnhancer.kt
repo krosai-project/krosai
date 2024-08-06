@@ -1,11 +1,11 @@
-package io.github.krosai.client.ai.core.chat.enhancer
+package io.github.krosai.core.chat.enhancer
 
-import io.github.krosai.client.ai.core.chat.client.ChatClientRequest
-import io.github.krosai.client.ai.core.chat.memory.MessageStore
-import io.github.krosai.client.ai.core.chat.memory.get
-import io.github.krosai.client.ai.core.chat.memory.plusAssign
-import io.github.krosai.client.ai.core.chat.message.Message
-import io.github.krosai.client.ai.core.chat.model.ChatResponse
+import io.github.krosai.core.chat.client.ChatClientRequest
+import io.github.krosai.core.chat.memory.MessageStore
+import io.github.krosai.core.chat.memory.get
+import io.github.krosai.core.chat.memory.plusAssign
+import io.github.krosai.core.chat.message.Message
+import io.github.krosai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach

@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.samples
+package io.github.krosai.samples
 
 import android.os.Build
 

@@ -1,7 +1,7 @@
-package io.github.krosai.client.ai.core.chat.enhancer
+package io.github.krosai.core.chat.enhancer
 
-import io.github.krosai.client.ai.core.chat.client.ChatClientRequest
-import io.github.krosai.client.ai.core.chat.model.ChatResponse
+import io.github.krosai.core.chat.client.ChatClientRequest
+import io.github.krosai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
 
 interface Enhancer {

@@ -1,9 +1,9 @@
-package io.github.krosai.client.ai.core.chat.client
+package io.github.krosai.core.chat.client
 
-import io.github.krosai.client.ai.core.chat.enhancer.Enhancer
-import io.github.krosai.client.ai.core.chat.function.FunctionCall
-import io.github.krosai.client.ai.core.chat.message.Message
-import io.github.krosai.client.ai.core.chat.prompt.ChatOptions
+import io.github.krosai.core.chat.enhancer.Enhancer
+import io.github.krosai.core.chat.function.FunctionCall
+import io.github.krosai.core.chat.message.Message
+import io.github.krosai.core.chat.prompt.ChatOptions
 
 data class ChatClientRequest(
     val chatOptions: ChatOptions,

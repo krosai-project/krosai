@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.samples
+package io.github.krosai.samples
 
 object JVMPlatform : Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"

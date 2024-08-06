@@ -1,8 +1,8 @@
-package io.github.krosai.client.ai.core.chat.model
+package io.github.krosai.core.chat.model
 
-import io.github.krosai.client.ai.core.chat.message.Message
-import io.github.krosai.client.ai.core.model.ModelResult
-import io.github.krosai.client.ai.core.model.ResultMetadata
+import io.github.krosai.core.chat.message.Message
+import io.github.krosai.core.model.ModelResult
+import io.github.krosai.core.model.ResultMetadata
 
 data class Generation(
     override val output: Message.Assistant,

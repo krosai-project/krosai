@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.github.krosai.client.ai.core.embedding.model
+package io.github.krosai.core.embedding.model
 
 interface EmbeddingModel {
 

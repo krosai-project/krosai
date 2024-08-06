@@ -1,7 +1,7 @@
-package io.github.krosai.client.ai.core.chat.model
+package io.github.krosai.core.chat.model
 
-import io.github.krosai.client.ai.core.model.ModelResponse
-import io.github.krosai.client.ai.core.model.ResponseMetadata
+import io.github.krosai.core.model.ModelResponse
+import io.github.krosai.core.model.ResponseMetadata
 
 data class ChatResponse(
     override val results: List<Generation>,

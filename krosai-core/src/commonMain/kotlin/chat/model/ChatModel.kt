@@ -1,9 +1,9 @@
-package io.github.krosai.client.ai.core.chat.model
+package io.github.krosai.core.chat.model
 
-import io.github.krosai.client.ai.core.chat.prompt.ChatOptions
-import io.github.krosai.client.ai.core.chat.prompt.Prompt
-import io.github.krosai.client.ai.core.model.Model
-import io.github.krosai.client.ai.core.model.StreamingModel
+import io.github.krosai.core.chat.prompt.ChatOptions
+import io.github.krosai.core.chat.prompt.Prompt
+import io.github.krosai.core.model.Model
+import io.github.krosai.core.model.StreamingModel
 import kotlinx.coroutines.flow.Flow
 
 

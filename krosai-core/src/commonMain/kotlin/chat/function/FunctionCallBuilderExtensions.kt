@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.github.krosai.client.ai.core.chat.function
+package io.github.krosai.core.chat.function
 
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement

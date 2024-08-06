@@ -1,6 +1,6 @@
-package io.github.krosai.client.ai.openai.api
+package io.github.krosai.openai.api
 
-import io.github.krosai.client.ai.core.util.DefaultJsonConverter
+import io.github.krosai.core.util.DefaultJsonConverter
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.sse.*

@@ -1,8 +1,8 @@
-package io.github.krosai.client.ai.openai.test.chat.function
+package io.github.krosai.openai.test.chat.function
 
-import io.github.krosai.client.ai.core.chat.function.buildFunctionCall
-import io.github.krosai.client.ai.core.util.SerialDescription
-import io.github.krosai.client.ai.openai.test.ModelFactorySupport
+import io.github.krosai.core.chat.function.buildFunctionCall
+import io.github.krosai.core.util.SerialDescription
+import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

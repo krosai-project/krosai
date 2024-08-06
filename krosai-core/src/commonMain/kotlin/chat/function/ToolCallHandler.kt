@@ -1,6 +1,6 @@
-package io.github.krosai.client.ai.core.chat.function
+package io.github.krosai.core.chat.function
 
-import io.github.krosai.client.ai.core.chat.message.Message
+import io.github.krosai.core.chat.message.Message
 
 interface ToolCallHandler {
 

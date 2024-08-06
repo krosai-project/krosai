@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.samples.data
+package io.github.krosai.samples.data
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf

@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.core.model
+package io.github.krosai.core.model
 
 import kotlinx.coroutines.flow.Flow
 

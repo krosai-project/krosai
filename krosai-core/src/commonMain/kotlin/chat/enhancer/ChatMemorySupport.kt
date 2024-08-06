@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.core.chat.enhancer
+package io.github.krosai.core.chat.enhancer
 
 /**
  * ChatMemorySupport is an interface that provides methods to retrieve conversation ID and number

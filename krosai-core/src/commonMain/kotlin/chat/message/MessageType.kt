@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.core.chat.message
+package io.github.krosai.core.chat.message
 
 enum class MessageType(val value: String) {
 

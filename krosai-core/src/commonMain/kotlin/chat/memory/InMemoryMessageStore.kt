@@ -1,6 +1,6 @@
-package io.github.krosai.client.ai.core.chat.memory
+package io.github.krosai.core.chat.memory
 
-import io.github.krosai.client.ai.core.chat.message.Message
+import io.github.krosai.core.chat.message.Message
 
 class InMemoryMessageStore : MessageStore {
 

@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.core.util
+package io.github.krosai.core.util
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.*

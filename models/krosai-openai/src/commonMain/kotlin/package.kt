@@ -1,3 +1,3 @@
 @file:Suppress("unused")
 
-package io.github.krosai.client.ai.openai
+package io.github.krosai.openai

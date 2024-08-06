@@ -1,9 +1,9 @@
 @file:Suppress("unused")
 
-package io.github.krosai.client.ai.core.chat.message
+package io.github.krosai.core.chat.message
 
-import io.github.krosai.client.ai.core.chat.function.ToolCall
-import io.github.krosai.client.ai.core.chat.function.ToolResponse
+import io.github.krosai.core.chat.function.ToolCall
+import io.github.krosai.core.chat.function.ToolResponse
 
 sealed class Message(
     val type: MessageType,

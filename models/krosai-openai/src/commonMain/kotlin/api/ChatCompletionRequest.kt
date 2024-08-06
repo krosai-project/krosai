@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package io.github.krosai.client.ai.openai.api
+package io.github.krosai.openai.api
 
-import io.github.krosai.client.ai.openai.api.ChatCompletionRequest.ToolChoiceBuilder
+import io.github.krosai.openai.api.ChatCompletionRequest.ToolChoiceBuilder
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -160,22 +160,7 @@ data class ChatCompletionRequest(
             @SerialName("description") val description: String,
             @SerialName("name") val name: String,
             @SerialName("parameters") val parameters: JsonElement
-        ) {
-            /**
-             * Create tool function definition.
-             *
-             * @param description tool function description.
-             * @param name tool function name.
-             * @param jsonSchema tool function schema as json.
-             */
-//            constructor(description: String, name: String, jsonSchema: String) : this(
-//                description,
-//                name,
-//                // TODO: parse jsonSchema
-//                DefaultJsonConverter.D(jsonSchema)
-//                Json.decodeFromString<Map<String, JsonElement>>(jsonSchema)
-//            )
-        }
+        )
     }
 
 }

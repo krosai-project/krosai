@@ -1,14 +1,14 @@
-package io.github.krosai.client.ai.core.chat.client
+package io.github.krosai.core.chat.client
 
-import io.github.krosai.client.ai.core.chat.enhancer.Enhancer
-import io.github.krosai.client.ai.core.chat.enhancer.enhancing
-import io.github.krosai.client.ai.core.chat.function.FunctionCall
-import io.github.krosai.client.ai.core.chat.function.FunctionCallOptions
-import io.github.krosai.client.ai.core.chat.message.Message
-import io.github.krosai.client.ai.core.chat.model.ChatModel
-import io.github.krosai.client.ai.core.chat.model.ChatResponse
-import io.github.krosai.client.ai.core.chat.prompt.ChatOptions
-import io.github.krosai.client.ai.core.chat.prompt.Prompt
+import io.github.krosai.core.chat.enhancer.Enhancer
+import io.github.krosai.core.chat.enhancer.enhancing
+import io.github.krosai.core.chat.function.FunctionCall
+import io.github.krosai.core.chat.function.FunctionCallOptions
+import io.github.krosai.core.chat.message.Message
+import io.github.krosai.core.chat.model.ChatModel
+import io.github.krosai.core.chat.model.ChatResponse
+import io.github.krosai.core.chat.prompt.ChatOptions
+import io.github.krosai.core.chat.prompt.Prompt
 import kotlinx.coroutines.flow.Flow
 import kotlin.reflect.KFunction
 

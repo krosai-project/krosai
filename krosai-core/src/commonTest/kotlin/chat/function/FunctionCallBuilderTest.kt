@@ -1,8 +1,8 @@
-package io.github.krosai.client.ai.core.test.chat.function
+package io.github.krosai.core.test.chat.function
 
-import io.github.krosai.client.ai.core.chat.function.buildFunctionCall
-import io.github.krosai.client.ai.core.chat.function.withCall
-import io.github.krosai.client.ai.core.util.createJsonElement
+import io.github.krosai.core.chat.function.buildFunctionCall
+import io.github.krosai.core.chat.function.withCall
+import io.github.krosai.core.util.createJsonElement
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 import kotlin.test.assertEquals

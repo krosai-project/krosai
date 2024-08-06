@@ -1,10 +1,10 @@
-package io.github.krosai.client.ai.openai.test
+package io.github.krosai.openai.test
 
-import io.github.krosai.client.ai.core.chat.client.ChatClient
-import io.github.krosai.client.ai.core.factory.ModelFactory
-import io.github.krosai.client.ai.core.factory.buildModelFactoryContext
-import io.github.krosai.client.ai.core.util.DefaultJsonConverter
-import io.github.krosai.client.ai.openai.factory.OpenAI
+import io.github.krosai.core.chat.client.ChatClient
+import io.github.krosai.core.factory.ModelFactory
+import io.github.krosai.core.factory.buildModelFactoryContext
+import io.github.krosai.core.util.DefaultJsonConverter
+import io.github.krosai.openai.factory.OpenAI
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*

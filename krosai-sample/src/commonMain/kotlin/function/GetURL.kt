@@ -1,7 +1,7 @@
-package io.github.krosai.client.ai.samples.function
+package io.github.krosai.samples.function
 
-import io.github.krosai.client.ai.core.chat.function.buildFunctionCall
-import io.github.krosai.client.ai.core.util.SerialDescription
+import io.github.krosai.core.chat.function.buildFunctionCall
+import io.github.krosai.core.util.SerialDescription
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.samples.function
+package io.github.krosai.samples.function
 
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication

@@ -1,9 +1,9 @@
-package io.github.krosai.client.ai.openai.options
+package io.github.krosai.openai.options
 
-import io.github.krosai.client.ai.core.chat.function.FunctionCall
-import io.github.krosai.client.ai.core.chat.function.FunctionCallOptions
-import io.github.krosai.client.ai.core.chat.prompt.ChatOptions
-import io.github.krosai.client.ai.openai.api.ChatCompletionRequest
+import io.github.krosai.core.chat.function.FunctionCall
+import io.github.krosai.core.chat.function.FunctionCallOptions
+import io.github.krosai.core.chat.prompt.ChatOptions
+import io.github.krosai.openai.api.ChatCompletionRequest
 
 data class OpenAiChatOptions(
 

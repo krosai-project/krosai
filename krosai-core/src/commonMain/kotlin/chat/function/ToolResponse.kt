@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.core.chat.function
+package io.github.krosai.core.chat.function
 
 data class ToolResponse(
     val id: String,

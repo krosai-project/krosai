@@ -1,4 +1,4 @@
-package io.github.krosai.client.ai.samples
+package io.github.krosai.samples
 
 class WasmPlatform: Platform {
     override val name: String = "Web with Kotlin/Wasm"

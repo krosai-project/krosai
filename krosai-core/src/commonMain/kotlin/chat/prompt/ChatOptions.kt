@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package io.github.krosai.client.ai.core.chat.prompt
+package io.github.krosai.core.chat.prompt
 
-import io.github.krosai.client.ai.core.model.ModelOptions
+import io.github.krosai.core.model.ModelOptions
 
 interface ChatOptions : ModelOptions {
 
@@ -13,4 +13,5 @@ interface ChatOptions : ModelOptions {
     val topK: Int?
 
     fun copy(): ChatOptions
+
 }

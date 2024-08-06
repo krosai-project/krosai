@@ -1,7 +1,7 @@
-package io.github.krosai.client.ai.openai.api
+package io.github.krosai.openai.api
 
-import io.github.krosai.client.ai.core.chat.message.MessageType
-import io.github.krosai.client.ai.openai.api.ChatCompletionMessage.Role
+import io.github.krosai.core.chat.message.MessageType
+import io.github.krosai.openai.api.ChatCompletionMessage.Role
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

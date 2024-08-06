@@ -1,11 +1,11 @@
-package io.github.krosai.client.ai.core.factory
+package io.github.krosai.core.factory
 
-import io.github.krosai.client.ai.core.chat.client.ChatClient
-import io.github.krosai.client.ai.core.chat.client.ChatClientRequestDefinition
-import io.github.krosai.client.ai.core.chat.client.DefaultChatClient
-import io.github.krosai.client.ai.core.chat.client.DefaultChatClientRequestScope
-import io.github.krosai.client.ai.core.chat.model.ChatModel
-import io.github.krosai.client.ai.core.embedding.model.EmbeddingModel
+import io.github.krosai.core.chat.client.ChatClient
+import io.github.krosai.core.chat.client.ChatClientRequestDefinition
+import io.github.krosai.core.chat.client.DefaultChatClient
+import io.github.krosai.core.chat.client.DefaultChatClientRequestScope
+import io.github.krosai.core.chat.model.ChatModel
+import io.github.krosai.core.embedding.model.EmbeddingModel
 
 
 interface ModelFactory {
