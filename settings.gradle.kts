@@ -35,3 +35,7 @@ include(":krosai-sample")
 rootProject.projectDir.resolve("models").list()?.forEach {
     include("models:$it")
 }
+
+rootProject.projectDir.resolve("vector-stores").list()?.forEach {
+    include("vector-stores:$it")
+}

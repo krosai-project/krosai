@@ -17,7 +17,7 @@ ktor = "3.0.0-beta-2-eap-949"
 kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.7.1"
 koin = "3.6.0-wasm-alpha2"
-
+mongodb = "5.1.2"
 [libraries]
 
 # test
@@ -50,6 +50,9 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 
 # Koin
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+
+# DB
+mongodb-coroutine = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
