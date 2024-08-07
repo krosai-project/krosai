@@ -16,11 +16,11 @@ import kotlinx.coroutines.flow.*
 private val SSE_PREDICATE: (String) -> Boolean = { it.isNotEmpty() && it != "[DONE]" }
 
 class OpenAiApi(
-    baseUrl: String,
+    private val baseUrl: String,
     private val apiKey: String,
     private val httpClient: HttpClient,
 ) {
-    private val requestUrl = "$baseUrl/v1/chat/completions"
+    private val requestUrl = "/v1/chat/completions"
 
     suspend fun call(request: ChatCompletionRequest) =
         httpClient.post(block = createHttpRequest(request))
@@ -37,7 +37,8 @@ class OpenAiApi(
 
     private fun createHttpRequest(request: ChatCompletionRequest): HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.Post
-        url(requestUrl)
+        url(baseUrl)
+        url { path(requestUrl) }
         contentType(ContentType.Application.Json)
         setBody(request)
         bearerAuth(apiKey)
@@ -45,6 +46,11 @@ class OpenAiApi(
 
 }
 
+/**
+ * Merges consecutive chunks of ChatCompletionChunk into a single chunk.
+ *
+ * @return A Flow of ChatCompletionChunk where consecutive chunks are merged into one.
+ */
 suspend fun Flow<ChatCompletionChunk>.mergeChunks(): Flow<ChatCompletionChunk> {
     return flow {
         var prev: ChatCompletionChunk? = null
