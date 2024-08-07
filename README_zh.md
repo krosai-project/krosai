@@ -2,6 +2,8 @@
 
 Krosai是一个Kotlin多平台库，为交互AI模型提供了一个简单且易于使用的API。支持多种AI模型，包括OpenAI等.
 
+**[English](README.md) | [简体中文](README_zh.md)**
+
 ### 功能
 
 - **多平台**： Krosai 是一个 Kotlin 多平台库，支持 JVM、Android、iOS 和 WASM。

@@ -3,6 +3,8 @@
 Krosai is a Kotlin Multiplatform library that provides a simple and easy-to-use API for interacting with AI models.
 It supports multiple AI models, including OpenAI and more.
 
+**[English](README.md) | [简体中文](README_zh.md)**
+
 ## Features
 
 - **Multiplatform**: Krosai is a Kotlin Multiplatform library that supports JVM, Android, iOS and WASM.
