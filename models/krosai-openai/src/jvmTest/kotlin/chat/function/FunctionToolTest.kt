@@ -40,7 +40,8 @@ class FunctionToolTest : ModelFactorySupport {
 @SerialDescription("get date time API Request")
 @Serializable
 data class Request(
-    @SerialName("location") @SerialDescription("location")
+    @SerialName("location")
+    @SerialDescription("location")
     val location: String
 )
 val dateTimeFun = buildFunctionCall {

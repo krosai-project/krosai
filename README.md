@@ -6,8 +6,8 @@ It supports multiple AI models, including OpenAI and more.
 ## Features
 
 - **Multiplatform**: Krosai is a Kotlin Multiplatform library that supports JVM, Android, iOS and WASM.
-- **Simple API**: Krosai provides a simple and easy-to-use API for interacting with AI models.
-- **AI Models**: Krosai supports multiple AI models, including OpenAI and more.
+- **Simple API**: Krosai combined with Kotlin DSL provides easy-to-use APIs for interacting with AI models.
+- **Multiple AI Models**: Krosai supports multiple AI models, including OpenAI.
 
 ## Supported
 
@@ -39,8 +39,8 @@ It supports multiple AI models, including OpenAI and more.
 val context = buildModelFactoryContext {
     // Using OpenAI Model
     factory(OpenAI) {
-        baseUrl = LocalData.BASE_URL
-        apiKey = LocalData.API_KEY
+        baseUrl = "https://api.openai.com"
+        apiKey = "YOUR_API_KEY"
     }
 }
 // 2. get a `ModelFactory` from the it
@@ -73,7 +73,7 @@ val modelFactory = context[OpenAI]
       ```kotlin
       val chatClient = context.createChatClient {
           enhancers {
-              // add the `ChatMemoryEnhancer` to the `ChatClient`
+              // add the `ChatMemoryEnhancer` to the Default Request of the `ChatClient`
               // `InMemoryMessageStore` is used to store the messages in memory
               +MessageChatMemoryEnhancer(InMemoryMessageStore())
           }
@@ -97,7 +97,8 @@ val modelFactory = context[OpenAI]
       @SerialDescription("get date time API Request")
       @Serializable
       data class Request(
-          @SerialName("location") @SerialDescription("location")
+          @SerialName("location") 
+          @SerialDescription("location")
           val location: String
       )
       val dateTimeFun = buildFunctionCall {
