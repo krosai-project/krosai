@@ -7,7 +7,12 @@ import io.github.krosai.core.chat.client.DefaultChatClientRequestScope
 import io.github.krosai.core.chat.model.ChatModel
 import io.github.krosai.core.embedding.model.EmbeddingModel
 
-
+/**
+ * The interface for a factory that creates different models and a chat client.
+ *
+ *
+ * @author KAMOsama
+ */
 interface ModelFactory {
 
     fun createChatModel(): ChatModel

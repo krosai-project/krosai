@@ -2,6 +2,11 @@ package io.github.krosai.core.chat.function
 
 import kotlinx.serialization.json.JsonElement
 
+/**
+ * Represents a function call that can be invoked with an input and returns an output.
+ *
+ * @author KAMOsama
+ */
 interface FunctionCall {
 
     val name: String

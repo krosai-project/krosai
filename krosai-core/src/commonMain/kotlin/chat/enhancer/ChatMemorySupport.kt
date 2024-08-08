@@ -28,7 +28,13 @@ interface ChatMemorySupport {
      * @return the conversation ID
      */
     fun Map<String, Any>.getConversationId(): String =
-        get(CONVERSATION_ID_KEY) as? String ?: CONVERSATION_ID_DEFAULT
+        get(CONVERSATION_ID_KEY).let {
+            when (it) {
+                is String -> it
+                null -> CONVERSATION_ID_DEFAULT
+                else -> it.toString()
+            }
+        }
 
     /**
      * Retrieves the value of the 'chat_memory_take_last_n' key in a map.
@@ -42,7 +48,8 @@ interface ChatMemorySupport {
                 is Int -> it
                 is String -> it.toInt()
                 is Number -> it.toInt()
-                else -> TAKE_LAST_N_DEFAULT
+                null -> TAKE_LAST_N_DEFAULT
+                else -> error("Invalid value for $TAKE_LAST_N_KEY: $it")
             }
         }
 

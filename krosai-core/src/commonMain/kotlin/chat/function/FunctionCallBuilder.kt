@@ -11,6 +11,22 @@ import kotlinx.serialization.serializerOrNull
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 
+/**
+ * A builder class to construct a FunctionCall object.
+ *
+ * @property name The name of the function call.
+ * @property description The description of the function call.
+ * @property jsonConverter The JSON converter to use for input and output conversion.
+ * @property inputType The input type of the function call.
+ * @property inputConverter The converter function to convert input string to the input type.
+ * @property call The function that represents the actual function call.
+ * @property outputConverter The converter function to convert the output of the function call to a string.
+ * @property inputSchema The input schema of the function call.
+ *
+ * @constructor Creates a FunctionCallBuilder with the given name and description.
+ *
+ * @author KAMOsama
+ */
 class FunctionCallBuilder @PublishedApi internal constructor(
     var name: String? = null,
     var description: String
@@ -101,12 +117,28 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
 }
 
+/**
+ * Build a FunctionCall object using the given name and description.
+ * @param name The name of the function call.
+ * @param description The description of the function call.
+ * @param builder The builder function to configure
+ * @return The FunctionCall object.
+ */
 inline fun buildFunctionCall(
     name: String? = null,
     description: String = "",
     builder: FunctionCallBuilder.() -> Unit
 ): FunctionCall = FunctionCallBuilder(name, description).apply(builder).build()
 
+
+/**
+ * Builds a FunctionCall object using the given name and description.
+ *
+ * @param name The name of the function call using the [KFunction.name].
+ * @param description The description of the function call.
+ * @param builder The builder function to configure.
+ * @return The FunctionCall object.
+ */
 inline fun buildFunctionCall(
     name: KFunction<*>,
     description: String = "",

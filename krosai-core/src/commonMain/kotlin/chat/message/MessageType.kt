@@ -1,5 +1,12 @@
 package io.github.krosai.core.chat.message
 
+/**
+ * The type of a message.
+ *
+ * @property value The string value of the message type.
+ *
+ * @author KAMOsama
+ */
 enum class MessageType(val value: String) {
 
     SYSTEM("system"),

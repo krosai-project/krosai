@@ -5,6 +5,24 @@ import io.github.krosai.core.chat.function.FunctionCall
 import io.github.krosai.core.chat.message.Message
 import io.github.krosai.core.chat.prompt.ChatOptions
 
+/**
+ * The data class representing a chat client request.
+ *
+ *
+ * @property chatOptions The chat options for the request.
+ * @property systemText A lambda function that returns the system text for the request.
+ * @property userText   A lambda function that returns the user text for the request.
+ * @property userParams The user parameters for the request.
+ * @property systemParams The system parameters for the request.
+ * @property functionCalls The list of function calls for the request.
+ * @property functionNames The set of function names used in the request.
+ * @property enhancers The list of enhancers for the request.
+ * @property enhancerParams The enhancer parameters for the request.
+ * @property messages The list of messages for the request.
+ * @constructor Creates a new instance of [ChatClientRequest].
+ *
+ * @author KAMOsama
+ */
 data class ChatClientRequest(
     val chatOptions: ChatOptions,
     var systemText: Map<String, Any>.() -> String? = { null },

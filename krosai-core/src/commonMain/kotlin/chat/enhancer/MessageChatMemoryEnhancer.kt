@@ -10,6 +10,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 
+/**
+ * This class represents a MessageChatMemoryEnhancer which implements the ChatMemorySupport and Enhancer interfaces.
+ * It enhances the chat request and response by adding messages to the message store.
+ *
+ * @param messageStore The message store used to save and retrieve messages in a conversation.
+ *
+ * @author KAMOsama
+ */
 class MessageChatMemoryEnhancer(
     private val messageStore: MessageStore
 ) : ChatMemorySupport, Enhancer {

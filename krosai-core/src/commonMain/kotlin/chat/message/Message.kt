@@ -2,9 +2,15 @@
 
 package io.github.krosai.core.chat.message
 
-import io.github.krosai.core.chat.function.ToolCall
-import io.github.krosai.core.chat.function.ToolResponse
 
+/**
+ * Represents a message.
+ *
+ * @property type The type of the message.
+ * @property content The content of the message.
+ *
+ * @author KAMOsama
+ */
 sealed class Message(
     val type: MessageType,
     open val content: String,

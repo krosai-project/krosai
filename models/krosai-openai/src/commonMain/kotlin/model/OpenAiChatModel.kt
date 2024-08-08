@@ -2,10 +2,10 @@ package io.github.krosai.openai.model
 
 import io.github.krosai.core.chat.function.FunctionCall
 import io.github.krosai.core.chat.function.FunctionCallOptions
-import io.github.krosai.core.chat.function.ToolCall
 import io.github.krosai.core.chat.function.ToolCallHandler
 import io.github.krosai.core.chat.message.Message
 import io.github.krosai.core.chat.message.MessageType
+import io.github.krosai.core.chat.message.ToolCall
 import io.github.krosai.core.chat.model.ChatModel
 import io.github.krosai.core.chat.model.ChatResponse
 import io.github.krosai.core.chat.model.Generation
