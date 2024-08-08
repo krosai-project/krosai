@@ -13,7 +13,7 @@ fun main(): Unit = application {
     Window(
         state = windowState,
         onCloseRequest = ::exitApplication,
-        title = "ktor-client-ai-samples",
+        title = "krosai-sample",
     ) {
         App()
     }

@@ -58,18 +58,13 @@ suspend fun Flow<ChatCompletionChunk>.mergeChunks(): Flow<ChatCompletionChunk> {
 
             val merged = prev?.merge(it) ?: it
 
-            if (!isToolFunctionCall(it)) {
+            if (!isToolFunctionCall(it) || isToolFunctionCallFinish(it)) {
                 emit(merged)
-                return@collect
-            }
-
-            if (!isToolFunctionCallFinish(it)) {
+                prev = null
+            } else {
                 prev = merged
-                return@collect
             }
 
-            emit(merged)
-            prev = null
         }
     }
 }
