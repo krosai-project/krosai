@@ -1,7 +1,13 @@
 package io.github.krosai.core.chat.function
 
 import io.github.krosai.core.chat.message.Message
+import io.github.krosai.core.chat.message.ToolResponse
 
+/**
+ * Handles the execution of a tool call.
+ *
+ * @author Ikutsu
+ */
 interface ToolCallHandler {
 
     fun executeFunctionCall(
