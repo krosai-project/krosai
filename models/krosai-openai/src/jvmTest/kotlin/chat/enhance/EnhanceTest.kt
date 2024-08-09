@@ -11,7 +11,7 @@ class EnhanceTest : ModelFactorySupport {
 
     @Test
     fun enhanceCallTest() = runTest {
-        val chatClient = context.createChatClient {
+        val chatClient = factory.createChatClient {
             enhancers {
                 +MessageChatMemoryEnhancer(InMemoryMessageStore())
             }
@@ -32,7 +32,7 @@ class EnhanceTest : ModelFactorySupport {
 
     @Test
     fun enhanceStreamTest() = runTest {
-        val chatClient = context.createChatClient {
+        val chatClient = factory.createChatClient {
             enhancers {
                 +MessageChatMemoryEnhancer(InMemoryMessageStore())
             }
@@ -55,7 +55,7 @@ class EnhanceTest : ModelFactorySupport {
 
     @Test
     fun enhanceParamsTest() = runTest {
-        val chatClient = context.createChatClient {
+        val chatClient = factory.createChatClient {
             enhancers {
                 +MessageChatMemoryEnhancer(InMemoryMessageStore())
             }

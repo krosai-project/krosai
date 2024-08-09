@@ -6,6 +6,7 @@ import io.github.krosai.core.chat.client.DefaultChatClient
 import io.github.krosai.core.chat.client.DefaultChatClientRequestScope
 import io.github.krosai.core.chat.model.ChatModel
 import io.github.krosai.core.embedding.model.EmbeddingModel
+import io.github.krosai.core.image.ImageModel
 
 /**
  * The interface for a factory that creates different models and a chat client.
@@ -18,6 +19,8 @@ interface ModelFactory {
     fun createChatModel(): ChatModel
 
     fun createEmbeddingModel(): EmbeddingModel = TODO()
+
+    fun createImageModel(): ImageModel
 
     fun createChatClient(scope: ChatClientRequestDefinition = null): ChatClient {
         val chatModel = createChatModel()

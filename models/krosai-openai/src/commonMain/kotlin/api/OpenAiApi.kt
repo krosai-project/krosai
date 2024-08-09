@@ -1,6 +1,8 @@
 package io.github.krosai.openai.api
 
 import io.github.krosai.core.util.DefaultJsonConverter
+import io.github.krosai.openai.api.image.OpenAiImageRequest
+import io.github.krosai.openai.api.image.OpenAiImageResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.sse.*
@@ -20,14 +22,14 @@ class OpenAiApi(
     private val apiKey: String,
     private val httpClient: HttpClient,
 ) {
-    private val requestUrl = "/v1/chat/completions"
+    private val chatPath = "chat/completions"
+    private val imagePath = "images/generations"
+    suspend fun call(request: ChatCompletionRequest): ChatCompletion =
+        httpClient.post(block = createHttpRequest(chatPath, request))
+            .body()
 
-    suspend fun call(request: ChatCompletionRequest) =
-        httpClient.post(block = createHttpRequest(request))
-            .body<ChatCompletion>()
-
-    suspend fun stream(request: ChatCompletionRequest) =
-        httpClient.serverSentEventsSession(block = createHttpRequest(request))
+    suspend fun stream(request: ChatCompletionRequest): Flow<ChatCompletionChunk> =
+        httpClient.serverSentEventsSession(block = createHttpRequest(chatPath, request))
             .incoming
             .mapNotNull { it.data }
             .takeWhile { SSE_PREDICATE(it) }
@@ -35,10 +37,14 @@ class OpenAiApi(
             .map { DefaultJsonConverter.decodeFromString<ChatCompletionChunk>(it) }
             .mergeChunks()
 
-    private fun createHttpRequest(request: ChatCompletionRequest): HttpRequestBuilder.() -> Unit = {
+    suspend fun createImage(request: OpenAiImageRequest): OpenAiImageResponse =
+        httpClient.post(block = createHttpRequest(imagePath, request))
+            .body()
+
+
+    private fun createHttpRequest(requestPath: String, request: Any): HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.Post
-        url(baseUrl)
-        url { path(requestUrl) }
+        url("$baseUrl$requestPath")
         contentType(ContentType.Application.Json)
         setBody(request)
         bearerAuth(apiKey)

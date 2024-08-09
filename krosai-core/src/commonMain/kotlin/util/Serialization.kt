@@ -2,6 +2,7 @@ package io.github.krosai.core.util
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.json.*
 
 /**
  * Resolve type schema from SerialDescriptor
@@ -74,4 +75,21 @@ fun doResolveElement(
         StructureKind.MAP -> TODO()
         StructureKind.OBJECT -> TODO()
     }
+}
+
+inline fun <reified Source, reified Target, reified Out> Source.merge(target: Target): Out {
+    val sourceElement = DefaultJsonConverter.encodeToJsonElement<Source>(this)
+    val targetElement = DefaultJsonConverter.encodeToJsonElement<Target>(target)
+    val mergedElement = mutableMapOf<String, JsonElement>()
+    for (key in sourceElement.jsonObject.keys) {
+        mergedElement[key] = sourceElement.jsonObject[key]!!
+    }
+    for (key in targetElement.jsonObject.keys) {
+        mergedElement[key] = targetElement.jsonObject[key]!!
+    }
+    return buildJsonObject {
+        for (key in mergedElement.keys) {
+            put(key, mergedElement[key]!!)
+        }
+    }.let { DefaultJsonConverter.decodeFromJsonElement(it) }
 }

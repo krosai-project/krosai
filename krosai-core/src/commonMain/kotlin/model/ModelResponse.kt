@@ -23,8 +23,14 @@ interface ModelResponse<T : ModelResult<*>> {
 
 }
 
-interface ResponseMetadata{
+/**
+ * Interface representing metadata associated with an AI model's response.
+ *
+ * @author Mark Pollack
+ * @since 1.0.0
+ */
+interface ResponseMetadata : Map<String, Any> {
 
-    object NULL : ResponseMetadata
+    object NULL : ResponseMetadata, Map<String, Any> by emptyMap()
 
 }

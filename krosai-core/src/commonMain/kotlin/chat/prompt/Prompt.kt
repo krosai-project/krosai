@@ -14,12 +14,16 @@ import io.github.krosai.core.model.ModelRequest
  * @author KAMOsama
  */
 data class Prompt(
-    override val instructions: List<Message> = listOf(),
+    override val instructions: List<Message> = emptyList(),
     override var options: ChatOptions,
 ): ModelRequest<List<Message>> {
 
-    constructor(vararg messages: Message, options: ChatOptions): this(messages.toList(), options)
+    constructor(vararg messages: Message, options: ChatOptions) : this(
+        messages.toList(), options
+    )
 
-    constructor(contents: String, options: ChatOptions): this(listOf(Message.User(contents)), options)
+    constructor(contents: String, options: ChatOptions) : this(
+        listOf(Message.User(contents)), options
+    )
 
 }

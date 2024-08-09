@@ -24,8 +24,8 @@ import kotlinx.coroutines.flow.map
 
 
 class OpenAiChatModel(
-    private val chatOptions: OpenAiChatOptions,
     private val api: OpenAiApi,
+    private val chatOptions: OpenAiChatOptions,
     private val getFunctionCallNames: (Set<String>) -> List<FunctionCall>
 ) : ToolCallHandler, ChatModel {
 
