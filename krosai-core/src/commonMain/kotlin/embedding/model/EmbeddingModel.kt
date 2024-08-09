@@ -2,10 +2,19 @@
 
 package io.github.krosai.core.embedding.model
 
-interface EmbeddingModel {
+import io.github.krosai.core.model.Model
 
-    fun embed(vararg texts: String): List<List<Double>>
+interface EmbeddingModel: Model<EmbeddingRequest, EmbeddingResponse> {
 
-    fun embed(text: String): List<Double> = this.embed(*arrayOf(text)).first()
+    // TODO: Support for media types
 
+    suspend fun embed(vararg texts: String): List<List<Double>> =
+        call(EmbeddingRequest(texts.toList(), DefaultEmbeddingOptions()))
+            .results
+            .map { it.output }
+            .toList()
+
+    suspend fun embed(text: String): List<Double> = this.embed(*arrayOf(text)).first()
+
+    suspend fun dimension(): Int = embed("Test String").size
 }

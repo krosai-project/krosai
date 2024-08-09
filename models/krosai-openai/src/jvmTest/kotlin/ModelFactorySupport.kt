@@ -26,6 +26,10 @@ interface ModelFactorySupport {
                             logger = Logger.SIMPLE
                         }
                     }
+                    embeddingOptions {
+                        model = "text-embedding-ada-002"
+                        encodingFormat = "float"
+                    }
                     baseUrl = LocalData.BASE_URL
                     apiKey = LocalData.API_KEY
                 }
@@ -33,5 +37,4 @@ interface ModelFactorySupport {
         }
     val chatClient: ChatClient
         get() = context.createChatClient()
-
 }

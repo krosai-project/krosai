@@ -17,7 +17,7 @@ interface ModelFactory {
 
     fun createChatModel(): ChatModel
 
-    fun createEmbeddingModel(): EmbeddingModel = TODO()
+    fun createEmbeddingModel(): EmbeddingModel
 
     fun createChatClient(scope: ChatClientRequestDefinition = null): ChatClient {
         val chatModel = createChatModel()
