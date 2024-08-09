@@ -18,9 +18,9 @@ import kotlinx.coroutines.flow.*
 private val SSE_PREDICATE: (String) -> Boolean = { it.isNotEmpty() && it != "[DONE]" }
 
 class OpenAiApi(
-    private val baseUrl: String,
-    private val apiKey: String,
-    private val httpClient: HttpClient,
+    @PublishedApi internal val baseUrl: String,
+    @PublishedApi internal val apiKey: String,
+    @PublishedApi internal val httpClient: HttpClient,
 ) {
     private val chatPath = "chat/completions"
     private val imagePath = "images/generations"
@@ -37,6 +37,17 @@ class OpenAiApi(
             .map { DefaultJsonConverter.decodeFromString<ChatCompletionChunk>(it) }
             .mergeChunks()
 
+    suspend inline fun <reified T> embeddings(embeddingRequest: EmbeddingRequest<T>): EmbeddingList<Embedding> {
+        return httpClient.post {
+            url(baseUrl)
+            url { path("/v1/embeddings") }
+            contentType(ContentType.Application.Json)
+            setBody(embeddingRequest)
+            bearerAuth(apiKey)
+        }.body()
+    }
+
+    private fun createHttpRequest(request: ChatCompletionRequest): HttpRequestBuilder.() -> Unit = {
     suspend fun createImage(request: OpenAiImageRequest): OpenAiImageResponse =
         httpClient.post(block = createHttpRequest(imagePath, request))
             .body()

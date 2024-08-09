@@ -35,6 +35,10 @@ interface ModelFactorySupport {
                     }
                     baseUrl = LocalData.BASE_URL
                     apiKey = LocalData.API_KEY
+                    embeddingOptions {
+                        model = "text-embedding-ada-002"
+                        encodingFormat = "float"
+                    }
                     imageOptions {
                         model = OpenAiImageModelEnum.DALL_E_3.model
                     }
