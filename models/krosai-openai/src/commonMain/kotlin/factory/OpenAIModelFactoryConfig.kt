@@ -23,16 +23,19 @@ class OpenAIModelFactoryConfig {
 
     var apiKey: String? = null
 
+    @PublishedApi
     internal val chatOptions: OpenAiChatOptions = OpenAiChatOptions()
 
+    @PublishedApi
     internal val embeddingOptions: OpenAiEmbeddingOptions = OpenAiEmbeddingOptions()
 
+    @PublishedApi
     internal val imageOptions: OpenAiImageOptions = OpenAiImageOptions()
 
-    fun chatOptions(build: OpenAiChatOptions.() -> Unit) = chatOptions.apply(build)
+    inline fun chatOptions(build: OpenAiChatOptions.() -> Unit) = chatOptions.apply(build)
 
-    fun embeddingOptions(build: OpenAiEmbeddingOptions.() -> Unit) = embeddingOptions.apply(build)
+    inline fun embeddingOptions(build: OpenAiEmbeddingOptions.() -> Unit) = embeddingOptions.apply(build)
 
-    fun imageOptions(build: OpenAiImageOptions.() -> Unit) = imageOptions.apply(build)
+    inline fun imageOptions(build: OpenAiImageOptions.() -> Unit) = imageOptions.apply(build)
 
 }

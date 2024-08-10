@@ -32,9 +32,13 @@ class OpenAIModelFactory(
         val apiKey = checkNotNull(config.apiKey) {
             "OpenAI API key is required"
         }
-        var baseUrl = config.baseUrl.takeIf { it.endsWith('/') } ?: "${config.baseUrl}/"
-        baseUrl = baseUrl.takeIf { it.contains("/v") } ?: "${baseUrl}v1/"
-        baseUrl = baseUrl.takeIf { it.endsWith('/') } ?: "$baseUrl/"
+        // support custom base url
+        val baseUrl = buildString {
+            append(config.baseUrl)
+            if (last() != '/') append('/')
+            if (contains(Regex("/v[0-9]+/")).not()) append("v1/")
+            if (last() != '/') append('/')
+        }
         OpenAiApi(
             baseUrl,
             apiKey,
