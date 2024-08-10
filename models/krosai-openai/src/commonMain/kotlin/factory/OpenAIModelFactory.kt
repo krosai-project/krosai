@@ -8,8 +8,8 @@ import io.github.krosai.core.factory.createModelFactory
 import io.github.krosai.core.image.ImageModel
 import io.github.krosai.openai.api.OpenAiApi
 import io.github.krosai.openai.model.OpenAiChatModel
-import io.github.krosai.openai.model.OpenAiImageModel
 import io.github.krosai.openai.model.OpenAiEmbeddingModel
+import io.github.krosai.openai.model.OpenAiImageModel
 import io.ktor.client.*
 
 val OpenAI = createModelFactory(
@@ -49,16 +49,8 @@ class OpenAIModelFactory(
     override fun createChatModel(): ChatModel =
         OpenAiChatModel(api, config.chatOptions, getFunctionCall)
 
-    override fun createEmbeddingModel(): EmbeddingModel {
-        val embeddingOptions = config.embeddingOptions
+    override fun createEmbeddingModel(): EmbeddingModel =
+        OpenAiEmbeddingModel(api, config.embeddingOptions)
 
-        val api = OpenAiApi(
-            config.baseUrl,
-            config.apiKey ?: error("OpenAI API key is required"),
-            client
-        )
-
-        return OpenAiEmbeddingModel(api, embeddingOptions)
-    }
 }
 

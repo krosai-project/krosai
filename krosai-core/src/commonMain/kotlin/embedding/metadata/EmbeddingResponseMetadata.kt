@@ -6,5 +6,5 @@ import io.github.krosai.core.model.ResponseMetadata
 data class EmbeddingResponseMetadata(
     val model: String,
     val usage: Usage,
-    val metadata: Map<String, Any> = mapOf<String, Any>()
-): ResponseMetadata
+    val metadata: Map<String, Any> = mapOf()
+) : ResponseMetadata, Map<String, Any> by metadata

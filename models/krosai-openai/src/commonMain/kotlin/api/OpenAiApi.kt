@@ -10,26 +10,42 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.*
 
-/**
- * Whether to stream back partial progress.
- * If set, tokens will be sent as data-only server-sent events as they become available,
- * with the stream terminated by a data: [[DONE]] message.
- */
-private val SSE_PREDICATE: (String) -> Boolean = { it.isNotEmpty() && it != "[DONE]" }
+
 
 class OpenAiApi(
-    @PublishedApi internal val baseUrl: String,
-    @PublishedApi internal val apiKey: String,
-    @PublishedApi internal val httpClient: HttpClient,
+    @PublishedApi
+    internal val baseUrl: String,
+    @PublishedApi
+    internal val apiKey: String,
+    @PublishedApi
+    internal val httpClient: HttpClient,
 ) {
-    private val chatPath = "chat/completions"
-    private val imagePath = "images/generations"
+    companion object {
+
+        /**
+         * Whether to stream back partial progress.
+         * If set, tokens will be sent as data-only server-sent events as they become available,
+         * with the stream terminated by a data: [[DONE]] message.
+         */
+        private val SSE_PREDICATE: (String) -> Boolean = { it.isNotEmpty() && it != "[DONE]" }
+
+        @PublishedApi
+        internal const val CHAT_PATH = "chat/completions"
+
+        @PublishedApi
+        internal const val IMAGE_PATH = "images/generations"
+
+        @PublishedApi
+        internal const val EMBEDDING_PATH = "embeddings"
+
+    }
+
     suspend fun call(request: ChatCompletionRequest): ChatCompletion =
-        httpClient.post(block = createHttpRequest(chatPath, request))
+        httpClient.post(block = createHttpRequest(CHAT_PATH, request))
             .body()
 
     suspend fun stream(request: ChatCompletionRequest): Flow<ChatCompletionChunk> =
-        httpClient.serverSentEventsSession(block = createHttpRequest(chatPath, request))
+        httpClient.serverSentEventsSession(block = createHttpRequest(CHAT_PATH, request))
             .incoming
             .mapNotNull { it.data }
             .takeWhile { SSE_PREDICATE(it) }
@@ -37,23 +53,19 @@ class OpenAiApi(
             .map { DefaultJsonConverter.decodeFromString<ChatCompletionChunk>(it) }
             .mergeChunks()
 
-    suspend inline fun <reified T> embeddings(embeddingRequest: EmbeddingRequest<T>): EmbeddingList<Embedding> {
-        return httpClient.post {
-            url(baseUrl)
-            url { path("/v1/embeddings") }
-            contentType(ContentType.Application.Json)
-            setBody(embeddingRequest)
-            bearerAuth(apiKey)
-        }.body()
+    suspend inline fun <reified T> embeddings(request: EmbeddingRequest<T>): EmbeddingList<Embedding> {
+        return httpClient.post(block = createHttpRequest(EMBEDDING_PATH, request))
+            .body()
     }
 
-    private fun createHttpRequest(request: ChatCompletionRequest): HttpRequestBuilder.() -> Unit = {
+
     suspend fun createImage(request: OpenAiImageRequest): OpenAiImageResponse =
-        httpClient.post(block = createHttpRequest(imagePath, request))
+        httpClient.post(block = createHttpRequest(IMAGE_PATH, request))
             .body()
 
-
-    private fun createHttpRequest(requestPath: String, request: Any): HttpRequestBuilder.() -> Unit = {
+    @PublishedApi
+    internal inline fun <reified T> createHttpRequest(requestPath: String, request: T): HttpRequestBuilder.() -> Unit =
+        {
         method = HttpMethod.Post
         url("$baseUrl$requestPath")
         contentType(ContentType.Application.Json)

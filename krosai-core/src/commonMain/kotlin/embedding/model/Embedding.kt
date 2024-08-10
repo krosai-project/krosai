@@ -6,5 +6,5 @@ import io.github.krosai.core.model.ModelResult
 data class Embedding(
     override val output: List<Double>,
     val index: Int,
-    override val resultMetadata: EmbeddingResultMetadata = EmbeddingResultMetadata()
+    override val metadata: EmbeddingResultMetadata = EmbeddingResultMetadata()
 ): ModelResult<List<Double>>

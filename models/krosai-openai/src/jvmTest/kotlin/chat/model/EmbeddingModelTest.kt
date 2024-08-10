@@ -11,7 +11,7 @@ class EmbeddingModelTest: ModelFactorySupport {
     @Test
     fun testEmbeddingModel() {
         runTest {
-            val embeddingModel = context.createEmbeddingModel() as OpenAiEmbeddingModel
+            val embeddingModel = factory.createEmbeddingModel() as OpenAiEmbeddingModel
 
             val request = EmbeddingRequest(
                 instructions = listOf("Hello, world!"),
