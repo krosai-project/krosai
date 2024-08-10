@@ -12,8 +12,12 @@ import io.github.krosai.core.chat.model.ChatResponse
 import io.github.krosai.core.chat.model.Generation
 import io.github.krosai.core.chat.prompt.ChatOptions
 import io.github.krosai.core.chat.prompt.Prompt
-import io.github.krosai.openai.api.*
-import io.github.krosai.openai.api.ChatCompletionRequest.FunctionTool
+import io.github.krosai.openai.api.OpenAiApi
+import io.github.krosai.openai.api.chat.ChatCompletion
+import io.github.krosai.openai.api.chat.ChatCompletionChunk
+import io.github.krosai.openai.api.chat.ChatCompletionMessage
+import io.github.krosai.openai.api.chat.ChatCompletionRequest
+import io.github.krosai.openai.api.chat.ChatCompletionRequest.FunctionTool
 import io.github.krosai.openai.options.OpenAiChatOptions
 import io.ktor.http.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

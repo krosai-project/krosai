@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api
+package io.github.krosai.openai.api.chat
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,6 +1,10 @@
 package io.github.krosai.openai.api
 
 import io.github.krosai.core.util.DefaultJsonConverter
+import io.github.krosai.openai.api.chat.*
+import io.github.krosai.openai.api.embedding.Embedding
+import io.github.krosai.openai.api.embedding.EmbeddingList
+import io.github.krosai.openai.api.embedding.EmbeddingRequest
 import io.github.krosai.openai.api.image.OpenAiImageRequest
 import io.github.krosai.openai.api.image.OpenAiImageResponse
 import io.ktor.client.*

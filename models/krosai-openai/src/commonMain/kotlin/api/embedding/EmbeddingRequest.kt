@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api
+package io.github.krosai.openai.api.embedding
 
 import kotlinx.serialization.Serializable
 

@@ -1,8 +1,8 @@
-package io.github.krosai.openai.api
+package io.github.krosai.openai.api.chat
 
 import io.github.krosai.core.chat.message.MessageType
 import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.openai.api.ChatCompletionMessage.Role
+import io.github.krosai.openai.api.chat.ChatCompletionMessage.Role
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString

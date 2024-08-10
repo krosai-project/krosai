@@ -1,8 +1,6 @@
-@file:Suppress("unused")
+package io.github.krosai.openai.api.chat
 
-package io.github.krosai.openai.api
-
-import io.github.krosai.openai.api.ChatCompletionRequest.ToolChoiceBuilder
+import io.github.krosai.openai.api.chat.ChatCompletionRequest.ToolChoiceBuilder
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -164,4 +162,3 @@ data class ChatCompletionRequest(
     }
 
 }
-

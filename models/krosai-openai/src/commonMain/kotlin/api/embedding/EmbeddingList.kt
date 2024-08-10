@@ -1,5 +1,6 @@
-package io.github.krosai.openai.api
+package io.github.krosai.openai.api.embedding
 
+import io.github.krosai.openai.api.OpenAiUsage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,5 +18,5 @@ data class EmbeddingList<T>(
     @SerialName("object") val obj: String,
     @SerialName("data") val data: List<T>,
     @SerialName("model") val model: String,
-    @SerialName("usage") val usage: Usage
+    @SerialName("usage") val usage: OpenAiUsage
 )

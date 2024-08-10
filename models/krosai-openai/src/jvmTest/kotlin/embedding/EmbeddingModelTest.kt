@@ -1,4 +1,4 @@
-package io.github.krosai.openai.test.chat.model
+package io.github.krosai.openai.test.embedding
 
 import io.github.krosai.core.embedding.model.EmbeddingRequest
 import io.github.krosai.openai.model.OpenAiEmbeddingModel
@@ -6,7 +6,7 @@ import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
-class EmbeddingModelTest: ModelFactorySupport {
+class EmbeddingModelTest : ModelFactorySupport {
 
     @Test
     fun testEmbeddingModel() {

@@ -1,5 +1,6 @@
 package io.github.krosai.openai.api
 
+import io.github.krosai.core.chat.metadata.Usage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,8 +12,11 @@ import kotlinx.serialization.Serializable
  * @param totalTokens Total number of tokens used in the request (prompt + completion).
  */
 @Serializable
-data class Usage(
-    @SerialName("completion_tokens") val completionTokens: Int?,
-    @SerialName("prompt_tokens") val promptTokens: Int?,
-    @SerialName("total_tokens") val totalTokens: Int?
-)
+data class OpenAiUsage(
+    @SerialName("completion_tokens") val completionTokens: Long?,
+    @SerialName("prompt_tokens") override val promptTokens: Long?,
+    @SerialName("total_tokens") override val totalTokens: Long
+) : Usage {
+    override val generationTokens: Long?
+        get() = completionTokens
+}
