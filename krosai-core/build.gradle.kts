@@ -39,8 +39,9 @@ kotlin {
         }
 
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.kotlinx.coroutines.core)
+            api(libs.ktor.client.core)
+            api(libs.ktor.client.content.negotiation)
+            api(libs.ktor.serialization.kotlinx.json)
         }
 
         commonTest.dependencies {

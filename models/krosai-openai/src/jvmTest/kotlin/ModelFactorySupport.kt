@@ -20,9 +20,9 @@ interface ModelFactorySupport {
                 factory(OpenAI) {
                     clientBlock = {
                         install(HttpTimeout) {
-                            requestTimeoutMillis = 60000
-                            connectTimeoutMillis = 60000
-                            socketTimeoutMillis = 60000
+                            requestTimeoutMillis = 600000
+                            connectTimeoutMillis = 600000
+                            socketTimeoutMillis = 600000
                         }
                         install(ContentNegotiation) {
                             json(DefaultJsonConverter)
@@ -35,6 +35,9 @@ interface ModelFactorySupport {
                     }
                     baseUrl = LocalData.BASE_URL
                     apiKey = LocalData.API_KEY
+                    chatOptions {
+                        model = "GLM-4-0520"
+                    }
                     embeddingOptions {
                         model = "text-embedding-ada-002"
                         encodingFormat = "float"

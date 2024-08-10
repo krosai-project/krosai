@@ -3,6 +3,7 @@ package io.github.krosai.openai.model
 import io.github.krosai.core.chat.function.FunctionCall
 import io.github.krosai.core.chat.function.FunctionCallOptions
 import io.github.krosai.core.chat.function.ToolCallHandler
+import io.github.krosai.core.chat.message.Media
 import io.github.krosai.core.chat.message.Message
 import io.github.krosai.core.chat.message.MessageType
 import io.github.krosai.core.chat.message.ToolCall
@@ -14,11 +15,14 @@ import io.github.krosai.core.chat.prompt.Prompt
 import io.github.krosai.openai.api.*
 import io.github.krosai.openai.api.ChatCompletionRequest.FunctionTool
 import io.github.krosai.openai.options.OpenAiChatOptions
+import io.ktor.http.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 /** OpenAI Chat API implementation. */
 
@@ -136,12 +140,18 @@ private fun createRequest(
     val chatCompletionMessages = prompt.instructions.flatMap { message ->
         when (message.type) {
             MessageType.USER, MessageType.SYSTEM -> {
-                listOf(
+                val chatCompletionMessage = if (message is Message.User && message.media.isNotEmpty()) {
+                    ChatCompletionMessage(
+                        extractMediaContent(message),
+                        ChatCompletionMessage.Role.fromMessageType(message.type)
+                    )
+                } else {
                     ChatCompletionMessage(
                         message.content,
                         ChatCompletionMessage.Role.fromMessageType(message.type)
                     )
-                )
+                }
+                listOf(chatCompletionMessage)
             }
 
             MessageType.ASSISTANT -> {
@@ -181,6 +191,7 @@ private fun createRequest(
 
     val chatOptions = prompt.options as OpenAiChatOptions
 
+    // TODO: refactor
     val toolCalls = (getFunctionCallNames(chatOptions.functionNames) + chatOptions.functionCalls).map {
         FunctionTool(
             FunctionTool.Function(
@@ -197,6 +208,23 @@ private fun createRequest(
         stream = stream,
         tools = toolCalls.takeIf { it.isNotEmpty() },
     )
+}
+
+@OptIn(ExperimentalEncodingApi::class)
+private fun extractMediaContent(message: Message.User): List<ChatCompletionMessage.MediaContent> {
+    val mediaContent = ChatCompletionMessage.MediaContent(message.content)
+    return listOf(mediaContent) + message.media.mapNotNull { media ->
+        media.takeIf { it.contentType.match(ContentType.Image.Any) }
+            ?.let {
+                val content = when (it) {
+                    is Media.Url -> it.content.toString()
+                    is Media.Bytes -> "data:${it.contentType};base64,${Base64.encode(it.content)}"
+                }
+                ChatCompletionMessage.MediaContent(
+                    ChatCompletionMessage.MediaContent.ImageUrl(content)
+                )
+            }
+    }
 }
 //{
 //  "id": "chatcmpl-9hBQDNOWPnolxTAHvScpoE4BltBR8",

@@ -20,7 +20,8 @@ sealed class Message(
     ) : Message(MessageType.SYSTEM, content)
 
     data class User(
-        override val content: String
+        override val content: String,
+        val media: List<Media<*>> = emptyList()
     ) : Message(MessageType.USER, content)
 
     data class Assistant(

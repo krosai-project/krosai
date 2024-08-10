@@ -23,7 +23,7 @@ data class ChatCompletion(
     @SerialName("created") val created: Long,
     @SerialName("model") val model: String,
     @SerialName("system_fingerprint") val systemFingerprint: String?,
-    @SerialName("object") val obj: String,
+    @SerialName("object") val obj: String = "chat.completion",
     @SerialName("usage") val usage: Usage? = null
 ) {
 
