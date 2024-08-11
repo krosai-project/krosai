@@ -17,4 +17,6 @@ interface ImageOptions : ModelOptions {
      */
     val responseFormat: String?
 
+    val style: String?
+
 }

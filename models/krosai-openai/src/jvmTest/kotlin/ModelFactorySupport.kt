@@ -35,9 +35,9 @@ interface ModelFactorySupport {
                     }
                     baseUrl = LocalData.BASE_URL
                     apiKey = LocalData.API_KEY
-                    chatOptions {
-                        model = "GLM-4-0520"
-                    }
+//                    chatOptions {
+//                        model = "GLM-4-0520"
+//                    }
                     embeddingOptions {
                         model = "text-embedding-ada-002"
                         encodingFormat = "float"

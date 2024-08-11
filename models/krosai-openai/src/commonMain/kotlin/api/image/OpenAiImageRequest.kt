@@ -13,8 +13,4 @@ data class OpenAiImageRequest(
     @SerialName("size") val size: String? = null,
     @SerialName("style") val style: String? = null,
     @SerialName("user") val user: String? = null
-) {
-    constructor(prompt: String, model: String) : this(
-        prompt, model, null, null, null, null, null, null
-    )
-}
+)

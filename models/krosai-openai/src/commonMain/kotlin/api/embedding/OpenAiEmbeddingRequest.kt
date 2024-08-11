@@ -19,9 +19,9 @@ import kotlinx.serialization.Serializable
  * to monitor and detect abuse.
  */
 @Serializable
-data class EmbeddingRequest<T>(
+data class OpenAiEmbeddingRequest<T>(
     val input: T,
-    val model: String = "text-embedding-ada-002",
+    val model: String = OpenAiEmbeddingModelEnum.DEFAULT.model,
     val encodingFormat: String = "float",
     val dimensions: Int? = null,
     val user: String? = null

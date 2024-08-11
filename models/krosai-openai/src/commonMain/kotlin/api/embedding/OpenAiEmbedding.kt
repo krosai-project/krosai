@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @param object The object type, which is always 'embedding'.
  */
 @Serializable
-data class Embedding(
+data class OpenAiEmbedding(
     @SerialName("index") val index: Int,
     @SerialName("embedding") val output: List<Double>,
     @SerialName("object") val obj: String = "embedding"

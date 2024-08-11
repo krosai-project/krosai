@@ -77,7 +77,7 @@ fun doResolveElement(
     }
 }
 
-inline fun <reified Source, reified Target, reified Out> Source.merge(target: Target): Out {
+inline fun <reified Source, reified Target, reified Out> Source.mergeElement(target: Target): Out {
     val sourceElement = DefaultJsonConverter.encodeToJsonElement<Source>(this)
     val targetElement = DefaultJsonConverter.encodeToJsonElement<Target>(target)
     val mergedElement = mutableMapOf<String, JsonElement>()

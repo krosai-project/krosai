@@ -2,9 +2,9 @@ package io.github.krosai.openai.api
 
 import io.github.krosai.core.util.DefaultJsonConverter
 import io.github.krosai.openai.api.chat.*
-import io.github.krosai.openai.api.embedding.Embedding
-import io.github.krosai.openai.api.embedding.EmbeddingList
-import io.github.krosai.openai.api.embedding.EmbeddingRequest
+import io.github.krosai.openai.api.embedding.OpenAiEmbedding
+import io.github.krosai.openai.api.embedding.OpenAiEmbeddingList
+import io.github.krosai.openai.api.embedding.OpenAiEmbeddingRequest
 import io.github.krosai.openai.api.image.OpenAiImageRequest
 import io.github.krosai.openai.api.image.OpenAiImageResponse
 import io.ktor.client.*
@@ -57,7 +57,7 @@ class OpenAiApi(
             .map { DefaultJsonConverter.decodeFromString<ChatCompletionChunk>(it) }
             .mergeChunks()
 
-    suspend inline fun <reified T> embeddings(request: EmbeddingRequest<T>): EmbeddingList<Embedding> {
+    suspend inline fun <reified T> embeddings(request: OpenAiEmbeddingRequest<T>): OpenAiEmbeddingList<OpenAiEmbedding> {
         return httpClient.post(block = createHttpRequest(EMBEDDING_PATH, request))
             .body()
     }
@@ -147,7 +147,8 @@ fun ChatCompletionMessage.merge(currentMessage: ChatCompletionMessage): ChatComp
         role = currentMessage.role,
         name = currentMessage.name ?: this.name.orEmpty(),
         toolCallId = currentMessage.toolCallId ?: this.toolCallId.orEmpty(),
-        toolCalls = toolCalls
+        toolCalls = toolCalls,
+        refusal = currentMessage.refusal ?: this.refusal
     )
 }
 

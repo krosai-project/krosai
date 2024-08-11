@@ -4,13 +4,14 @@ import io.github.krosai.core.chat.function.FunctionCall
 import io.github.krosai.core.chat.function.FunctionCallOptions
 import io.github.krosai.core.chat.prompt.ChatOptions
 import io.github.krosai.openai.api.chat.ChatCompletionRequest
+import io.github.krosai.openai.api.chat.OpenAiChatModelEnum
 
 data class OpenAiChatOptions(
 
     /**
      * ID of the model to use.
      */
-    var model: String = "gpt-4o",
+    var model: String = OpenAiChatModelEnum.DEFAULT.model,
 
     /**
      * Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing
@@ -118,6 +119,12 @@ data class OpenAiChatOptions(
     var user: String? = null,
 
     /**
+     * Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling/parallel-function-calling) during tool use.
+     * Defaults to true.
+     */
+    var parallelToolCalls: Boolean? = null,
+
+    /**
      * OpenAI Tool Function Callbacks to register with the ChatModel.
      * For Prompt Options the functionCallbacks are automatically enabled for the duration of the prompt execution.
      * For Default Options the functionCallbacks are registered but disabled by default. Use the enableFunctions to set the functions
@@ -158,6 +165,7 @@ data class OpenAiChatOptions(
             tools = tools,
             toolChoice = toolChoice,
             user = user,
+            parallelToolCalls = parallelToolCalls,
             functionCalls = functionCalls.toMutableList(),
             functionNames = functionNames.toMutableSet()
         )

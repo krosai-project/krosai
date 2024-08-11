@@ -25,13 +25,20 @@ data class OpenAiImageOptions(
      * The width of the generated images. Must be one of 256, 512, or 1024 for dall-e-2.
      */
     @SerialName("size_width")
-    override var width: Int? = null,
+    override var width: Int = 1024,
 
     /**
      * The height of the generated images. Must be one of 256, 512, or 1024 for dall-e-2.
      */
     @SerialName("size_height")
-    override var height: Int? = null,
+    override var height: Int = 1024,
+
+    /**
+     * The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 for
+     * dall-e-2. Must be one of 1024x1024, 1792x1024, or 1024x1792 for dall-e-3 models.
+     */
+    @SerialName("size")
+    var size: String = "${width}x${height}",
 
     /**
      * The quality of the image that will be generated. hd creates images with finer
@@ -55,7 +62,7 @@ data class OpenAiImageOptions(
      * only supported for dall-e-3.
      */
     @SerialName("style")
-    var style: String? = null,
+    override var style: String? = null,
 
     /**
      * A unique identifier representing your end-user, which can help OpenAI to monitor
@@ -63,15 +70,4 @@ data class OpenAiImageOptions(
      */
     @SerialName("user")
     var user: String? = null
-) : ImageOptions {
-    /**
-     * The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 for
-     * dall-e-2. Must be one of 1024x1024, 1792x1024, or 1024x1792 for dall-e-3 models.
-     */
-    @SerialName("size")
-    val size: String?
-        get() = when {
-            width != null && height != null -> "$width x $height"
-            else -> null
-        }
-}
+) : ImageOptions

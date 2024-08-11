@@ -16,7 +16,7 @@ class ChatTest : ModelFactorySupport {
         val chatModel = factory.createChatModel()
         val messages = listOf(
             Message.User(
-                content = "What are the numbers in this image?",
+                content = "What is this image?",
                 media = listOf(
 //                    Media.Url(
 //                        ContentType.Image.JPEG,
@@ -39,6 +39,11 @@ class ChatTest : ModelFactorySupport {
             println(it.content)
         }
 
+    }
+
+    @Test
+    fun `test image media with prompt`() = runTest {
+        println("  1".toInt())
     }
 
 }

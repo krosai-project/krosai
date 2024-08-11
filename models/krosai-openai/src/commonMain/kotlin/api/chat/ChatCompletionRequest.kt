@@ -50,6 +50,8 @@ import kotlinx.serialization.json.JsonElement
  * function. Specifying a particular function via {"type: "function", "function": {"name": "my_function"}} forces
  * the model to call that function. none is the default when no functions are present. auto is the default if
  * functions are present. Use the [ToolChoiceBuilder] to create the tool choice value.
+ * @param parallelToolCalls If set to true, the model will call all functions in the tools list in parallel. If set
+ * to false, the model will call the functions in the tools list in the order they are provided.
  * @param user A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
  *
  */
@@ -67,12 +69,13 @@ data class ChatCompletionRequest(
     @SerialName("response_format") val responseFormat: ResponseFormat? = null,
     @SerialName("seed") val seed: Int? = null,
     @SerialName("stop") val stop: List<String>? = null,
-    @SerialName("stream") val stream: Boolean?,
+    @SerialName("stream") val stream: Boolean,
     @SerialName("stream_options") val streamOptions: StreamOptions? = null,
     @SerialName("temperature") val temperature: Float? = null,
     @SerialName("top_p") val topP: Float? = null,
     @SerialName("tools") val tools: List<FunctionTool>? = null,
     @SerialName("tool_choice") val toolChoice: String? = null,
+    @SerialName("parallel_tool_calls") val parallelToolCalls: Boolean? = null,
     @SerialName("user") val user: String? = null
 ) {
     /**
@@ -100,9 +103,65 @@ data class ChatCompletionRequest(
     /**
      * An object specifying the format that the model must output.
      * @param type Must be one of 'text' or 'json_object'.
+     * @param jsonSchema JSON schema object that describes the format of the JSON object.
+     * Only applicable when type is 'json_schema'.
      */
     @Serializable
-    data class ResponseFormat(@SerialName("type") val type: String)
+    data class ResponseFormat(
+        @SerialName("type") val type: Type,
+        @SerialName("json_schema") val jsonSchema: JsonSchema? = null
+    ) {
+
+        constructor(
+            type: Type,
+            name: String = "custom_schema",
+            schema: String? = null,
+            strict: Boolean = true
+        ) : this(
+            type,
+            if (!schema.isNullOrEmpty())
+                JsonSchema(name, schema, strict)
+            else null
+        )
+
+        @Serializable
+        enum class Type {
+            /**
+             * Generates a text response. (default)
+             */
+            @SerialName("text")
+            TEXT,
+
+            /**
+             * Enables JSON mode, which guarantees the message
+             * the model generates is valid JSON.
+             */
+            @SerialName("json_object")
+            JSON_OBJECT,
+
+            /**
+             * Enables Structured Outputs which guarantees the model
+             * will match your supplied JSON schema.
+             */
+            @SerialName("json_schema")
+            JSON_SCHEMA
+        }
+
+        /**
+         * JSON schema object that describes the format of the JSON object.
+         * Applicable for the 'json_schema' type only.
+         * @param name The name of the schema.
+         * @param schema The JSON schema object that describes the format of the JSON object.
+         * @param strict If true, the model will only generate outputs that match the schema.
+         */
+        @Serializable
+        data class JsonSchema(
+            @SerialName("name") val name: String = "custom_schema",
+            @SerialName("schema") val schema: String,
+            @SerialName("strict") val strict: Boolean = true,
+        )
+
+    }
 
     /**
      * @param includeUsage If set, an additional chunk will be streamed

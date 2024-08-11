@@ -6,7 +6,7 @@ import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
-class EmbeddingModelTest : ModelFactorySupport {
+class OpenAiEmbeddingModelTest : ModelFactorySupport {
 
     @Test
     fun testEmbeddingModel() {

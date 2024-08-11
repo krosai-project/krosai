@@ -1,7 +1,7 @@
 package io.github.krosai.openai.api.chat
 
 import io.github.krosai.openai.api.LogProbs
-import io.github.krosai.openai.api.OpenAiUsage
+import io.github.krosai.openai.api.Usage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,6 +17,8 @@ import kotlinx.serialization.Serializable
  * used in conjunction with the seed request parameter to understand when backend changes have been made that might
  * impact determinism.
  * @param obj The object type, which is always 'chat.completion.chunk'.
+ * @param usage Usage statistics for the completion request. Present in the last chunk
+ * only if the StreamOptions.includeUsage is set to true.
  */
 @Serializable
 data class ChatCompletionChunk(
@@ -26,7 +28,7 @@ data class ChatCompletionChunk(
     @SerialName("model") val model: String,
     @SerialName("system_fingerprint") val systemFingerprint: String?,
     @SerialName("object") val obj: String = "chat.completion.chunk",
-    @SerialName("usage") val usage: OpenAiUsage? = null
+    @SerialName("usage") val usage: Usage? = null
 ) {
 
     /**

@@ -29,6 +29,7 @@ data class ChatCompletionMessage(
     @SerialName("name") val name: String? = null,
     @SerialName("tool_call_id") val toolCallId: String? = null,
     @SerialName("tool_calls") val toolCalls: List<ToolCall>? = null,
+    @SerialName("refusal") val refusal: String? = null,
 ) {
 
     constructor(

@@ -8,4 +8,16 @@ package io.github.krosai.openai.api
  *  Response:
  *    - [ChatCompletion] (call)
  *    - [ChatCompletionChunk] (streaming)
+ * Embedding:
+ *  Request:
+ *    - [EmbeddingRequest]
+ *  Response:
+ *    - [EmbeddingList]
+ *    - [Embedding]
+ * Image:
+ *  Request:
+ *    - [OpenAiImageRequest]
+ *  Response:
+ *    - [OpenAiImageResponse]
+ *
  */

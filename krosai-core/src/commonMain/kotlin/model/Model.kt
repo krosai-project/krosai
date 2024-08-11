@@ -9,6 +9,7 @@ interface Model<TReq : ModelRequest<*>, TRes : ModelResponse<*>> {
      * @return the response from the AI model
      */
     suspend fun call(request: TReq): TRes
+
 }
 
 interface StreamingModel<TReq : ModelRequest<*>, TResChunk : ModelResponse<*>> {
@@ -19,5 +20,6 @@ interface StreamingModel<TReq : ModelRequest<*>, TResChunk : ModelResponse<*>> {
      * @return the streaming response from the AI model
      */
 	suspend fun stream(request: TReq): Flow<TResChunk>
+
 }
 

@@ -1,7 +1,7 @@
 package io.github.krosai.openai.api.chat
 
 import io.github.krosai.openai.api.LogProbs
-import io.github.krosai.openai.api.OpenAiUsage
+import io.github.krosai.openai.api.Usage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -26,7 +26,7 @@ data class ChatCompletion(
     @SerialName("model") val model: String,
     @SerialName("system_fingerprint") val systemFingerprint: String?,
     @SerialName("object") val obj: String = "chat.completion",
-    @SerialName("usage") val usage: OpenAiUsage? = null
+    @SerialName("usage") val usage: Usage? = null
 ) {
 
     /**
