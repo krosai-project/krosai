@@ -14,7 +14,7 @@ class FunctionToolTest : ModelFactorySupport {
     @Test
     fun functionCallCallTest() = runTest {
         chatClient.call {
-            userText = { "Get the current date by location?" }
+            userText = { "Get the current date on New York?" }
             functions {
                 +dateTimeFun
             }
@@ -26,7 +26,7 @@ class FunctionToolTest : ModelFactorySupport {
     @Test
     fun functionCallStreamTest() = runTest {
         chatClient.stream {
-            userText = { "Get the current date by location?" }
+            userText = { "Get the current date on New York?" }
             functions {
                 +dateTimeFun
             }

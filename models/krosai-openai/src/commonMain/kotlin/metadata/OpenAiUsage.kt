@@ -14,4 +14,5 @@ data class OpenAiUsage(
 
     override val totalTokens: Long
         get() = usage.totalTokens?.toLong() ?: (promptTokens + generationTokens)
+
 }

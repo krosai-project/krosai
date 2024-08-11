@@ -13,6 +13,6 @@ package io.github.krosai.core.chat.message
 data class ToolCall(
     val id: String,
     val name: String,
-    val type: String,
+    val type: String = "function",
     val arguments: String
 )

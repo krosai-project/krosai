@@ -11,6 +11,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.*
 
@@ -44,9 +45,9 @@ class OpenAiApi(
 
     }
 
-    suspend fun call(request: ChatCompletionRequest): ChatCompletion =
+    suspend fun call(request: ChatCompletionRequest): HttpResponse =
         httpClient.post(block = createHttpRequest(CHAT_PATH, request))
-            .body()
+
 
     suspend fun stream(request: ChatCompletionRequest): Flow<ChatCompletionChunk> =
         httpClient.serverSentEventsSession(block = createHttpRequest(CHAT_PATH, request))

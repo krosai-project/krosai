@@ -1,8 +1,8 @@
 package io.github.krosai.core.chat.model
 
 import io.github.krosai.core.chat.message.Message
+import io.github.krosai.core.chat.metadata.ChatGenerationMetadata
 import io.github.krosai.core.model.ModelResult
-import io.github.krosai.core.model.ResultMetadata
 
 /**
  * A model result for a [Generation].
@@ -14,5 +14,5 @@ import io.github.krosai.core.model.ResultMetadata
  */
 data class Generation(
     override val output: Message.Assistant,
-    override val metadata: ResultMetadata = ResultMetadata.NULL
+    override val metadata: ChatGenerationMetadata<*> = ChatGenerationMetadata.NULL
 ) : ModelResult<Message.Assistant>

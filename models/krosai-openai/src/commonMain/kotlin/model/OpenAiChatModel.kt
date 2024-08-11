@@ -7,6 +7,10 @@ import io.github.krosai.core.chat.message.Media
 import io.github.krosai.core.chat.message.Message
 import io.github.krosai.core.chat.message.MessageType
 import io.github.krosai.core.chat.message.ToolCall
+import io.github.krosai.core.chat.metadata.ChatGenerationMetadata
+import io.github.krosai.core.chat.metadata.ChatResponseMetadata
+import io.github.krosai.core.chat.metadata.RateLimit
+import io.github.krosai.core.chat.metadata.Usage
 import io.github.krosai.core.chat.model.ChatModel
 import io.github.krosai.core.chat.model.ChatResponse
 import io.github.krosai.core.chat.model.Generation
@@ -18,7 +22,11 @@ import io.github.krosai.openai.api.chat.ChatCompletionChunk
 import io.github.krosai.openai.api.chat.ChatCompletionMessage
 import io.github.krosai.openai.api.chat.ChatCompletionRequest
 import io.github.krosai.openai.api.chat.ChatCompletionRequest.FunctionTool
+import io.github.krosai.openai.metadata.OpenAiUsage
+import io.github.krosai.openai.metadata.support.extractAiResponseHeaders
 import io.github.krosai.openai.options.OpenAiChatOptions
+import io.ktor.client.call.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +52,7 @@ class OpenAiChatModel(
         return api.call(request)
             .toChatResponse()
             .let { chatResponse ->
-                if (isToolCall(chatResponse)) {
+                if (chatResponse.isToolCall()) {
                     val currentPrompt = prompt.copy(instructions = processToolCall(prompt, chatResponse))
                     call(currentPrompt)
                 } else {
@@ -58,12 +66,11 @@ class OpenAiChatModel(
         val request = createRequest(prompt, true, getFunctionCallNames)
         return api.stream(request)
             .map {
-                it
-                    .toChatCompletion()
+                it.toChatCompletion()
                     .toChatResponse()
             }
             .flatMapConcat { chatResponse ->
-                return@flatMapConcat if (isToolCall(chatResponse)) {
+                return@flatMapConcat if (chatResponse.isToolCall()) {
                     val currentPrompt = prompt.copy(instructions = processToolCall(prompt, chatResponse))
                     stream(currentPrompt)
                 } else {
@@ -72,9 +79,6 @@ class OpenAiChatModel(
             }
     }
 
-    private fun isToolCall(chatResponse: ChatResponse): Boolean {
-        return chatResponse.result.output.toolCall?.isNotEmpty() ?: false
-    }
 
     private fun processToolCall(prompt: Prompt, chatResponse: ChatResponse): List<Message> {
         return buildToolCallMessage(
@@ -90,6 +94,10 @@ class OpenAiChatModel(
                 }
             }
         )
+    }
+
+    private fun ChatResponse.isToolCall(): Boolean {
+        return this.result.output.toolCall?.isNotEmpty() ?: false
     }
 
     private fun buildToolCallMessage(
@@ -115,24 +123,54 @@ fun ChatCompletionChunk.toChatCompletion(): ChatCompletion {
         usage = usage,
     )
 }
+suspend fun HttpResponse.toChatResponse(): ChatResponse {
+    val chatCompletion: ChatCompletion = body()
+    val rateLimit = extractAiResponseHeaders()
+    return chatCompletion.toChatResponse(rateLimit)
+}
 
-fun ChatCompletion.toChatResponse(): ChatResponse {
+fun ChatCompletion.toChatResponse(rateLimit: RateLimit = RateLimit.EMPTY): ChatResponse {
+    val generations = choices.map(::buildGeneration)
+    val chatResponseMetadata = ChatResponseMetadata(
+        id = id,
+        model = model,
+        rateLimit = rateLimit,
+        usage = usage?.let(::OpenAiUsage) ?: Usage.EMPTY,
+        metadata = hashMapOf(
+            "created" to created,
+            "system_fingerprint" to systemFingerprint.orEmpty()
+        )
+    )
     return ChatResponse(
-        choices.map { choice ->
-            Generation(
-                Message.Assistant(
-                    content = choice.message.content.orEmpty(),
-                    toolCall = choice.message.toolCalls?.map { toolCall ->
-                        ToolCall(
-                            toolCall.id.orEmpty(),
-                            toolCall.function.name.orEmpty(),
-                            "function",
-                            toolCall.function.arguments
-                        )
-                    }
-                )
+        generations,
+        chatResponseMetadata
+    )
+}
+
+private fun ChatCompletion.buildGeneration(choice: ChatCompletion.Choice): Generation {
+    val message = choice.message
+    val assistant = Message.Assistant(
+        content = message.content.orEmpty(),
+        properties = mapOf(
+            "id" to this.id,
+            "role" to message.role.name,
+            "index" to choice.index,
+            "finish_reason" to (choice.finishReason?.name).orEmpty(),
+            "refusal" to message.refusal.orEmpty(),
+        ),
+        toolCall = message.toolCalls?.map { toolCall ->
+            ToolCall(
+                toolCall.id.orEmpty(),
+                toolCall.function.name.orEmpty(),
+                "function",
+                toolCall.function.arguments
             )
         }
+    )
+    val finishReason = choice.finishReason?.name.orEmpty()
+    val chatGenerationMetadata = ChatGenerationMetadata.from(finishReason, null)
+    return Generation(
+        assistant, chatGenerationMetadata
     )
 }
 
@@ -212,6 +250,7 @@ private fun createRequest(
         stream = stream,
         tools = toolCalls.takeIf { it.isNotEmpty() },
     )
+
 }
 
 @OptIn(ExperimentalEncodingApi::class)

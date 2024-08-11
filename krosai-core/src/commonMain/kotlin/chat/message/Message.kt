@@ -26,7 +26,7 @@ sealed class Message(
 
     data class Assistant(
         override val content: String,
-        val properties: Map<String, Any> = mapOf(),
+        val properties: Map<String, Any> = emptyMap(),
         val toolCall: List<ToolCall>? = null
     ) : Message(MessageType.ASSISTANT, content)
 
