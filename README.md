@@ -22,14 +22,18 @@ It supports multiple AI models, including OpenAI and more.
     - FunctionCall
     - Enhancer
         - ChatMemory
-- **Embedding**(TODO)
-- **Image**(TODO)
+- **Embedding**
+- **Image**
 - **AudioTranscription**(TODO)
 - **Speech**(TODO)
 
 ### AI Models
 
 - **OpenAI**
+
+### Vector Store
+
+- **MongoDB**(TODO)
 
 ## Usage Example
 
