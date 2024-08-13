@@ -9,7 +9,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.serialization.kotlinx.json.*
 
-class OpenAIModelFactoryConfig {
+class OpenAiModelFactoryConfig {
 
     var clientBlock: HttpClientConfig<*>.() -> Unit = {
         install(ContentNegotiation) {

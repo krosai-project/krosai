@@ -5,7 +5,7 @@ import io.github.krosai.core.factory.ModelFactory
 import io.github.krosai.core.factory.buildModelFactoryContext
 import io.github.krosai.core.util.DefaultJsonConverter
 import io.github.krosai.openai.api.image.OpenAiImageModelEnum
-import io.github.krosai.openai.factory.OpenAI
+import io.github.krosai.openai.factory.OpenAi
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
@@ -17,7 +17,7 @@ interface ModelFactorySupport {
     val factory: ModelFactory
         get() {
             return buildModelFactoryContext {
-                factory(OpenAI) {
+                factory(OpenAi) {
                     clientBlock = {
                         install(HttpTimeout) {
                             requestTimeoutMillis = 600000
@@ -46,7 +46,7 @@ interface ModelFactorySupport {
                         model = OpenAiImageModelEnum.DALL_E_3.model
                     }
                 }
-            }[OpenAI]
+            }[OpenAi]
         }
     val chatClient: ChatClient
         get() = factory.createChatClient()

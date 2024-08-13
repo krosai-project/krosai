@@ -27,7 +27,7 @@ import io.github.krosai.core.chat.client.ChatClient
 import io.github.krosai.sample.data.ChatMessage
 import io.github.krosai.sample.data.ChatPath
 import io.github.krosai.sample.data.LocaleChatPath
-import io.github.krosai.sample.di.AIModule
+import io.github.krosai.sample.di.AiModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -40,7 +40,7 @@ import org.koin.compose.koinInject
 fun App() {
     KoinApplication(
         application = {
-            modules(AIModule)
+            modules(AiModule)
         }
     ) {
         MaterialTheme {

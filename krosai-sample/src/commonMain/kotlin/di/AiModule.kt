@@ -8,7 +8,7 @@ import io.github.krosai.core.chat.memory.InMemoryMessageStore
 import io.github.krosai.core.factory.ModelFactory
 import io.github.krosai.core.factory.buildModelFactoryContext
 import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.openai.factory.OpenAI
+import io.github.krosai.openai.factory.OpenAi
 import io.github.krosai.sample.LocalData
 import io.github.krosai.sample.function.GetURL
 import io.github.krosai.sample.function.OpenBrowser
@@ -20,10 +20,10 @@ import org.koin.core.qualifier._q
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val AIModule = module {
+val AiModule = module {
     single<ModelFactory> {
         buildModelFactoryContext {
-            factory(OpenAI) {
+            factory(OpenAi) {
                 clientBlock = {
                     install(ContentNegotiation) {
                         json(DefaultJsonConverter)
@@ -37,7 +37,7 @@ val AIModule = module {
                 baseUrl = LocalData.BASE_URL
                 apiKey = LocalData.API_KEY
             }
-        }[OpenAI]
+        }[OpenAi]
     }
 
 

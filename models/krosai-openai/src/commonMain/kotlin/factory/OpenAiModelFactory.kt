@@ -12,15 +12,15 @@ import io.github.krosai.openai.model.OpenAiEmbeddingModel
 import io.github.krosai.openai.model.OpenAiImageModel
 import io.ktor.client.*
 
-val OpenAI = createModelFactory(
-    "OpenAI",
-    ::OpenAIModelFactoryConfig
+val OpenAi = createModelFactory(
+    "OpenAi",
+    ::OpenAiModelFactoryConfig
 ) { context ->
-    return@createModelFactory OpenAIModelFactory(this, context::getFunctionCallsByName)
+    return@createModelFactory OpenAiModelFactory(this, context::getFunctionCallsByName)
 }
 
-class OpenAIModelFactory(
-    private val config: OpenAIModelFactoryConfig,
+class OpenAiModelFactory(
+    private val config: OpenAiModelFactoryConfig,
     private val getFunctionCall: (Set<String>) -> List<FunctionCall>
 ) : ModelFactory {
 
@@ -30,7 +30,7 @@ class OpenAIModelFactory(
 
     private val api by lazy {
         val apiKey = checkNotNull(config.apiKey) {
-            "OpenAI API key is required"
+            "OpenAi API key is required"
         }
         // support custom base url
         val baseUrl = buildString {
