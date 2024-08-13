@@ -129,13 +129,13 @@ suspend fun HttpResponse.toChatResponse(): ChatResponse {
     return chatCompletion.toChatResponse(rateLimit)
 }
 
-fun ChatCompletion.toChatResponse(rateLimit: RateLimit = RateLimit.EMPTY): ChatResponse {
+fun ChatCompletion.toChatResponse(rateLimit: RateLimit = RateLimit.Empty): ChatResponse {
     val generations = choices.map(::buildGeneration)
     val chatResponseMetadata = ChatResponseMetadata(
         id = id,
         model = model,
         rateLimit = rateLimit,
-        usage = usage?.let(::OpenAiUsage) ?: Usage.EMPTY,
+        usage = usage?.let(::OpenAiUsage) ?: Usage.Empty,
         metadata = hashMapOf(
             "created" to created,
             "system_fingerprint" to systemFingerprint.orEmpty()

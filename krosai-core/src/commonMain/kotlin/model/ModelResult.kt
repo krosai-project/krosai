@@ -30,7 +30,7 @@ interface ModelResult<T> {
  */
 interface ResultMetadata{
 
-    object NULL : ResultMetadata
+    object Null : ResultMetadata
 
 }
 

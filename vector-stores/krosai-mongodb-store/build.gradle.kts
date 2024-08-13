@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.realm)
 }
 
 kotlin {
@@ -32,16 +33,14 @@ kotlin {
 
         commonMain.dependencies {
             api(projects.krosaiCore)
-            api(libs.mongodb.coroutine)
+            api(libs.kotlinx.coroutines.core)
         }
 
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-
         }
-
 
     }
 }

@@ -14,5 +14,5 @@ import io.github.krosai.core.model.ModelResult
  */
 data class Generation(
     override val output: Message.Assistant,
-    override val metadata: ChatGenerationMetadata<*> = ChatGenerationMetadata.NULL
+    override val metadata: ChatGenerationMetadata<*> = ChatGenerationMetadata.Null
 ) : ModelResult<Message.Assistant>

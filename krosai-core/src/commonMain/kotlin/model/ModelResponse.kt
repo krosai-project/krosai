@@ -31,6 +31,6 @@ interface ModelResponse<T : ModelResult<*>> {
  */
 interface ResponseMetadata : Map<String, Any> {
 
-    object NULL : ResponseMetadata, Map<String, Any> by emptyMap()
+    object Null : ResponseMetadata, Map<String, Any> by emptyMap()
 
 }

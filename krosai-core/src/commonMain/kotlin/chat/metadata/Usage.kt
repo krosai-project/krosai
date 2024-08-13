@@ -1,11 +1,9 @@
 package io.github.krosai.core.chat.metadata
 
 /**
- * An abstract type (ADT)
- * encapsulates metadata about the AI provider API usage for each AI request.
+ * Represents the usage information of the model.
  *
- * @author KAMOsama
- */
+ * This interface provides information about*/
 interface Usage {
 
     /**
@@ -41,11 +39,13 @@ interface Usage {
     val totalTokens: Long
         get() = promptTokens + generationTokens
 
-    companion object {
-        val EMPTY = object : Usage {
-            override val promptTokens: Long = 0L
-            override val generationTokens: Long = 0L
-        }
+    /**
+     * Represents an empty usage object.
+     * promptTokens and generationTokens are set to 0L.
+     */
+    data object Empty : Usage {
+        override val promptTokens: Long = 0L
+        override val generationTokens: Long = 0L
     }
 
 }

@@ -33,7 +33,11 @@ interface ChatGenerationMetadata<T> : ResultMetadata {
             }
         }
 
-        val NULL = from(null, null)
-
     }
+
+    data object Null : ChatGenerationMetadata<Nothing> {
+        override val contentFilterMetadata: Nothing? = null
+        override val finishReason: String? = null
+    }
+
 }

@@ -2,6 +2,12 @@ package io.github.krosai.core.chat.metadata
 
 import kotlin.time.Duration
 
+/**
+ * Represents a rate limit with information about the maximum requests and tokens allowed,
+ * as well as the remaining requests and tokens, and the time until the rate limit resets.
+ *
+ * @author KAMOsama
+ */
 interface RateLimit {
 
     /**
@@ -60,16 +66,15 @@ interface RateLimit {
 
     /**
      * An empty implementation of [RateLimit].
+     * parameters are set to 0.
      */
-    companion object {
-        val EMPTY = object : RateLimit {
-            override val requestsLimit: Long = 0L
-            override val requestsRemaining: Long = 0L
-            override val requestsReset: Duration = Duration.ZERO
-            override val tokensLimit: Long = 0L
-            override val tokensRemaining: Long = 0L
-            override val tokensReset: Duration = Duration.ZERO
-        }
+    data object Empty : RateLimit {
+        override val requestsLimit: Long = 0L
+        override val requestsRemaining: Long = 0L
+        override val requestsReset: Duration = Duration.ZERO
+        override val tokensLimit: Long = 0L
+        override val tokensRemaining: Long = 0L
+        override val tokensReset: Duration = Duration.ZERO
     }
 
 }

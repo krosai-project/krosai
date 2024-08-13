@@ -40,7 +40,7 @@ class OpenAiEmbeddingModel(
     ): OpenAiEmbeddingRequest<List<String>> {
         return OpenAiEmbeddingRequest(
             request.instructions,
-            requestOptions.model.orEmpty(),
+            requestOptions.model,
             requestOptions.encodingFormat.orEmpty(),
             requestOptions.dimension,
             requestOptions.user
