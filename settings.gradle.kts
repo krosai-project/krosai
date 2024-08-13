@@ -24,6 +24,13 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
+        maven("https://maven.tryformation.com/releases") {
+            content {
+                includeGroup("com.jillesvangurp")
+                includeGroup("com.tryformation")
+                includeGroup("com.tryformation.fritz2")
+            }
+        }
         maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
         mavenCentral()
     }
