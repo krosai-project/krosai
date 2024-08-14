@@ -1,12 +1,12 @@
-package io.github.krosai.core.factory
+package org.krosai.core.factory
 
-import io.github.krosai.core.chat.client.ChatClient
-import io.github.krosai.core.chat.client.ChatClientRequestDefinition
-import io.github.krosai.core.chat.client.DefaultChatClient
-import io.github.krosai.core.chat.client.DefaultChatClientRequestScope
-import io.github.krosai.core.chat.model.ChatModel
-import io.github.krosai.core.embedding.model.EmbeddingModel
-import io.github.krosai.core.image.ImageModel
+import org.krosai.core.chat.client.ChatClient
+import org.krosai.core.chat.client.ChatClientRequestDefinition
+import org.krosai.core.chat.client.DefaultChatClient
+import org.krosai.core.chat.client.DefaultChatClientRequestScope
+import org.krosai.core.chat.model.ChatModel
+import org.krosai.core.embedding.model.EmbeddingModel
+import org.krosai.core.image.ImageModel
 
 /**
  * The interface for a factory that creates different models and a chat client.

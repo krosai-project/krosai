@@ -1,9 +1,9 @@
-package io.github.krosai.openai.metadata.support
+package org.krosai.openai.metadata.support
 
-import io.github.krosai.core.chat.metadata.RateLimit
-import io.github.krosai.openai.metadata.OpenAiRateLimit
-import io.github.krosai.openai.metadata.support.OpenAiApiResponseHeaders.*
 import io.ktor.client.statement.*
+import org.krosai.core.chat.metadata.RateLimit
+import org.krosai.openai.metadata.OpenAiRateLimit
+import org.krosai.openai.metadata.support.OpenAiApiResponseHeaders.*
 import kotlin.time.Duration
 
 internal fun HttpResponse.extractAiResponseHeaders(): RateLimit {

@@ -1,9 +1,9 @@
-package io.github.krosai.openai.metadata
+package org.krosai.openai.metadata
 
-import io.github.krosai.core.chat.metadata.Usage
+import org.krosai.core.chat.metadata.Usage
 
 data class OpenAiUsage(
-    val usage: io.github.krosai.openai.api.Usage
+    val usage: org.krosai.openai.api.Usage
 ) : Usage {
 
     override val promptTokens: Long

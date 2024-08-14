@@ -1,6 +1,6 @@
-package io.github.krosai.core.image
+package org.krosai.core.image
 
-import io.github.krosai.core.model.ModelResult
+import org.krosai.core.model.ModelResult
 
 class ImageGeneration(
     override val output: Image,

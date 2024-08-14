@@ -1,11 +1,11 @@
-package io.github.krosai.openai.test.chat.function
+package org.krosai.openai.test.chat.function
 
-import io.github.krosai.core.chat.function.buildFunctionCall
-import io.github.krosai.core.util.SerialDescription
-import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.krosai.core.chat.function.buildFunctionCall
+import org.krosai.core.util.SerialDescription
+import org.krosai.openai.test.ModelFactorySupport
 import java.time.LocalDateTime
 import kotlin.test.Test
 

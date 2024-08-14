@@ -1,3 +1,3 @@
 @file:Suppress("unused")
 
-package io.github.krosai.core.test
+package org.krosai.core.test

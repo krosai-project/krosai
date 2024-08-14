@@ -1,8 +1,8 @@
-package io.github.krosai.openai.api.embedding
+package org.krosai.openai.api.embedding
 
-import io.github.krosai.openai.api.Usage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.krosai.openai.api.Usage
 
 /**
  * List of multiple embedding responses.

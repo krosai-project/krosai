@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinxSerialization)
-    alias(libs.plugins.realm)
 }
 
 kotlin {
@@ -32,15 +31,16 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
-            api(projects.krosaiCore)
-            api(libs.kotlinx.coroutines.core)
-            implementation(libs.ktsearch)
+//            api(projects.krosaiCore)
+            api(libs.ktsearch)
+            implementation(Ktor.client.core)
         }
 
 
-        jvmTest.dependencies {
+        commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
+
         }
 
     }

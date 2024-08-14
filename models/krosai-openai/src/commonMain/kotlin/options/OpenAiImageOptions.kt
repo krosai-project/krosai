@@ -1,9 +1,9 @@
-package io.github.krosai.openai.options
+package org.krosai.openai.options
 
-import io.github.krosai.core.image.ImageOptions
-import io.github.krosai.openai.api.image.OpenAiImageModelEnum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.krosai.core.image.ImageOptions
+import org.krosai.openai.api.image.OpenAiImageModelEnum
 
 @Serializable
 data class OpenAiImageOptions(

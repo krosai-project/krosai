@@ -1,8 +1,8 @@
-package io.github.krosai.core.chat.model
+package org.krosai.core.chat.model
 
-import io.github.krosai.core.chat.message.Message
-import io.github.krosai.core.chat.metadata.ChatGenerationMetadata
-import io.github.krosai.core.model.ModelResult
+import org.krosai.core.chat.message.Message
+import org.krosai.core.chat.metadata.ChatGenerationMetadata
+import org.krosai.core.model.ModelResult
 
 /**
  * A model result for a [Generation].

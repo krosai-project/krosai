@@ -1,13 +1,13 @@
-package io.github.krosai.core.chat.function
+package org.krosai.core.chat.function
 
-import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.core.util.createJsonElement
-import io.github.krosai.core.util.resolveTypeSchema
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
 import kotlinx.serialization.serializerOrNull
+import org.krosai.core.util.DefaultJsonConverter
+import org.krosai.core.util.createJsonElement
+import org.krosai.core.util.resolveTypeSchema
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 

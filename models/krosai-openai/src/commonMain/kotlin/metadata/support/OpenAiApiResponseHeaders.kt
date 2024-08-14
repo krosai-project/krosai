@@ -1,4 +1,4 @@
-package io.github.krosai.openai.metadata.support
+package org.krosai.openai.metadata.support
 
 
 /**

@@ -1,4 +1,4 @@
-package io.github.krosai.sample.data
+package org.krosai.sample.data
 
 import androidx.compose.runtime.MutableState
 

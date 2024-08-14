@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.github.krosai.core.chat.message
+package org.krosai.core.chat.message
 
 
 /**

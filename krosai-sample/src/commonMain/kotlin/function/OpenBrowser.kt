@@ -1,9 +1,9 @@
-package io.github.krosai.sample.function
+package org.krosai.sample.function
 
-import io.github.krosai.core.chat.function.buildFunctionCall
-import io.github.krosai.core.util.SerialDescription
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.krosai.core.chat.function.buildFunctionCall
+import org.krosai.core.util.SerialDescription
 
 val OpenBrowser = buildFunctionCall {
     name = "date_time"

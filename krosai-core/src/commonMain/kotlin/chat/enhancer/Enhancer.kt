@@ -1,8 +1,8 @@
-package io.github.krosai.core.chat.enhancer
+package org.krosai.core.chat.enhancer
 
-import io.github.krosai.core.chat.client.ChatClientRequest
-import io.github.krosai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
+import org.krosai.core.chat.client.ChatClientRequest
+import org.krosai.core.chat.model.ChatResponse
 
 /**
  * The Enhancer interface defines the operations related to enhancing the chat request and response.

@@ -1,4 +1,4 @@
-package io.github.krosai.core.util
+package org.krosai.core.util
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InheritableSerialInfo

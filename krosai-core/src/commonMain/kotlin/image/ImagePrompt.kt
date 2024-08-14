@@ -1,6 +1,6 @@
-package io.github.krosai.core.image
+package org.krosai.core.image
 
-import io.github.krosai.core.model.ModelRequest
+import org.krosai.core.model.ModelRequest
 
 data class ImagePrompt(
     override val instructions: List<ImageMessage> = emptyList(),

@@ -1,14 +1,14 @@
-package io.github.krosai.core.chat.enhancer
+package org.krosai.core.chat.enhancer
 
-import io.github.krosai.core.chat.client.ChatClientRequest
-import io.github.krosai.core.chat.memory.MessageStore
-import io.github.krosai.core.chat.memory.get
-import io.github.krosai.core.chat.memory.plusAssign
-import io.github.krosai.core.chat.message.Message
-import io.github.krosai.core.chat.model.ChatResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import org.krosai.core.chat.client.ChatClientRequest
+import org.krosai.core.chat.memory.MessageStore
+import org.krosai.core.chat.memory.get
+import org.krosai.core.chat.memory.plusAssign
+import org.krosai.core.chat.message.Message
+import org.krosai.core.chat.model.ChatResponse
 
 /**
  * This class represents a MessageChatMemoryEnhancer which implements the ChatMemorySupport and Enhancer interfaces.

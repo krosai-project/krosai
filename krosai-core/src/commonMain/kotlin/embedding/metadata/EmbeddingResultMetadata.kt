@@ -1,6 +1,6 @@
-package io.github.krosai.core.embedding.metadata
+package org.krosai.core.embedding.metadata
 
-import io.github.krosai.core.model.ResultMetadata
+import org.krosai.core.model.ResultMetadata
 
 enum class ModalityType {
     TEXT,

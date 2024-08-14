@@ -1,7 +1,7 @@
-package io.github.krosai.core.embedding.metadata
+package org.krosai.core.embedding.metadata
 
-import io.github.krosai.core.chat.metadata.Usage
-import io.github.krosai.core.model.ResponseMetadata
+import org.krosai.core.chat.metadata.Usage
+import org.krosai.core.model.ResponseMetadata
 
 data class EmbeddingResponseMetadata(
     val model: String,

@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api
+package org.krosai.openai.api
 
 /**
  * OpenAI API

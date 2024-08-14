@@ -1,9 +1,9 @@
-package io.github.krosai.core.chat.client
+package org.krosai.core.chat.client
 
-import io.github.krosai.core.chat.enhancer.Enhancer
-import io.github.krosai.core.chat.function.FunctionCall
-import io.github.krosai.core.chat.message.Message
-import io.github.krosai.core.chat.prompt.ChatOptions
+import org.krosai.core.chat.enhancer.Enhancer
+import org.krosai.core.chat.function.FunctionCall
+import org.krosai.core.chat.message.Message
+import org.krosai.core.chat.prompt.ChatOptions
 
 /**
  * The data class representing a chat client request.

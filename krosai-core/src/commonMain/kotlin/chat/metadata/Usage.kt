@@ -1,4 +1,4 @@
-package io.github.krosai.core.chat.metadata
+package org.krosai.core.chat.metadata
 
 /**
  * Represents the usage information of the model.

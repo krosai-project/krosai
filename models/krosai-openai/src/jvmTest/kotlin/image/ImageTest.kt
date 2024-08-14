@@ -1,9 +1,9 @@
-package io.github.krosai.openai.test.image
+package org.krosai.openai.test.image
 
-import io.github.krosai.core.image.ImagePrompt
-import io.github.krosai.openai.options.OpenAiImageOptions
-import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
+import org.krosai.core.image.ImagePrompt
+import org.krosai.openai.options.OpenAiImageOptions
+import org.krosai.openai.test.ModelFactorySupport
 import kotlin.test.Test
 
 class ImageTest : ModelFactorySupport {

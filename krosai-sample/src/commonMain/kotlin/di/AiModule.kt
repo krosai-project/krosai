@@ -1,17 +1,5 @@
-package io.github.krosai.sample.di
+package org.krosai.sample.di
 
-import io.github.krosai.core.chat.client.ChatClient
-import io.github.krosai.core.chat.enhancer.Enhancer
-import io.github.krosai.core.chat.enhancer.MessageChatMemoryEnhancer
-import io.github.krosai.core.chat.function.FunctionCall
-import io.github.krosai.core.chat.memory.InMemoryMessageStore
-import io.github.krosai.core.factory.ModelFactory
-import io.github.krosai.core.factory.buildModelFactoryContext
-import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.openai.factory.OpenAi
-import io.github.krosai.sample.LocalData
-import io.github.krosai.sample.function.GetURL
-import io.github.krosai.sample.function.OpenBrowser
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*
@@ -19,6 +7,18 @@ import io.ktor.serialization.kotlinx.json.*
 import org.koin.core.qualifier._q
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import org.krosai.core.chat.client.ChatClient
+import org.krosai.core.chat.enhancer.Enhancer
+import org.krosai.core.chat.enhancer.MessageChatMemoryEnhancer
+import org.krosai.core.chat.function.FunctionCall
+import org.krosai.core.chat.memory.InMemoryMessageStore
+import org.krosai.core.factory.ModelFactory
+import org.krosai.core.factory.buildModelFactoryContext
+import org.krosai.core.util.DefaultJsonConverter
+import org.krosai.openai.factory.OpenAi
+import org.krosai.sample.LocalData
+import org.krosai.sample.function.GetURL
+import org.krosai.sample.function.OpenBrowser
 
 val AiModule = module {
     single<ModelFactory> {

@@ -1,4 +1,4 @@
-package io.github.krosai.core.model
+package org.krosai.core.model
 
 /**
  * Represents a request object for AI model operations.

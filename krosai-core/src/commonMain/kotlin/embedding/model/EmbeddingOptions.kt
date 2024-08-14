@@ -1,6 +1,6 @@
-package io.github.krosai.core.embedding.model
+package org.krosai.core.embedding.model
 
-import io.github.krosai.core.model.ModelOptions
+import org.krosai.core.model.ModelOptions
 
 interface EmbeddingOptions: ModelOptions {
     val model: String?

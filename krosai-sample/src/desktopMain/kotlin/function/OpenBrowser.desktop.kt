@@ -1,4 +1,4 @@
-package io.github.krosai.sample.function
+package org.krosai.sample.function
 
 import java.awt.Desktop
 import java.net.URI

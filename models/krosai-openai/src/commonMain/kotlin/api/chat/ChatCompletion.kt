@@ -1,9 +1,9 @@
-package io.github.krosai.openai.api.chat
+package org.krosai.openai.api.chat
 
-import io.github.krosai.openai.api.LogProbs
-import io.github.krosai.openai.api.Usage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.krosai.openai.api.LogProbs
+import org.krosai.openai.api.Usage
 
 /**
  * Represents a chat completion response returned by model, based on the provided input.

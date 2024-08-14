@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api.embedding
+package org.krosai.openai.api.embedding
 
 /**
  * OpenAI Embeddings Models:

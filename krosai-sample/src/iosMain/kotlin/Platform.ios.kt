@@ -1,4 +1,4 @@
-package io.github.krosai.sample
+package org.krosai.sample
 
 import platform.UIKit.UIDevice
 

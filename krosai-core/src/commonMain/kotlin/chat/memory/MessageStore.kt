@@ -1,6 +1,6 @@
-package io.github.krosai.core.chat.memory
+package org.krosai.core.chat.memory
 
-import io.github.krosai.core.chat.message.Message
+import org.krosai.core.chat.message.Message
 
 /**
  * The MessageStore interface for represents a storage for chat conversation history.

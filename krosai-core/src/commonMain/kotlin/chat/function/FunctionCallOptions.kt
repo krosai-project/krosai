@@ -1,4 +1,4 @@
-package io.github.krosai.core.chat.function
+package org.krosai.core.chat.function
 
 /**
  * Options that implement this interface represent function calls that the model can configure

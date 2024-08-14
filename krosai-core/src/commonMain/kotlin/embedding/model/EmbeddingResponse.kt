@@ -1,7 +1,7 @@
-package io.github.krosai.core.embedding.model
+package org.krosai.core.embedding.model
 
-import io.github.krosai.core.model.ModelResponse
-import io.github.krosai.core.model.ResponseMetadata
+import org.krosai.core.model.ModelResponse
+import org.krosai.core.model.ResponseMetadata
 
 data class EmbeddingResponse(
     override val results: List<Embedding>,

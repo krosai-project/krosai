@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package io.github.krosai.core.chat.prompt
+package org.krosai.core.chat.prompt
 
-import io.github.krosai.core.model.ModelOptions
+import org.krosai.core.model.ModelOptions
 
 /**
  * This interface represents the options for a chat model.

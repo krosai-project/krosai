@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package io.github.krosai.core.embedding.model
+package org.krosai.core.embedding.model
 
-import io.github.krosai.core.model.Model
+import org.krosai.core.model.Model
 
 /**
  * Represents an embedding model that can calculate embeddings for given texts.

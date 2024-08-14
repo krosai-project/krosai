@@ -1,9 +1,9 @@
-package io.github.krosai.openai.test.embedding
+package org.krosai.openai.test.embedding
 
-import io.github.krosai.core.embedding.model.EmbeddingRequest
-import io.github.krosai.openai.model.OpenAiEmbeddingModel
-import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
+import org.krosai.core.embedding.model.EmbeddingRequest
+import org.krosai.openai.model.OpenAiEmbeddingModel
+import org.krosai.openai.test.ModelFactorySupport
 import kotlin.test.Test
 
 class OpenAiEmbeddingModelTest : ModelFactorySupport {

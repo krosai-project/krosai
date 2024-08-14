@@ -1,9 +1,9 @@
 @file:Suppress("unused")
 
-package io.github.krosai.core.chat.prompt
+package org.krosai.core.chat.prompt
 
-import io.github.krosai.core.chat.message.Message
-import io.github.krosai.core.model.ModelRequest
+import org.krosai.core.chat.message.Message
+import org.krosai.core.model.ModelRequest
 
 /**
  * A prompt for a chat model.

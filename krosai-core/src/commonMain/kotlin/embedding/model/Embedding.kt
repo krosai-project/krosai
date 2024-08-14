@@ -1,7 +1,7 @@
-package io.github.krosai.core.embedding.model
+package org.krosai.core.embedding.model
 
-import io.github.krosai.core.embedding.metadata.EmbeddingResultMetadata
-import io.github.krosai.core.model.ModelResult
+import org.krosai.core.embedding.metadata.EmbeddingResultMetadata
+import org.krosai.core.model.ModelResult
 
 data class Embedding(
     override val output: List<Double>,

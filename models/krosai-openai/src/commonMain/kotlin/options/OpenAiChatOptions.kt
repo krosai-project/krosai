@@ -1,10 +1,10 @@
-package io.github.krosai.openai.options
+package org.krosai.openai.options
 
-import io.github.krosai.core.chat.function.FunctionCall
-import io.github.krosai.core.chat.function.FunctionCallOptions
-import io.github.krosai.core.chat.prompt.ChatOptions
-import io.github.krosai.openai.api.chat.ChatCompletionRequest
-import io.github.krosai.openai.api.chat.OpenAiChatModelEnum
+import org.krosai.core.chat.function.FunctionCall
+import org.krosai.core.chat.function.FunctionCallOptions
+import org.krosai.core.chat.prompt.ChatOptions
+import org.krosai.openai.api.chat.ChatCompletionRequest
+import org.krosai.openai.api.chat.OpenAiChatModelEnum
 
 data class OpenAiChatOptions(
 

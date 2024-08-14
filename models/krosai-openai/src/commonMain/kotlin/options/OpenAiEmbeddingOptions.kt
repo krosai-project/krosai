@@ -1,7 +1,7 @@
-package io.github.krosai.openai.options
+package org.krosai.openai.options
 
-import io.github.krosai.core.embedding.model.EmbeddingOptions
-import io.github.krosai.openai.api.embedding.OpenAiEmbeddingModelEnum
+import org.krosai.core.embedding.model.EmbeddingOptions
+import org.krosai.openai.api.embedding.OpenAiEmbeddingModelEnum
 
 data class OpenAiEmbeddingOptions(
     override var model: String = OpenAiEmbeddingModelEnum.DEFAULT.model,

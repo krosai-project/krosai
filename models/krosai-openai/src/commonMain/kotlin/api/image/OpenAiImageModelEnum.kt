@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api.image
+package org.krosai.openai.api.image
 
 enum class OpenAiImageModelEnum(val model: String) {
 

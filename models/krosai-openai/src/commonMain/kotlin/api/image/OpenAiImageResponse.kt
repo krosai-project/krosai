@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api.image
+package org.krosai.openai.api.image
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

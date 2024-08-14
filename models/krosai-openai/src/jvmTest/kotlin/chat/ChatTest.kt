@@ -1,12 +1,12 @@
-package io.github.krosai.openai.test.chat
+package org.krosai.openai.test.chat
 
-import io.github.krosai.core.chat.message.Media
-import io.github.krosai.core.chat.message.Message
-import io.github.krosai.core.chat.prompt.Prompt
-import io.github.krosai.openai.test.ModelFactorySupport
 import io.ktor.http.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import org.krosai.core.chat.message.Media
+import org.krosai.core.chat.message.Message
+import org.krosai.core.chat.prompt.Prompt
+import org.krosai.openai.test.ModelFactorySupport
 import java.io.File
 
 class ChatTest : ModelFactorySupport {

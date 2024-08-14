@@ -1,10 +1,10 @@
-package io.github.krosai.core.chat.model
+package org.krosai.core.chat.model
 
-import io.github.krosai.core.chat.prompt.ChatOptions
-import io.github.krosai.core.chat.prompt.Prompt
-import io.github.krosai.core.model.Model
-import io.github.krosai.core.model.StreamingModel
 import kotlinx.coroutines.flow.Flow
+import org.krosai.core.chat.prompt.ChatOptions
+import org.krosai.core.chat.prompt.Prompt
+import org.krosai.core.model.Model
+import org.krosai.core.model.StreamingModel
 
 /**
  * The interface for a chat model.

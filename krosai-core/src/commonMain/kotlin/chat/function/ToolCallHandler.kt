@@ -1,7 +1,7 @@
-package io.github.krosai.core.chat.function
+package org.krosai.core.chat.function
 
-import io.github.krosai.core.chat.message.Message
-import io.github.krosai.core.chat.message.ToolResponse
+import org.krosai.core.chat.message.Message
+import org.krosai.core.chat.message.ToolResponse
 
 /**
  * Handles the execution of a tool call.

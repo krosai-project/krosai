@@ -1,6 +1,6 @@
-package io.github.krosai.core.factory
+package org.krosai.core.factory
 
-import io.github.krosai.core.chat.function.FunctionCall
+import org.krosai.core.chat.function.FunctionCall
 
 class ModelFactoryContext {
 

@@ -1,6 +1,6 @@
-package io.github.krosai.openai.metadata
+package org.krosai.openai.metadata
 
-import io.github.krosai.core.chat.metadata.RateLimit
+import org.krosai.core.chat.metadata.RateLimit
 import kotlin.time.Duration
 
 data class OpenAiRateLimit(

@@ -1,12 +1,12 @@
-package io.github.krosai.openai.model
+package org.krosai.openai.model
 
-import io.github.krosai.core.embedding.metadata.EmbeddingResponseMetadata
-import io.github.krosai.core.embedding.metadata.MetadataMode
-import io.github.krosai.core.embedding.model.*
-import io.github.krosai.openai.api.OpenAiApi
-import io.github.krosai.openai.api.embedding.OpenAiEmbeddingRequest
-import io.github.krosai.openai.metadata.OpenAiUsage
-import io.github.krosai.openai.options.OpenAiEmbeddingOptions
+import org.krosai.core.embedding.metadata.EmbeddingResponseMetadata
+import org.krosai.core.embedding.metadata.MetadataMode
+import org.krosai.core.embedding.model.*
+import org.krosai.openai.api.OpenAiApi
+import org.krosai.openai.api.embedding.OpenAiEmbeddingRequest
+import org.krosai.openai.metadata.OpenAiUsage
+import org.krosai.openai.options.OpenAiEmbeddingOptions
 
 class OpenAiEmbeddingModel(
     val api: OpenAiApi,

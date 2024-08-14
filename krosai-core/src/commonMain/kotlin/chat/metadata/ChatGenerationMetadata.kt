@@ -1,6 +1,6 @@
-package io.github.krosai.core.chat.metadata
+package org.krosai.core.chat.metadata
 
-import io.github.krosai.core.model.ResultMetadata
+import org.krosai.core.model.ResultMetadata
 
 /**
  * Represents the metadata associated with the chat generation result.

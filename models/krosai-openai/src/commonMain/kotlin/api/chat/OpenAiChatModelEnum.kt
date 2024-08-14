@@ -1,4 +1,4 @@
-package io.github.krosai.openai.api.chat
+package org.krosai.openai.api.chat
 
 enum class OpenAiChatModelEnum(val model: String) {
 

@@ -1,7 +1,7 @@
-package io.github.krosai.core.chat.model
+package org.krosai.core.chat.model
 
-import io.github.krosai.core.chat.metadata.ChatResponseMetadata
-import io.github.krosai.core.model.ModelResponse
+import org.krosai.core.chat.metadata.ChatResponseMetadata
+import org.krosai.core.model.ModelResponse
 
 /**
  * Represents a response from a chat model.

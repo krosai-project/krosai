@@ -1,9 +1,9 @@
-package io.github.krosai.openai.api.chat
+package org.krosai.openai.api.chat
 
-import io.github.krosai.openai.api.chat.ChatCompletionRequest.ToolChoiceBuilder
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import org.krosai.openai.api.chat.ChatCompletionRequest.ToolChoiceBuilder
 
 /**
  * Creates a model response for the given chat conversation.

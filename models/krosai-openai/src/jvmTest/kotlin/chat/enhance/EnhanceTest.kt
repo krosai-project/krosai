@@ -1,10 +1,10 @@
-package io.github.krosai.openai.test.chat.enhance
+package org.krosai.openai.test.chat.enhance
 
-import io.github.krosai.core.chat.enhancer.ChatMemorySupport
-import io.github.krosai.core.chat.enhancer.MessageChatMemoryEnhancer
-import io.github.krosai.core.chat.memory.InMemoryMessageStore
-import io.github.krosai.openai.test.ModelFactorySupport
 import kotlinx.coroutines.test.runTest
+import org.krosai.core.chat.enhancer.ChatMemorySupport
+import org.krosai.core.chat.enhancer.MessageChatMemoryEnhancer
+import org.krosai.core.chat.memory.InMemoryMessageStore
+import org.krosai.openai.test.ModelFactorySupport
 import kotlin.test.Test
 
 class EnhanceTest : ModelFactorySupport {

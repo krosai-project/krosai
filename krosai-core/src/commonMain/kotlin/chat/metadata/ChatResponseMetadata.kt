@@ -1,6 +1,6 @@
-package io.github.krosai.core.chat.metadata
+package org.krosai.core.chat.metadata
 
-import io.github.krosai.core.model.ResponseMetadata
+import org.krosai.core.model.ResponseMetadata
 
 data class ChatResponseMetadata(
     val id: String = "",

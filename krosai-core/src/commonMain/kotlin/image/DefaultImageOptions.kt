@@ -1,4 +1,4 @@
-package io.github.krosai.core.image
+package org.krosai.core.image
 
 data class DefaultImageOptions(
     override val n: Int? = null,

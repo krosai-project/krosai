@@ -1,6 +1,6 @@
-package io.github.krosai.core.chat.memory
+package org.krosai.core.chat.memory
 
-import io.github.krosai.core.chat.message.Message
+import org.krosai.core.chat.message.Message
 
 /**
  * InMemoryMessageStore is a simple implementation of the MessageStore interface.

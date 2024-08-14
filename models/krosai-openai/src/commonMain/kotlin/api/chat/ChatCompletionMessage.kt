@@ -1,11 +1,11 @@
-package io.github.krosai.openai.api.chat
+package org.krosai.openai.api.chat
 
-import io.github.krosai.core.chat.message.MessageType
-import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.openai.api.chat.ChatCompletionMessage.Role
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
+import org.krosai.core.chat.message.MessageType
+import org.krosai.core.util.DefaultJsonConverter
+import org.krosai.openai.api.chat.ChatCompletionMessage.Role
 
 /**
  * Message comprising the conversation.

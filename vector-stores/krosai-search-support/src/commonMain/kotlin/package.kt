@@ -1,2 +1,2 @@
-package io.github.krosai.mongodb
+package org.krosai.searchsupport
 

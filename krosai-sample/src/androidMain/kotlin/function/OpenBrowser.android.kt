@@ -1,9 +1,9 @@
-package io.github.krosai.sample.function
+package org.krosai.sample.function
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import io.github.krosai.sample.getPlatform
+import org.krosai.sample.getPlatform
 
 actual fun openBrowser(url: String) {
     getPlatform().context?.let {

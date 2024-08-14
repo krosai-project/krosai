@@ -1,6 +1,6 @@
-package io.github.krosai.core.embedding.model
+package org.krosai.core.embedding.model
 
-import io.github.krosai.core.model.ModelRequest
+import org.krosai.core.model.ModelRequest
 
 data class EmbeddingRequest(
     override val instructions: List<String>,

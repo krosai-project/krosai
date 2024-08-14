@@ -1,13 +1,13 @@
-package io.github.krosai.openai.model
+package org.krosai.openai.model
 
-import io.github.krosai.core.image.*
-import io.github.krosai.core.util.mergeElement
-import io.github.krosai.openai.api.OpenAiApi
-import io.github.krosai.openai.api.image.OpenAiImageModelEnum
-import io.github.krosai.openai.api.image.OpenAiImageRequest
-import io.github.krosai.openai.api.image.OpenAiImageResponse
-import io.github.krosai.openai.metadata.OpenAiImageGenerationMetadata
-import io.github.krosai.openai.options.OpenAiImageOptions
+import org.krosai.core.image.*
+import org.krosai.core.util.mergeElement
+import org.krosai.openai.api.OpenAiApi
+import org.krosai.openai.api.image.OpenAiImageModelEnum
+import org.krosai.openai.api.image.OpenAiImageRequest
+import org.krosai.openai.api.image.OpenAiImageResponse
+import org.krosai.openai.metadata.OpenAiImageGenerationMetadata
+import org.krosai.openai.options.OpenAiImageOptions
 
 class OpenAiImageModel(
     private val api: OpenAiApi,

@@ -1,12 +1,5 @@
-package io.github.krosai.openai.api
+package org.krosai.openai.api
 
-import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.openai.api.chat.*
-import io.github.krosai.openai.api.embedding.OpenAiEmbedding
-import io.github.krosai.openai.api.embedding.OpenAiEmbeddingList
-import io.github.krosai.openai.api.embedding.OpenAiEmbeddingRequest
-import io.github.krosai.openai.api.image.OpenAiImageRequest
-import io.github.krosai.openai.api.image.OpenAiImageResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.sse.*
@@ -14,7 +7,13 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.*
-
+import org.krosai.core.util.DefaultJsonConverter
+import org.krosai.openai.api.chat.*
+import org.krosai.openai.api.embedding.OpenAiEmbedding
+import org.krosai.openai.api.embedding.OpenAiEmbeddingList
+import org.krosai.openai.api.embedding.OpenAiEmbeddingRequest
+import org.krosai.openai.api.image.OpenAiImageRequest
+import org.krosai.openai.api.image.OpenAiImageResponse
 
 
 class OpenAiApi(

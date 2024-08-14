@@ -1,3 +1,2 @@
-class KtSearchTest {
+package org.krosai.searchsupport
 
-}

@@ -1,16 +1,16 @@
-package io.github.krosai.openai.test
+package org.krosai.openai.test
 
-import io.github.krosai.core.chat.client.ChatClient
-import io.github.krosai.core.factory.ModelFactory
-import io.github.krosai.core.factory.buildModelFactoryContext
-import io.github.krosai.core.util.DefaultJsonConverter
-import io.github.krosai.openai.api.image.OpenAiImageModelEnum
-import io.github.krosai.openai.factory.OpenAi
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*
 import io.ktor.serialization.kotlinx.json.*
+import org.krosai.core.chat.client.ChatClient
+import org.krosai.core.factory.ModelFactory
+import org.krosai.core.factory.buildModelFactoryContext
+import org.krosai.core.util.DefaultJsonConverter
+import org.krosai.openai.api.image.OpenAiImageModelEnum
+import org.krosai.openai.factory.OpenAi
 
 interface ModelFactorySupport {
 
@@ -20,9 +20,9 @@ interface ModelFactorySupport {
                 factory(OpenAi) {
                     clientBlock = {
                         install(HttpTimeout) {
-                            requestTimeoutMillis = 600000
-                            connectTimeoutMillis = 600000
-                            socketTimeoutMillis = 600000
+                            requestTimeoutMillis = 60000
+                            connectTimeoutMillis = 60000
+                            socketTimeoutMillis = 60000
                         }
                         install(ContentNegotiation) {
                             json(DefaultJsonConverter)

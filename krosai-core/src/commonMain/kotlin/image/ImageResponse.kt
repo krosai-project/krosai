@@ -1,6 +1,6 @@
-package io.github.krosai.core.image
+package org.krosai.core.image
 
-import io.github.krosai.core.model.ModelResponse
+import org.krosai.core.model.ModelResponse
 
 /**
  * Represents the response from an image generation AI model. It contains the list of generated image generations,

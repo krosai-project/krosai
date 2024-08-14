@@ -1,6 +1,6 @@
-package io.github.krosai.core.image
+package org.krosai.core.image
 
-import io.github.krosai.core.model.ResultMetadata
+import org.krosai.core.model.ResultMetadata
 
 interface ImageGenerationMetadata : ResultMetadata {
 

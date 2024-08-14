@@ -1,4 +1,4 @@
-package io.github.krosai.core.vector
+package org.krosai.core.vector
 
 interface VectorStores {
 }

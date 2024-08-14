@@ -1,6 +1,6 @@
-package io.github.krosai.core.image
+package org.krosai.core.image
 
-import io.github.krosai.core.model.ResponseMetadata
+import org.krosai.core.model.ResponseMetadata
 
 /**
  * Represents the metadata associated with the image response.

@@ -1,16 +1,16 @@
-package io.github.krosai.openai.factory
+package org.krosai.openai.factory
 
-import io.github.krosai.core.chat.function.FunctionCall
-import io.github.krosai.core.chat.model.ChatModel
-import io.github.krosai.core.embedding.model.EmbeddingModel
-import io.github.krosai.core.factory.ModelFactory
-import io.github.krosai.core.factory.createModelFactory
-import io.github.krosai.core.image.ImageModel
-import io.github.krosai.openai.api.OpenAiApi
-import io.github.krosai.openai.model.OpenAiChatModel
-import io.github.krosai.openai.model.OpenAiEmbeddingModel
-import io.github.krosai.openai.model.OpenAiImageModel
 import io.ktor.client.*
+import org.krosai.core.chat.function.FunctionCall
+import org.krosai.core.chat.model.ChatModel
+import org.krosai.core.embedding.model.EmbeddingModel
+import org.krosai.core.factory.ModelFactory
+import org.krosai.core.factory.createModelFactory
+import org.krosai.core.image.ImageModel
+import org.krosai.openai.api.OpenAiApi
+import org.krosai.openai.model.OpenAiChatModel
+import org.krosai.openai.model.OpenAiEmbeddingModel
+import org.krosai.openai.model.OpenAiImageModel
 
 val OpenAi = createModelFactory(
     "OpenAi",

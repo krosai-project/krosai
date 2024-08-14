@@ -1,6 +1,6 @@
-package io.github.krosai.openai.metadata
+package org.krosai.openai.metadata
 
-import io.github.krosai.core.image.ImageGenerationMetadata
+import org.krosai.core.image.ImageGenerationMetadata
 
 data class OpenAiImageGenerationMetadata(
     val revisedPrompt: String
