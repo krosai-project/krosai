@@ -1,8 +1,11 @@
 package org.krosai.core.util
 
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.*
 import kotlinx.serialization.serializer
 
+@OptIn(ExperimentalSerializationApi::class)
 val DefaultJsonConverter = Json {
     ignoreUnknownKeys = true
     explicitNulls = false
@@ -18,6 +21,7 @@ val DefaultJsonConverter = Json {
 /**
  * Create JsonElement from any
  */
+@OptIn(InternalSerializationApi::class)
 internal fun createJsonElement(any: Any): JsonElement {
     return when (any) {
         is Map<*, *> -> buildJsonObject {

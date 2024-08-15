@@ -1,7 +1,4 @@
-plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinxSerialization)
-}
+
 
 kotlin {
 
@@ -20,9 +17,7 @@ kotlin {
     //        binaries.executable()
     //    }
 
-    jvm {
-        withJava()
-    }
+    jvm()
 
     iosX64()
     iosArm64()
@@ -31,9 +26,9 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
-//            api(projects.krosaiCore)
+            api(projects.krosaiCore)
             api(libs.ktsearch)
-            implementation(Ktor.client.core)
+//            implementation(Ktor.client.core)
         }
 
 

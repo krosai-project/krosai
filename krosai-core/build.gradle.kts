@@ -1,9 +1,6 @@
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
-plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinxSerialization)
-}
+
 
 kotlin {
 
@@ -20,23 +17,13 @@ kotlin {
         binaries.executable()
     }
 
-
-    jvm {
-        withJava()
-    }
+    jvm()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
-
-        all {
-            languageSettings.apply {
-                optIn("kotlinx.serialization.InternalSerializationApi")
-                optIn("kotlinx.serialization.ExperimentalSerializationApi")
-            }
-        }
 
         commonMain.dependencies {
             api(libs.ktor.client.core)

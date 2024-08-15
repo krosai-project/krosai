@@ -1,10 +1,5 @@
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
-plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinxSerialization)
-}
-
 kotlin {
 
     js(IR) {
@@ -19,10 +14,7 @@ kotlin {
         nodejs()
     }
 
-
-    jvm {
-        withJava()
-    }
+    jvm()
 
     iosX64()
     iosArm64()

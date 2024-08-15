@@ -39,10 +39,14 @@ dependencyResolutionManagement {
 include(":krosai-core")
 include(":krosai-sample")
 
-rootProject.projectDir.resolve("models").list()?.forEach {
-    include("models:$it")
-}
+rootProject.projectDir.resolve("models").list()
+    ?.filter { it.startsWith("krosai-") }
+    ?.forEach {
+        include("models:$it")
+    }
 
-rootProject.projectDir.resolve("vector-stores").list()?.forEach {
-    include("vector-stores:$it")
-}
+rootProject.projectDir.resolve("vector-stores").list()
+    ?.filter { it.startsWith("krosai-") }
+    ?.forEach {
+        include("vector-stores:$it")
+    }
