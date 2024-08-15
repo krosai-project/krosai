@@ -21,7 +21,7 @@ val OpenAi = createModelFactory(
 
 class OpenAiModelFactory(
     private val config: OpenAiModelFactoryConfig,
-    private val getFunctionCall: (Set<String>) -> List<FunctionCall>
+    private val getFunctionCall: (Set<String>) -> List<FunctionCall<*, *>>
 ) : ModelFactory {
 
     private val client: HttpClient by lazy {

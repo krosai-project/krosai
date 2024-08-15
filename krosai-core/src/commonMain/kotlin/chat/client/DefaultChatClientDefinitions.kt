@@ -178,17 +178,17 @@ class DefaultFunctionCallScope(
     chatClientRequestScope: DefaultChatClientRequestScope
 ) : FunctionCallScope {
 
-    private val functionCalls: MutableList<FunctionCall>
+    private val functionCalls: MutableList<FunctionCall<*, *>>
             by chatClientRequestScope.chatClientRequest::functionCalls
 
     private val functionNames: MutableSet<String>
             by chatClientRequestScope.chatClientRequest::functionNames
 
-    override fun FunctionCall.unaryPlus() {
+    override fun FunctionCall<*, *>.unaryPlus() {
         functionCalls.add(this)
     }
 
-    override fun List<FunctionCall>.unaryPlus() {
+    override fun List<FunctionCall<*, *>>.unaryPlus() {
         functionCalls.addAll(this)
     }
 

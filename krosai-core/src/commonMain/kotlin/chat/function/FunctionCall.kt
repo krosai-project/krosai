@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonElement
  *
  * @author KAMOsama
  */
-interface FunctionCall {
+interface FunctionCall<in I, out O> {
 
     val name: String
 
@@ -16,5 +16,7 @@ interface FunctionCall {
     val inputSchema: JsonElement
 
     fun call(req: String): String
+
+    operator fun invoke(req: I): O
 
 }

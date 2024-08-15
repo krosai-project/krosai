@@ -29,7 +29,7 @@ data class ChatClientRequest(
     var userText: Map<String, Any>.() -> String? = { null },
     val userParams: MutableMap<String, Any> = mutableMapOf(),
     val systemParams: MutableMap<String, Any> = mutableMapOf(),
-    val functionCalls: MutableList<FunctionCall> = mutableListOf(),
+    val functionCalls: MutableList<FunctionCall<*, *>> = mutableListOf(),
     val functionNames: MutableSet<String> = mutableSetOf(),
     val enhancers: MutableList<Enhancer> = mutableListOf(),
     val enhancerParams: MutableMap<String, Any> = mutableMapOf(),

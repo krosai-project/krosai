@@ -12,7 +12,7 @@ interface ToolCallHandler {
 
     fun executeFunctionCall(
         assistantMessage: Message.Assistant,
-        getFunctionCall: (Set<String>) -> List<FunctionCall>
+        getFunctionCall: (Set<String>) -> List<FunctionCall<*, *>>
     ): Message.Tool {
         val toolCallNames = assistantMessage.toolCall?.map { it.name }?.toSet() ?: emptySet()
         val functionCalls = getFunctionCall(toolCallNames)

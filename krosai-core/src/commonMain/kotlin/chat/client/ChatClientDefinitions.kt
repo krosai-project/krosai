@@ -97,9 +97,9 @@ interface EnhancersScope {
  */
 interface FunctionCallScope {
 
-    operator fun FunctionCall.unaryPlus()
+    operator fun FunctionCall<*, *>.unaryPlus()
 
-    operator fun List<FunctionCall>.unaryPlus()
+    operator fun List<FunctionCall<*, *>>.unaryPlus()
 
     operator fun String.unaryPlus()
 

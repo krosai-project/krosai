@@ -1,5 +1,6 @@
 package org.krosai.core.chat.function
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.json.*
@@ -47,7 +48,8 @@ class FunctionCallBuilder @PublishedApi internal constructor(
 
     var inputSchema: JsonElement = JsonNull
 
-    fun build(): FunctionCall {
+    @OptIn(InternalSerializationApi::class)
+    fun build(): FunctionCall<*, *> {
         requireNotNull(call) { "call must be not null" }
         requireNotNull(name) { "name must be not null" }
 
@@ -64,11 +66,12 @@ class FunctionCallBuilder @PublishedApi internal constructor(
             inputConverter = inputConverter,
             outputConverter = outputConverter,
             inputSchema = inputSchema,
-            call = call!!
+            doCall = call!!
         )
 
     }
 
+    @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
     inline fun <reified I : Any> withCall(
         noinline call: (I) -> Any
     ): FunctionCallBuilder {
@@ -128,7 +131,7 @@ inline fun buildFunctionCall(
     name: String? = null,
     description: String = "",
     builder: FunctionCallBuilder.() -> Unit
-): FunctionCall = FunctionCallBuilder(name, description).apply(builder).build()
+): FunctionCall<*, *> = FunctionCallBuilder(name, description).apply(builder).build()
 
 
 /**
@@ -143,6 +146,6 @@ inline fun buildFunctionCall(
     name: KFunction<*>,
     description: String = "",
     builder: FunctionCallBuilder.() -> Unit
-): FunctionCall = buildFunctionCall(name.name, description, builder)
+): FunctionCall<*, *> = buildFunctionCall(name.name, description, builder)
 
 
