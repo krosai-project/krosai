@@ -19,7 +19,7 @@ To run the sample, it requires you to provide the OpenAI API key in a file named
 krosai-sample/src/commonMain/kotlin":
 
  ```kotlin
-package io.github.krosai.sample
+package org.krosai.sample
 
 object LocalData {
     const val API_KEY = "YOUR_API_KEY"
@@ -42,7 +42,7 @@ To run the Android application, execute the following command:
 ```shell
 ./gradlew :krosai-sample:assembleDebug
 adb install build/outputs/apk/debug/krosai-sample-debug.apk
-adb shell am start -n "io.github.krosai/.sample.MainActivity"
+adb shell am start -n "org.krosai/.sample.MainActivity"
 ```
 
 ### WASM
