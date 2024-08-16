@@ -72,7 +72,6 @@ kotlin {
             implementation(libs.koin.compose)
 
             implementation(projects.models.krosaiOpenai)
-//            implementation(projects.vectorStores.krosaiMongodbStore)
         }
 
         wasmJsMain.dependencies {

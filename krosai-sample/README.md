@@ -32,7 +32,7 @@ object LocalData {
 To run the desktop application, execute the following command:
 
 ```shell
-./gradlew :krosai-sample:desktopRun -DmainClass=io.github.krosai.sample.MainKt --quiet
+./gradlew :krosai-sample:desktopRun -DmainClass=org.krosai.sample.MainKt --quiet
 ```
 
 ### Android

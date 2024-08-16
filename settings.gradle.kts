@@ -24,6 +24,7 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
+        // support for ktSearch
         maven("https://maven.tryformation.com/releases") {
             content {
                 includeGroup("com.jillesvangurp")
@@ -31,7 +32,6 @@ dependencyResolutionManagement {
                 includeGroup("com.tryformation.fritz2")
             }
         }
-        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
         mavenCentral()
     }
 }
@@ -42,11 +42,11 @@ include(":krosai-sample")
 rootProject.projectDir.resolve("models").list()
     ?.filter { it.startsWith("krosai-") }
     ?.forEach {
-        include("models:$it")
+        include(":models:$it")
     }
 
 rootProject.projectDir.resolve("vector-stores").list()
     ?.filter { it.startsWith("krosai-") }
     ?.forEach {
-        include("vector-stores:$it")
+        include(":vector-stores:$it")
     }
