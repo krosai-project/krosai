@@ -7,21 +7,21 @@ class ModelFactoryContext {
     private val factories = mutableMapOf<ModelFactoryBuilder<*, *>, ModelFactory>()
 
     // TODO: use interface for functionCallRegister
-    private val functionCallRegister: MutableMap<String, FunctionCall<*, *>> = mutableMapOf()
+    private val functionCallRegister: MutableMap<String, FunctionCall> = mutableMapOf()
 
-    private fun registerFunctionCall(vararg functionCall: FunctionCall<*, *>) {
+    private fun registerFunctionCall(vararg functionCall: FunctionCall) {
         functionCall.forEach {
             functionCallRegister[it.name] = it
         }
     }
 
-    fun getFunctionCallsByName(functionNames: Set<String>): List<FunctionCall<*, *>> {
+    fun getFunctionCallsByName(functionNames: Set<String>): List<FunctionCall> {
         return functionNames.mapNotNull {
             functionCallRegister[it]
         }
     }
 
-    fun functions(vararg functionCall: FunctionCall<*, *>) {
+    fun functions(vararg functionCall: FunctionCall) {
         registerFunctionCall(*functionCall)
     }
 

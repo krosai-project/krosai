@@ -7,7 +7,7 @@ package org.krosai.core.chat.function
  */
 interface FunctionCallOptions {
 
-    val functionCalls: MutableList<FunctionCall<*, *>>
+    val functionCalls: MutableList<FunctionCall>
 
     val functionNames: MutableSet<String>
 

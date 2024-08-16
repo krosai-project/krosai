@@ -130,7 +130,7 @@ data class OpenAiChatOptions(
      * For Default Options the functionCallbacks are registered but disabled by default. Use the enableFunctions to set the functions
      * from the registry to be used by the ChatModel chat completion requests.
      */
-    override var functionCalls: MutableList<FunctionCall<*, *>> = mutableListOf(),
+    override var functionCalls: MutableList<FunctionCall> = mutableListOf(),
 
     /**
      * List of functions, identified by their names, to configure for function calling in

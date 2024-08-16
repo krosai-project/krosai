@@ -42,7 +42,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class OpenAiChatModel(
     private val api: OpenAiApi,
     private val chatOptions: OpenAiChatOptions,
-    private val getFunctionCallNames: (Set<String>) -> List<FunctionCall<*, *>>
+    private val getFunctionCallNames: (Set<String>) -> List<FunctionCall>
 ) : ToolCallHandler, ChatModel {
 
     override val defaultChatOptions: ChatOptions get() = chatOptions.copy()
@@ -177,7 +177,7 @@ private fun ChatCompletion.buildGeneration(choice: ChatCompletion.Choice): Gener
 private fun createRequest(
     prompt: Prompt,
     stream: Boolean,
-    getFunctionCallNames: (Set<String>) -> List<FunctionCall<*, *>>
+    getFunctionCallNames: (Set<String>) -> List<FunctionCall>
 ): ChatCompletionRequest {
     val chatCompletionMessages = prompt.instructions.flatMap { message ->
         when (message.type) {

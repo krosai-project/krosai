@@ -49,7 +49,7 @@ class FunctionCallBuilder @PublishedApi internal constructor(
     var inputSchema: JsonElement = JsonNull
 
     @OptIn(InternalSerializationApi::class)
-    fun build(): FunctionCall<*, *> {
+    fun build(): FunctionCall {
         requireNotNull(call) { "call must be not null" }
         requireNotNull(name) { "name must be not null" }
 
@@ -63,8 +63,8 @@ class FunctionCallBuilder @PublishedApi internal constructor(
         return GenerationFunctionCall(
             name = name!!,
             description = description,
-            inputConverter = inputConverter,
-            outputConverter = outputConverter,
+            doInputConverter = inputConverter,
+            doOutputConverter = outputConverter,
             inputSchema = inputSchema,
             doCall = call!!
         )
@@ -131,7 +131,7 @@ inline fun buildFunctionCall(
     name: String? = null,
     description: String = "",
     builder: FunctionCallBuilder.() -> Unit
-): FunctionCall<*, *> = FunctionCallBuilder(name, description).apply(builder).build()
+): FunctionCall = FunctionCallBuilder(name, description).apply(builder).build()
 
 
 /**
@@ -146,6 +146,6 @@ inline fun buildFunctionCall(
     name: KFunction<*>,
     description: String = "",
     builder: FunctionCallBuilder.() -> Unit
-): FunctionCall<*, *> = buildFunctionCall(name.name, description, builder)
+): FunctionCall = buildFunctionCall(name.name, description, builder)
 
 
