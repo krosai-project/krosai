@@ -30,13 +30,13 @@ interface ModelFactory {
 
 }
 
-interface ModelFactoryBuilder<Config, ModelFactory> {
+interface ModelFactoryBuilder<Config, M : ModelFactory> {
 
     val id: String
 
     val config: Config
 
-    fun install(factoryContext: ModelFactoryContext)
+    fun build(factoryContext: ModelFactoryContext): M
 
 }
 
@@ -51,8 +51,8 @@ fun <Config : Any, M : ModelFactory> createModelFactory(
 
         override val config: Config = createConfiguration()
 
-        override fun install(factoryContext: ModelFactoryContext) =
-            builder.invoke(config, factoryContext).let { factoryContext.register(this, it) }
+        override fun build(factoryContext: ModelFactoryContext): M =
+            builder.invoke(config, factoryContext)
 
     }
 }

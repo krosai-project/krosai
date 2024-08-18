@@ -32,13 +32,25 @@ class ModelFactoryContext {
         return modelFactory as F
     }
 
+    @PublishedApi
     internal fun register(builder: ModelFactoryBuilder<*, *>, modelFactory: ModelFactory) {
         factories[builder] = modelFactory
     }
 
-    fun <M : ModelFactoryBuilder<Config, *>, Config> factory(factory: M, block: Config.() -> Unit) {
-        factory.config.block()
-        factory.install(this)
+    inline fun <Builder : ModelFactoryBuilder<Config, M>, Config, M : ModelFactory> factory(
+        factoryBuilder: Builder,
+        noinline block: (Config.() -> Unit)? = null
+    ) {
+        val modelFactory = create(factoryBuilder, block)
+        register(factoryBuilder, modelFactory)
+    }
+
+    inline fun <Builder : ModelFactoryBuilder<Config, M>, Config, M : ModelFactory> create(
+        factoryBuilder: Builder,
+        noinline block: (Config.() -> Unit)? = null
+    ): ModelFactory {
+        block?.apply { invoke(factoryBuilder.config) }
+        return factoryBuilder.build(this)
     }
 
 }
