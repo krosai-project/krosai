@@ -45,8 +45,8 @@ rootProject.projectDir.resolve("models").list()
         include(":models:$it")
     }
 
-rootProject.projectDir.resolve("vector-stores").list()
-    ?.filter { it.startsWith("krosai-") }
-    ?.forEach {
-        include(":vector-stores:$it")
-    }
+//rootProject.projectDir.resolve("vector-stores").list()
+//    ?.filter { it.startsWith("krosai-") }
+//    ?.forEach {
+//        include(":vector-stores:$it")
+//    }
