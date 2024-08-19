@@ -13,7 +13,7 @@ import org.krosai.core.chat.enhancer.MessageChatMemoryEnhancer
 import org.krosai.core.chat.function.FunctionCall
 import org.krosai.core.chat.memory.InMemoryMessageStore
 import org.krosai.core.factory.ModelFactory
-import org.krosai.core.factory.buildModelFactoryContext
+import org.krosai.core.factory.ModelFactoryContext
 import org.krosai.core.util.DefaultJsonConverter
 import org.krosai.openai.factory.OpenAi
 import org.krosai.sample.LocalData
@@ -21,9 +21,10 @@ import org.krosai.sample.function.GetURL
 import org.krosai.sample.function.OpenBrowser
 
 val AiModule = module {
+
     single<ModelFactory> {
-        buildModelFactoryContext {
-            factory(OpenAi) {
+        ModelFactoryContext()
+            .create(OpenAi) {
                 clientBlock = {
                     install(ContentNegotiation) {
                         json(DefaultJsonConverter)
@@ -37,7 +38,6 @@ val AiModule = module {
                 baseUrl = LocalData.BASE_URL
                 apiKey = LocalData.API_KEY
             }
-        }[OpenAi]
     }
 
 

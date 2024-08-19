@@ -49,8 +49,9 @@ class ModelFactoryContext {
         factoryBuilder: Builder,
         noinline block: (Config.() -> Unit)? = null
     ): ModelFactory {
-        block?.apply { invoke(factoryBuilder.config) }
-        return factoryBuilder.build(this)
+        val configuration = factoryBuilder.createConfig()
+        block?.apply { invoke(configuration) }
+        return factoryBuilder.build(this, configuration)
     }
 
 }
