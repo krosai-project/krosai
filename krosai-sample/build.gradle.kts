@@ -65,6 +65,8 @@ kotlin {
             implementation(libs.koin.compose)
 
             implementation(projects.models.krosaiOpenai)
+            implementation(libs.multiplatform.markdown.renderer.m3)
+            implementation(libs.calf.webview)
         }
 
         wasmJsMain.dependencies {

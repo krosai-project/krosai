@@ -10,13 +10,16 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+calfWebview = "0.5.3"
 compose-plugin = "1.6.11"
+compose-webview = "1.9.20"
 junit = "4.13.2"
 kotlin = "2.0.0"
 ktor = "3.0.0-beta-2"
 kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.7.1"
 koin = "3.6.0-wasm-alpha2"
+multiplatform-markdown-renderer = "0.25.0"
 mongodb = "5.1.2"
 realm = "2.1.0"
 kt-search = "2.2.2"
@@ -24,6 +27,7 @@ maven-publish = "0.29.0"
 [libraries]
 
 # test
+calf-webview = { module = "com.mohamedrejeb.calf:calf-webview", version.ref = "calfWebview" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -59,6 +63,11 @@ mongodb-coroutine = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", ve
 realm-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 realm-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
 ktsearch = { module = "com.jillesvangurp:search-client", version.ref = "kt-search" }
+
+# ui
+compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "compose-webview" }
+multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform-markdown-renderer" }
+multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatform-markdown-renderer" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -11,18 +11,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
-import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.key.*
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mikepenz.markdown.m3.Markdown
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -87,7 +91,7 @@ fun RowScope.ChatBar() {
 
     Column(
         modifier = Modifier.fillMaxHeight().width(barWidth)
-            .background(MaterialTheme.colors.primary),
+            .background(MaterialTheme.colorScheme.primary),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -103,12 +107,12 @@ fun RowScope.ChatBar() {
         modifier = Modifier.size(24.dp, 36.dp).align(Alignment.CenterVertically).clickable {
             openBar = !openBar
         }.background(
-            MaterialTheme.colors.primary, shape = RoundedCornerShape(
+            MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(
                 topEnd = 12.dp,
                 bottomEnd = 12.dp
             )
         ),
-        tint = MaterialTheme.colors.onPrimary,
+        tint = MaterialTheme.colorScheme.onPrimary,
         imageVector = if (openBar) Icons.AutoMirrored.Filled.ArrowRight else Icons.AutoMirrored.Filled.ArrowLeft,
         contentDescription = null
     )
@@ -122,17 +126,17 @@ private fun BarItem(name: String, isSelected: Boolean = false, onClick: () -> Un
             .padding(horizontal = 8.dp)
             .border(
                 1.dp,
-                if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary,
+                if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary,
                 MaterialTheme.shapes.medium
             ).background(
-                if (isSelected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary,
+                if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                 MaterialTheme.shapes.medium
             ),
         onClick = onClick
     ) {
         Text(
             text = name,
-            color = if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary,
+            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary,
         )
     }
 }
@@ -149,14 +153,12 @@ fun ColumnScope.ChatMessageArea(messages: List<ChatMessage>, lazyState: LazyList
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-//                 每次文字变化时，滚动到最底部
-//                LaunchedEffect(message.textState.value){
-//                    lazyState.animateScrollToItem(messages.size,222222)
-//                }
-                val contentColor =
-                    if (message.isUser) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSecondary
+//                 Compose中怎么让LazyColumn自动保持在最下方
                 CompositionLocalProvider(
-                    LocalContentColor provides contentColor,
+                    LocalContentColor provides when (message.isUser) {
+                        true -> MaterialTheme.colorScheme.onPrimary
+                        false -> MaterialTheme.colorScheme.onSecondary
+                    },
                 ) {
                     Row(
                         modifier = Modifier
@@ -168,10 +170,10 @@ fun ColumnScope.ChatMessageArea(messages: List<ChatMessage>, lazyState: LazyList
                                 modifier = Modifier
                                     .align(Alignment.Top)
                                     .size(30.dp)
-                                    .background(MaterialTheme.colors.secondary, CircleShape)
+                                    .background(MaterialTheme.colorScheme.secondary, CircleShape)
                                     .clip(CircleShape),
                                 text = "AI",
-                                color = MaterialTheme.colors.onPrimary,
+                                color = MaterialTheme.colorScheme.onPrimary,
                                 textAlign = TextAlign.Center,
                             )
                             Spacer(modifier = Modifier.width(8.dp))
@@ -182,11 +184,11 @@ fun ColumnScope.ChatMessageArea(messages: List<ChatMessage>, lazyState: LazyList
                             Text(
                                 modifier = Modifier
                                     .size(30.dp)
-                                    .background(MaterialTheme.colors.primary, CircleShape)
+                                    .background(MaterialTheme.colorScheme.primary, CircleShape)
                                     .clip(CircleShape)
                                     .align(Alignment.Top),
                                 text = "ME",
-                                color = MaterialTheme.colors.onPrimary,
+                                color = MaterialTheme.colorScheme.onPrimary,
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -202,17 +204,21 @@ fun ColumnScope.ChatMessageArea(messages: List<ChatMessage>, lazyState: LazyList
 fun MessageBox(message: ChatMessage) {
     Box(
         modifier = Modifier
-            .widthIn(min = 30.dp, max = 400.dp)
+            .widthIn(min = 30.dp)
             .background(
-                color = if (message.isUser) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
+                color = if (message.isUser) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer,
                 shape = MaterialTheme.shapes.medium
             )
     ) {
-        if (message.textState.value.isNotEmpty()) {
+        val messageText by message.textState
+
+        if (messageText.isNotEmpty()) {
             SelectionContainer {
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = message.textState.value,
+                Markdown(
+                    content = messageText,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .widthIn(min = 30.dp, max = 500.dp)
                 )
             }
         } else {
@@ -225,6 +231,7 @@ fun MessageBox(message: ChatMessage) {
             )
         }
     }
+
 }
 
 @Composable
@@ -232,6 +239,15 @@ fun ColumnScope.ChatInputArea(sendMessage: suspend (ChatMessage) -> Unit) {
     var inputText by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val chatClient = koinInject<ChatClient>()
+    val doSend = {
+        if (inputText.isNotEmpty()) {
+            val userMessage = ChatMessage(mutableStateOf(inputText), true)
+            scope.launch(Dispatchers.Default) {
+                handleMessage(sendMessage, userMessage, chatClient)
+            }
+            inputText = ""
+        }
+    }
     Row(
         modifier = Modifier.padding(
             top = 8.dp,
@@ -241,25 +257,36 @@ fun ColumnScope.ChatInputArea(sendMessage: suspend (ChatMessage) -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         TextField(
-            modifier = Modifier.weight(0.8f).align(Alignment.Bottom),
+            modifier = Modifier
+                .weight(0.8f)
+                .align(Alignment.Bottom)
+                .onKeyEvent {
+                    if (it.type == KeyEventType.KeyUp && it.key == Key.Enter) {
+                        doSend()
+                        true
+                    } else {
+                        false
+                    }
+                },
             value = inputText,
             onValueChange = {
                 inputText = it
-            }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Send,
+            ),
+            keyboardActions = KeyboardActions(
+                onSend = { doSend() },
+            ),
+            shape = MaterialTheme.shapes.medium,
         )
         FilledIconButton(
             modifier = Modifier.weight(0.2f).align(Alignment.Bottom),
-            onClick = {
-                if (inputText.isEmpty()) return@FilledIconButton
-                val userMessage = ChatMessage(mutableStateOf(inputText), true)
-                scope.launch(Dispatchers.Default) {
-                    handleMessage(sendMessage, userMessage, chatClient)
-                }
-                inputText = ""
-            }) {
+            onClick = doSend
+        ) {
             Text(
                 text = "Send",
-                color = MaterialTheme.colors.onPrimary
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
 
