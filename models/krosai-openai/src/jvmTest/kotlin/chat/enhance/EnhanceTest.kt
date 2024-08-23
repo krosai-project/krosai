@@ -17,14 +17,14 @@ class EnhanceTest : ModelFactorySupport {
             }
         }
         chatClient.call {
-            userText = { "Please call me Kamo." }
+            userText { "Please call me Kamo." }
         }.let {
             println("content: ${it.content}")
         }
 
 
         chatClient.call {
-            userText = { "Please answer in Japanese" }
+            userText { "Please answer in Japanese" }
         }.let {
             println("content: ${it.content}")
         }
@@ -38,14 +38,14 @@ class EnhanceTest : ModelFactorySupport {
             }
         }
         chatClient.stream {
-            userText = { "Please call me Kamo." }
+            userText { "Please call me Kamo." }
         }.collect {
             println("content: ${it.content}")
         }
 
 
         chatClient.stream {
-            userText = { "Please answer in Japanese" }
+            userText { "Please answer in Japanese" }
         }.collect {
             println("content: ${it.content}")
             assert(it.content.contains("Kamo"))
@@ -61,7 +61,7 @@ class EnhanceTest : ModelFactorySupport {
             }
         }
         chatClient.call {
-            userText = { "Please call me Kamo." }
+            userText { "Please call me Kamo." }
             enhancers {
                 ChatMemorySupport.CONVERSATION_ID_KEY to "test"
             }
@@ -71,7 +71,7 @@ class EnhanceTest : ModelFactorySupport {
 
 
         chatClient.call {
-            userText = { "Who am I" }
+            userText { "Who am I" }
             enhancers {
                 // if you want to use default conversation id, you can use this.
                 ChatMemorySupport.CONVERSATION_ID_KEY to "test"

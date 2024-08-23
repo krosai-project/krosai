@@ -79,7 +79,7 @@ class DefaultChatClient(
 
 class DefaultChatClientRequestScope(
     val model: ChatModel,
-    val chatClientRequest: ChatClientRequest
+    val chatClientRequest: ChatClientRequest,
 ) : ChatClientRequestScope {
 
     constructor(model: ChatModel, chatOptions: ChatOptions?) : this(
@@ -94,11 +94,13 @@ class DefaultChatClientRequestScope(
         chatClientRequest = other.chatClientRequest.copy()
     )
 
-    override var userText: Map<String, Any>.() -> String?
-            by chatClientRequest::userText
+    override fun userText(block: Map<String, Any>.() -> String?) {
+        chatClientRequest.userText = block
+    }
 
-    override var systemText: Map<String, Any>.() -> String?
-            by chatClientRequest::systemText
+    override fun systemText(block: Map<String, Any>.() -> String?) {
+        chatClientRequest.userText = block
+    }
 
     override fun user(userScope: PromptUserScope.() -> Unit) {
         DefaultPromptUserScope(this).apply(userScope)
@@ -119,7 +121,7 @@ class DefaultChatClientRequestScope(
 }
 
 class DefaultEnhancersScope(
-    chatClientRequestScope: DefaultChatClientRequestScope
+    chatClientRequestScope: DefaultChatClientRequestScope,
 ) : EnhancersScope {
 
     private val params: MutableMap<String, Any>
@@ -143,14 +145,18 @@ class DefaultEnhancersScope(
 }
 
 class DefaultPromptUserScope(
-    chatClientRequestScope: DefaultChatClientRequestScope
+    chatClientRequestScope: DefaultChatClientRequestScope,
 ) : PromptUserScope {
 
-    override var text: Map<String, Any>.() -> String?
-            by chatClientRequestScope::userText
+    internal var text: Map<String, Any>.() -> String?
+            by chatClientRequestScope.chatClientRequest::userText
 
     private val params: MutableMap<String, Any>
             by chatClientRequestScope.chatClientRequest::userParams
+
+    override fun text(block: Map<String, Any>.() -> String?) {
+        text = block
+    }
 
     override fun String.to(value: Any) {
         params[this] = value
@@ -159,14 +165,18 @@ class DefaultPromptUserScope(
 }
 
 class DefaultPromptSystemScope(
-    chatClientRequestScope: DefaultChatClientRequestScope
+    chatClientRequestScope: DefaultChatClientRequestScope,
 ) : PromptSystemScope {
 
-    override var text: Map<String, Any>.() -> String?
-            by chatClientRequestScope::systemText
+    internal var text: Map<String, Any>.() -> String?
+            by chatClientRequestScope.chatClientRequest::systemText
 
     private val params: MutableMap<String, Any>
             by chatClientRequestScope.chatClientRequest::systemParams
+
+    override fun text(block: Map<String, Any>.() -> String?) {
+        text = block
+    }
 
     override fun String.to(value: Any) {
         params[this] = value
@@ -175,7 +185,7 @@ class DefaultPromptSystemScope(
 }
 
 class DefaultFunctionCallScope(
-    chatClientRequestScope: DefaultChatClientRequestScope
+    chatClientRequestScope: DefaultChatClientRequestScope,
 ) : FunctionCallScope {
 
     private val functionCalls: MutableList<FunctionCall>

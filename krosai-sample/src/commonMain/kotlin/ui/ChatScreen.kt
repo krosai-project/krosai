@@ -207,7 +207,7 @@ private suspend fun handleMessage(
     val aiMessage = ChatMessage(mutableStateOf(""), false)
     sendMessage(aiMessage)
     chatClient.stream {
-        userText = { userMessage.textState.value }
+        userText { userMessage.textState.value }
     }.collect {
         var aiText by aiMessage.textState
         aiText += it.content

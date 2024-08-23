@@ -60,12 +60,12 @@ val modelFactory = context[OpenAI]
       val chatClient = modelFactory.createChatClient{
         // set the Default Request of the ChatClient
         // for example, set the `systemText`
-        systemText = {"Please answer in ${get("language")}"}
+        systemText {"Please answer in ${get("language")}"}
       }
       // call or stream the `ChatClient` with the request
       chatClient.call{
         // set the `userText` for the request
-        userText = { "Please call me Kamo." }
+        userText { "Please call me Kamo." }
         system { 
             // Fill 'language' with "Japanese" in systemText"
             "language" to "Japanese"
@@ -85,11 +85,11 @@ val modelFactory = context[OpenAI]
           }
       }
       chatClient.call {
-          userText = { "Please call me Kamo." }
+          userText { "Please call me Kamo." }
       }
       
       chatClient.call {
-          userText = { "Please answer in Japanese" }
+          userText { "Please answer in Japanese" }
       }.let {
           // respond in japanese
           println("content: ${it.content}")
@@ -117,7 +117,7 @@ val modelFactory = context[OpenAI]
       ```
       ```kotlin
       chatClient.call {
-         userText = { "What time is it in New York?" }
+         userText { "What time is it in New York?" }
          functions {
              +dateTimeFun
          }

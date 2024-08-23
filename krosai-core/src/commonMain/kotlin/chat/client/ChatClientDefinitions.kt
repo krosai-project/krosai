@@ -43,9 +43,9 @@ typealias ChatClientRequestDefinition = (ChatClientRequestScope.() -> Unit)?
  */
 interface ChatClientRequestScope {
 
-    var userText: Map<String, Any>.() -> String?
+    fun userText(block: Map<String, Any>.() -> String?)
 
-    var systemText: Map<String, Any>.() -> String?
+    fun systemText(block: Map<String, Any>.() -> String?)
 
     fun user(userScope: PromptUserScope.() -> Unit)
 
@@ -62,7 +62,7 @@ interface ChatClientRequestScope {
  */
 interface PromptUserScope {
 
-    var text: Map<String, Any>.() -> String?
+    fun text(block: Map<String, Any>.() -> String?)
 
     infix fun String.to(value: Any)
 
@@ -73,7 +73,7 @@ interface PromptUserScope {
  */
 interface PromptSystemScope {
 
-    var text: Map<String, Any>.() -> String?
+    fun text(block: Map<String, Any>.() -> String?)
 
     infix fun String.to(value: Any)
 
@@ -115,8 +115,8 @@ interface FunctionCallScope {
 inline fun <reified I : Any, O : Any> FunctionCallScope.function(
     name: String,
     description: String,
-    noinline call: Func1<I, O>
-){
+    noinline call: Func1<I, O>,
+) {
     with(FunctionCallBuilder(name, description)) {
         withCall<I>(call)
         build()
