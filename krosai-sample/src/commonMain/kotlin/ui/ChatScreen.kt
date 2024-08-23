@@ -15,7 +15,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.key.*
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -139,13 +141,15 @@ fun MessageBox(message: ChatMessage) {
 fun ColumnScope.ChatInputArea(sendMessage: suspend (ChatMessage) -> Unit) {
     var inputText by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
     val chatClient = koinInject<ChatClient>()
     val doSend = {
-        if (inputText.isNotEmpty()) {
+        if (inputText.trim().isNotEmpty()) {
             val userMessage = ChatMessage(mutableStateOf(inputText), true)
             scope.launch(Dispatchers.Default) {
                 handleMessage(sendMessage, userMessage, chatClient)
             }
+            focusManager.moveFocus(FocusDirection.Down)
             inputText = ""
         }
     }

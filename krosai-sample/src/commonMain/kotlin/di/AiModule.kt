@@ -1,5 +1,6 @@
 package org.krosai.sample.di
 
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.sse.*
@@ -19,6 +20,7 @@ import org.krosai.openai.factory.OpenAi
 import org.krosai.sample.LocalData
 import org.krosai.sample.function.GetURL
 import org.krosai.sample.function.OpenBrowser
+import kotlin.time.Duration.Companion.seconds
 
 val AiModule = module {
 
@@ -26,10 +28,17 @@ val AiModule = module {
         ModelFactoryContext()
             .create(OpenAi) {
                 clientBlock = {
+                    install(HttpTimeout) {
+                        this.socketTimeoutMillis = 100000
+                        this.connectTimeoutMillis = 100000
+                        this.requestTimeoutMillis = 100000
+                    }
                     install(ContentNegotiation) {
                         json(DefaultJsonConverter)
                     }
-                    install(SSE)
+                    install(SSE) {
+                        this.reconnectionTime = 30.seconds
+                    }
                     install(Logging) {
                         level = LogLevel.ALL
                         logger = Logger.SIMPLE
